@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <meta charset="UTF-8">
+  <title>رمز إعادة تعيين كلمة المرور</title>
+  <style>
+    body {
+      background-color: #f4f4f7;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .header {
+      background-color: #4a90e2;
+      color: #ffffff;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: normal;
+    }
+
+    .content {
+      padding: 30px 20px;
+      color: #333333;
+    }
+
+    .content p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .code-box {
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .code {
+      display: inline-block;
+      font-size: 32px;
+      font-weight: bold;
+      color: #4a90e2;
+      letter-spacing: 6px;
+      background-color: #f0f4fa;
+      padding: 15px 25px;
+      border-radius: 6px;
+      border: 1px dashed #4a90e2;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #999999;
+      padding: 20px;
+      border-top: 1px solid #eeeeee;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><%= lang === 'ar' ? 'رمز إعادة تعيين كلمة المرور' : 'Password Reset Code' %></h1>
+    </div>
+    <div class="content">
+      <p>
+        <%= lang === 'ar'
+          ? 'مرحباً، لقد طلبت إعادة تعيين كلمة المرور الخاصة بك.'
+          : 'Hello, you requested to reset your password.' %>
+      </p>
+      <p>
+        <%= lang === 'ar'
+          ? 'استخدم الرمز التالي لإتمام العملية. هذا الرمز صالح لمدة دقيقتان فقط:'
+          : 'Use the following code to complete the process. This code is valid for two minute only:' %>
+      </p>
+      <div class="code-box">
+        <span class="code"><%= code %></span>
+      </div>
+      <p>
+        <%= lang === 'ar'
+          ? 'إذا لم تطلب ذلك، يمكنك تجاهل هذا البريد الإلكتروني.'
+          : 'If you did not request this, you can safely ignore this email.' %>
+      </p>
+    </div>
+    <div class="footer">
+      <p><%= email %> - <%= today %></p>
+    </div>
+  </div>
+</body>
+</html>

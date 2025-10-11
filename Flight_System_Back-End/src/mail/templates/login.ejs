@@ -1,0 +1,19 @@
+<%
+// Ensure default values
+const userLang = typeof lang !== 'undefined' ? lang : 'en';
+const userEmail = typeof email !== 'undefined' ? email : 'User';
+const now = typeof today !== 'undefined' ? today : new Date();
+%>
+
+<% if (userLang === 'ar') { %>
+  <div dir="rtl" style="font-family: Arial, sans-serif;">
+    <h2>مرحبًا <%= userEmail %> 👋</h2>
+    <p>لقد تم تسجيل دخولك في <%= now.toLocaleDateString('ar-EG') %> الساعة <%= now.toLocaleTimeString('ar-EG') %>.</p>
+  </div>
+<% } else { %>
+  <div dir="ltr" style="font-family: Arial, sans-serif;">
+    <h2>Hello <%= userEmail %> 👋</h2>
+    <p>You logged in on <%= now.toLocaleDateString('en-US') %> at <%= now.toLocaleTimeString('en-US') %>.</p>
+    <p>If it wasn't you, please change your password immediately.</p>
+  </div>
+<% } %>

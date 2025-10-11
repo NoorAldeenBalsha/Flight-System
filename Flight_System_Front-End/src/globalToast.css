@@ -1,0 +1,47 @@
+.toast-box {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  z-index: 99999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  animation: slideDown 0.4s ease forwards, fadeOut 0.5s ease 2.5s forwards;
+}
+
+.toast-box.success {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+}
+
+.toast-box.error {
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+}
+
+.toast-box.info {
+  background: linear-gradient(135deg, #2196f3, #1565c0);
+}
+
+.toast-box.warning {
+  background: linear-gradient(135deg, #ff9800, #e65100);
+}
+
+/* ينزل من فوق */
+@keyframes slideDown {
+  to {
+    top: 60px;
+  }
+}
+
+/* يختفي */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    top: -60px;
+  }
+}
