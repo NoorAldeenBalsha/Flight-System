@@ -82,18 +82,6 @@ export class UserService {
   // Log in a user
   public async Login(loginDto: LoginDto,response: Response,lang: 'en' | 'ar' = 'en') {
       lang=['en','ar'].includes(lang)?lang:'en';
-      const  {recaptchaToken}  = loginDto;
-      // Check reCAPTCHA 
-      const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-      const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
-      const { data } = await axios.post(verifyUrl);
-      if (!data.success) {
-        throw new BadRequestException({
-        message: lang === 'ar'
-        ? 'فشل التحقق من أنك لست روبوتاً'
-        : 'Failed to verify reCAPTCHA',
-    });
-  }
       return await this.authProvider.Login(loginDto, response,lang);
   };
   //============================================================================

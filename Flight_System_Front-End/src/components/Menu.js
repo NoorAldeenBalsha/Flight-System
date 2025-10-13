@@ -17,8 +17,6 @@ const Menu = (props) => {
   const { Loader, loading, setLoading } = useContext(LoadingContext);
 
   // const [loading, setLoading] = useState(1);
-  console.log("Access Token:", localStorage.getItem("accessToken"));
-  console.log("Refresh Token:", localStorage.getItem("refreshToken"));
   const {items,search,clearFilter,filtered, sortByName,sortByPrice,loadItems,loading1} = useContext(ProductContext);
   const [filter, setFilter] = useState([]);
   const [text1, setText] = useState("");

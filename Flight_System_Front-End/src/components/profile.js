@@ -6,14 +6,15 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
-  
+  const token = localStorage.getItem("accessToken");
   const [uploading, setUploading] = useState(false);
   const CHUNK_SIZE = 1024 * 1024; 
-
+  //=======================================================================================================
+  // Fetch the current user data when the component mounts
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+     
         const res = await axios.get(
           "http://localhost:5000/api/user/current-user",
           { headers: { Authorization: `Bearer ${token}` } }
@@ -29,16 +30,18 @@ const Profile = () => {
     };
     fetchUser();
   }, []);
-
+  //=======================================================================================================
+  // Handle input changes in the form fields
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  //=======================================================================================================
+  // Save the updated user information
   const handleSave = async () => {
-    const token = localStorage.getItem("accessToken");
+    const gender=formData.gender.toLowerCase();
     try {
       const userId = formData.userId;
-      const {_id,userId:_,role,lastLogin,...cleanData}=formData;
+      const {_id,userId:_,role,gender,lastLogin,...cleanData}=formData;
       if (!userId) throw new Error("User ID not found!");
       await axios.patch(
         `http://localhost:5000/api/user/update/${userId}`,
@@ -52,7 +55,8 @@ const Profile = () => {
       console.error("Error saving user:", err);
     }
   };
-
+  //=======================================================================================================
+  // Handle image upload (profile or cover picture)
   const handleFileChange = async (e, type) => {
     const token = localStorage.getItem("accessToken");
   const file = e.target.files[0];
@@ -89,18 +93,18 @@ const Profile = () => {
         }
       );
 
-      // إذا الباك رجع secure_url (آخر chunk)
+      
       if (response.data.secure_url) {
         uploadedFileUrl = response.data.secure_url;
       }
     }
 
-    // بعد اكتمال الرفع، حدث الـ user profile
+    
     if (uploadedFileUrl) {
       await axios.patch(
         `http://localhost:5000/api/user/update/${formData.userId}`,
         {
-          [type]: uploadedFileUrl, // type ممكن يكون "profilePicture" أو "coverPhoto"
+          [type]: uploadedFileUrl, 
         },
         {
           headers: {
@@ -110,16 +114,16 @@ const Profile = () => {
       );
     }
 
-    alert("✅ Image uploaded successfully!");
+    alert(" Image uploaded successfully!");
   } catch (error) {
-    console.error("❌ Error uploading image:", error.response?.data || error);
+    console.error(" Error uploading image:", error.response?.data || error);
   } finally {
     setUploading(false);
   }
-};
-
+  };
+  //=======================================================================================================
   if (!user) return <p className="loading-text">Loading...</p>;
-
+  //=======================================================================================================
   return (
     <div className="profile-container">
       {/* Background Clouds */}
@@ -180,7 +184,7 @@ const Profile = () => {
                 <label>Residence Country</label>
                 <input type="text" name="residenceCountry" value={formData.residenceCountry || ""} onChange={handleChange} />
                 <label>Gender</label>
-                <select name="gender" value={formData.gender || ""} onChange={handleChange}>
+                <select name="gender" value={formData.gender || "other"} onChange={handleChange}>
                   <option value="other">Other</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -215,5 +219,5 @@ const Profile = () => {
     </div>
   );
 };
-
+  //=======================================================================================================
 export default Profile;

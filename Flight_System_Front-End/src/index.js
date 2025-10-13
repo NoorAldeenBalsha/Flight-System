@@ -11,6 +11,7 @@ import { LanguageProvider } from "./context/LanguageContext";
 import process from "process";
 import { BrowserRouter as Router} from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import AuthProvider from "./context/auth/authProvider";
 window.process=process;
 ReactDOM.render(
   
@@ -24,7 +25,9 @@ ReactDOM.render(
                 <CartState>
                   <Router>
                     <GoogleOAuthProvider clientId="136188509800-5cs4tpi1pol2jfgna16g0rj7cb759abq.apps.googleusercontent.com">
+                    <AuthProvider>
                     <App />
+                    </AuthProvider>
                     </GoogleOAuthProvider>
                   </Router>
                 </CartState>

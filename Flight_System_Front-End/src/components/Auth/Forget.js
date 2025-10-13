@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useLanguage } from "../context/LanguageContext"; 
-import Toast from "./toastAnimated";
+import { useLanguage } from "../../context/LanguageContext"; 
+import Toast from "../toastAnimated";
 import LockIcon from "@material-ui/icons/Lock";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import ReCAPTCHA from "react-google-recaptcha";
-import "../styles.css";
+import "../../css/forgetPassword.css";
 // Forget Component
 const Forget = () => {
   // State: loading, toast, input type, language
@@ -123,7 +123,7 @@ const Forget = () => {
                 onChange={(token) => setCaptchaToken(token)}
               />
           <button
-            className="btn btn-primary"
+            className="btnForget btn-primary"
             type="submit"
             style={{
               borderRadius: "6vh",

@@ -10,9 +10,4 @@ export class LoginDto {
   @IsString() // Minimum required decorator
   password: string;
   //============================================================================
-  @ApiProperty({description:'Google reCAPTCHA token'})
-  @IsNotEmpty({message : 'RECAPTCHA_REQUIRED'})
-  @IsString()
-  recaptchaToken:string;
-  //============================================================================
 }

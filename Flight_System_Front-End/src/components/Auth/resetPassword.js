@@ -1,46 +1,46 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useLanguage } from "../context/LanguageContext"; 
+import { useLanguage } from "../../context/LanguageContext"; 
 import LockIcon from "@material-ui/icons/Lock";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import Toast from "./toastAnimated";
-import "../styles.css";
+import Toast from "../toastAnimated";
+import "../../styles.css";
 
 const ResetPassword = () => {
   const history = useHistory();
 const { t, lang } = useLanguage(); 
-  // 🌐 Detect current language from localStorage (default: EN)
+  //  Detect current language from localStorage (default: EN)
   const currentLang = localStorage.getItem("lang") || "en";
 
-  // 📝 Form state
+  //  Form state
   const [formData, setFormData] = useState({
     email: "",
     resetCode: "",
     newPassword: "",
   });
 
-  // 🔔 Toast state
+  //  Toast state
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
-  // 📌 Handle input changes
+  //  Handle input changes
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  // 🚀 Handle form submit
+  //  Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, resetCode, newPassword } = formData;
 
-    // ✅ Frontend validation
+    //  Frontend validation
     if (!email || !resetCode || !newPassword) {
       setToast({ show: true, message: t.error_fill_all, type: "error" });
       return;
     }
 
     try {
-      // 📡 Send request to backend with language header
+      //  Send request to backend with language header
       const res = await axios.post(
         "http://localhost:5000/api/user/reset-password",
         formData,
@@ -52,19 +52,19 @@ const { t, lang } = useLanguage();
         }
       );
 
-      // 🎉 Show success message from backend or fallback text
+      //  Show success message from backend or fallback text
       setToast({
         show: true,
         message: res.data?.message || t.success,
         type: "success",
       });
 
-      // ⏳ Redirect to login page after 3 seconds
+      //  Redirect to login page after 3 seconds
       setTimeout(() => {
         history.push("/auth");
       }, 3000);
     } catch (err) {
-      // ❌ Handle backend errors and show proper message
+      //  Handle backend errors and show proper message
       const data = err.response?.data;
       const errorMessage =
         data?.errors?.[0]?.message || data?.message || t.error;
@@ -80,7 +80,7 @@ const { t, lang } = useLanguage();
         {t("reset_password")}
       </h3>
 
-      {/* 🔥 Global Toast */}
+      {/*  Global Toast */}
       {toast.show && (
         <Toast
           show={toast.show}
@@ -90,7 +90,7 @@ const { t, lang } = useLanguage();
         />
       )}
 
-      {/* 📋 Reset Password Form */}
+      {/*  Reset Password Form */}
       <Form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "auto" }}>
         {/* Email Field */}
         <Form.Group>

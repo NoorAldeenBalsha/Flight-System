@@ -1,0 +1,192 @@
+/* Left to Rigt & Right to Left*/
+/* الاتجاه الافتراضي للإنكليزي */
+.ltr {
+  direction: ltr;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+}
+
+/* الاتجاه للعربي */
+.rtl {
+  direction: rtl;
+  text-align: right;
+  font-family: "Cairo", sans-serif;
+}
+/*===================================================*/
+.nav-profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.navbar-profile-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+/* البطاقة نفسها */
+.nav-profile-popup {
+  position: absolute;
+  top: 55px;
+  width: 300px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  z-index: 10000;
+  transition: all 0.2s ease;
+}
+
+/* ✳️ بالإنكليزي: البطاقة على يسار الصورة */
+.popup-en {
+  right: 0;
+  direction: rtl;
+  text-align: right;
+}
+
+/* ✳️ بالعربي: البطاقة على يمين الصورة */
+.popup-ar {
+  left: 0;
+  direction: ltr;
+  text-align: left;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.popup-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.popup-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-btn {
+  background-color: #057aff;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.popup-btn:hover {
+  background-color: #005fcc;
+}
+
+.nav-link {
+  color: white !important;
+  margin: 0 0.7rem;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #dff3ff !important;
+}
+
+.nav-profile-wrapper {
+  position: relative;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.nav-profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.nav-profile-img:hover {
+  transform: scale(1.1);
+}
+
+.logout-btn {
+  display: block;
+  width: 100%;
+  border: none;
+  background: #ff4d4f;
+  color: white;
+  padding: 6px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #d9363e;
+}
+
+.select-wrapper select {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+
+.navbar {
+  font-family: "Merienda One", cursive;
+}
+
+.nav:hover {
+  text-decoration-line: none;
+}
+
+.navLogout {
+  /* padding: 0.4rem 0.6rem; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1.4rem;
+}
+.navLogout a {
+  display: block;
+  margin: auto;
+}
+.navLogout a:hover {
+  display: block;
+  margin: auto;
+  color: hsla(0, 0%, 100%, 0.7);
+}
+.navLogout button {
+  padding: 0.4rem 0.4rem;
+  color: white;
+  border: none;
+  background: transparent;
+}
+.navLogout button:hover {
+  padding: 0.4rem 0.4rem;
+  color: hsla(0, 0%, 100%, 0.7);
+  border: none;
+  background: transparent;
+}
+.navbar {
+  border-bottom: 0;
+  text-decoration: none;
+}
+.navLogout:hover {
+  color: grey;
+}
+
+.navLogout .bg_grey:hover {
+  color: hsla(0, 0%, 100%, 0.7);
+}

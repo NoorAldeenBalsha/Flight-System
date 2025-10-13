@@ -1,5 +1,6 @@
 const translations = {
   en: {
+    /*This for Auth page*/
     sign_in: "Sign In",
     sign_up: "Sign Up",
     login: "Login",
@@ -26,23 +27,56 @@ const translations = {
     signup_prompt: "Then Sign Up and Start Ordering!",
     one_of_us: "One of us?",
     signin_prompt: "Then Sign In and Get Started!",
-    error_fill_all: "⚠️ Please fill all fields",
-    error_invalid_email: "⚠️ Invalid email format",
-    error_wrong_credentials: "❌ Incorrect email or password",
-    error_network: "🚫 No connection to server",
-    error_server: "⚠️ Server error, try again later",
-    success_signup: "✅ Account created successfully",
-    success_login: "✅ Logged in successfully",
-    success_reset_password: "✅ Password reset successfully",
-    success_check_email: "📩 Check your email for the reset code",
+    error_fill_all: "Please fill all fields",
+    error_invalid_email: "Invalid email format",
+    error_wrong_credentials: "Incorrect email or password",
+    error_network: "No connection to server",
+    error_server: "Server error, try again later",
+    success_signup: "Account created successfully",
+    success_login: "Logged in successfully",
+    success_reset_password: "Password reset successfully",
+    success_check_email: "Check your email for the reset code",
     success: "Success",
     fail: "Error",
     placeholder_code: "Enter the code you received",
     placeholder_new_password: "Enter new password",
     placeholder_email: "e.g. email@domain.com",
-    please_verify_captcha: "please verify that you are not a robot"
+    please_verify_captcha: "please verify that you are not a robot",
+    /*==========================================================================================================*/
+    /*This for About us page */
+     nav_about: "About Us",
+    nav_home: "Home",
+    nav_contact: "Contact",
+    hero_title: "About Syrian Flight",
+    hero_subtitle: "Your Journey Begins With Us ✈️",
+    who_title: "Who We Are",
+    who_text:
+      "Syrian Flight is a modern flight booking platform that provides a seamless and secure way to plan your travel. We offer easy access to flights, affordable prices, and reliable customer support to ensure that every traveler enjoys a comfortable and stress-free experience.",
+    mission_title: "Our Mission",
+    mission_text:
+      "Our mission is to connect travelers to destinations around the world with comfort, efficiency, and trust. We strive to make travel accessible for everyone by offering transparent services and a user-friendly experience.",
+    vision_title: "Our Vision",
+    vision_text:
+      "To be the leading online travel platform in the region, offering innovative solutions that simplify travel and inspire people to explore the world.",
+    team_title: "Meet Our Team",
+    team_members: [
+      { name: "Noor Aldeen Balsha", role: "BackEnd Developer & Data science" },
+      { name: "Kinan Alesh", role: "FrontEnd Developer & Unity Developer" },
+      { name: "Rateb Nopre", role: "UI/UX Designer" },
+    ],
+    footer_text: "All rights reserved.",
+    switch_lang: "العربية",
+    /*==========================================================================================================*/
+    /*This one for Contact page */
+    contact_title: "Contact Us",
+    contact_name: "Name",
+    contact_email: "Email",
+    contact_message: "Message",
+    contact_send: "Send Message"
+    /*==========================================================================================================*/
   },
   ar: {
+    /*This for Auth page*/
     sign_in: "تسجيل الدخول",
     sign_up: "إنشاء حساب",
     login: "دخول",
@@ -69,21 +103,53 @@ const translations = {
     signup_prompt: "سجّل الآن وابدأ بالطلب!",
     one_of_us: "هل لديك حساب؟",
     signin_prompt: "سجّل الدخول وابدأ فوراً!",
-    error_fill_all: "⚠️ يرجى ملئ جميع الحقول",
-    error_invalid_email: "⚠️ البريد الإلكتروني غير صالح",
-    error_wrong_credentials: "❌ البريد الإلكتروني أو كلمة المرور غير صحيحة",
-    error_network: "🚫 لا يوجد اتصال بالخادم",
-    error_server: "⚠️ خطأ في الخادم، حاول لاحقاً",
-    success_signup: "✅ تم إنشاء الحساب بنجاح",
-    success_login: "✅ تم تسجيل الدخول بنجاح",
-    success_reset_password: "✅ تم تغيير كلمة المرور بنجاح",
-    success_check_email: "📩 تحقق من بريدك الإلكتروني للحصول على رمز التفعيل",
+    error_fill_all: "يرجى ملئ جميع الحقول",
+    error_invalid_email: "البريد الإلكتروني غير صالح",
+    error_wrong_credentials: "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    error_network: "لا يوجد اتصال بالخادم",
+    error_server: "خطأ في الخادم، حاول لاحقاً",
+    success_signup: "تم إنشاء الحساب بنجاح",
+    success_login: "تم تسجيل الدخول بنجاح",
+    success_reset_password: "تم تغيير كلمة المرور بنجاح",
+    success_check_email: "تحقق من بريدك الإلكتروني للحصول على رمز التفعيل",
     success: "نجاح",
     fail: "خطأ",
     placeholder_code: "أدخل رمز التحقق الذي وصلك",
     placeholder_new_password: "أدخل كلمة المرور الجديدة",
     placeholder_email: " name@email.com :مثال ",
-    please_verify_captcha: "يرجى التحقق من أنك لست روبوت"
+    please_verify_captcha: "يرجى التحقق من أنك لست روبوت",
+    /*==========================================================================================================*/
+    /*This for About us page*/
+    nav_about: "من نحن",
+    nav_home: "الصفحة الرئيسية",
+    nav_contact: "اتصل بنا",
+    hero_title: "حول شركة Syrian Flight",
+    hero_subtitle: "رحلتك تبدأ معنا ✈️",
+    who_title: "من نحن",
+    who_text:
+      "شركة Syrian Flight هي منصة حديثة لحجز الرحلات الجوية توفر طريقة سهلة وآمنة لتخطيط رحلاتك. نقدم وصولًا سهلًا إلى الرحلات، وأسعارًا مناسبة، ودعمًا موثوقًا لضمان تجربة مريحة وخالية من التوتر لكل مسافر.",
+    mission_title: "مهمتنا",
+    mission_text:
+      "مهمتنا هي ربط المسافرين بوجهاتهم حول العالم بكل راحة وثقة وكفاءة. نسعى لجعل السفر متاحًا للجميع من خلال تقديم خدمات شفافة وتجربة سهلة الاستخدام.",
+    vision_title: "رؤيتنا",
+    vision_text:
+      "أن نكون المنصة الرائدة للسفر عبر الإنترنت في المنطقة، من خلال تقديم حلول مبتكرة تبسط السفر وتلهم الناس لاكتشاف العالم.",
+    team_title: "تعرف على فريقنا",
+    team_members: [
+      { name: "نور الدين بلشة", role: "باك ايند و علوم البيانات" },
+      { name: " كنان العش", role: "فرونت ايند و مبرمج يونتي" },
+      { name: "راتيب نوريي", role: "مصممة واجهات المستخدم" },
+    ],
+    footer_text: "جميع الحقوق محفوظة.",
+    switch_lang: "English",
+    /*==========================================================================================================*/
+    /*This one for Contact page */
+     contact_title: "تواصل معنا",
+    contact_name: "الاسم",
+    contact_email: "البريد الإلكتروني",
+    contact_message: "الرسالة",
+    contact_send: "إرسال الرسالة",
+    /*==========================================================================================================*/
   },
 };
 

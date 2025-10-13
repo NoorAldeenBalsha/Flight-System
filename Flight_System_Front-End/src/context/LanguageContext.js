@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import translations from "../i18n/translations";
-import Cookies from "js-cookie"; // تحتاج تثبيت مكتبة js-cookie
+import Cookies from "js-cookie"; 
 
 const LanguageContext = createContext();
 

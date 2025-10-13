@@ -1,0 +1,161 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background-color: #b5d2e1;
+  font-family: "Poppins", "Cairo", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.contact-box {
+  background-color: #ffffff;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 1000px;
+  overflow: hidden;
+  animation: fadeIn 1s ease;
+}
+
+/* ===== Left Side (Form) ===== */
+.contact-form {
+  flex: 1;
+  padding: 60px;
+  text-align: left;
+}
+
+.contact-form h2 {
+  color: #0d2d52;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  transition: 0.3s ease;
+}
+
+.input-group i {
+  color: #7d8aa2;
+  font-size: 1.1rem;
+  margin-right: 10px;
+}
+
+.input-group input,
+.input-group textarea {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  font-size: 1rem;
+  color: #333;
+  font-family: inherit;
+}
+
+.input-group textarea {
+  resize: none;
+  height: 100px;
+}
+
+.input-group:hover {
+  background-color: #ebf2f7;
+  box-shadow: 0 0 5px rgba(0, 85, 170, 0.2);
+}
+
+.send-btn {
+  background-color: #00a7c9;
+  color: white;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.send-btn:hover {
+  background-color: #0092b2;
+  transform: translateY(-2px);
+}
+
+/* ===== Right Side (Illustration) ===== */
+.contact-illustration {
+  flex: 1;
+  background-color: #f0f7fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.contact-illustration img {
+  max-width: 90%;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== RTL Support ===== */
+.rtl .contact-form {
+  text-align: right;
+}
+
+.rtl .input-group i {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .contact-box {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .contact-form {
+    padding: 40px 30px;
+  }
+
+  .contact-illustration {
+    padding: 20px;
+  }
+
+  .contact-illustration img {
+    max-width: 70%;
+  }
+}

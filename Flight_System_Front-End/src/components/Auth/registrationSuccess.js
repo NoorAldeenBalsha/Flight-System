@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import AuthContext from "../context/auth/authContext";
+import AuthContext from "../../context/auth/authContext";
 import { Route, Redirect } from "react-router-dom";
 import { useLocation, useHistory } from "react-router-dom";
-import "../styles.css";
+import "../../styles.css";
 
 const RgistrationSuccess = ({ component: Component, ...rest }) => {
   const { isAuthenticated, verified, loading } = useContext(AuthContext);
@@ -22,7 +22,7 @@ const RgistrationSuccess = ({ component: Component, ...rest }) => {
   return (
     <div className="registration-success-container">
       <div className="success-card">
-        <h2>🎉 Success!</h2>
+        <h2> Success!</h2>
         <p>{message}</p>
         <button className="btn" onClick={goToLogin}>
           Go to Login

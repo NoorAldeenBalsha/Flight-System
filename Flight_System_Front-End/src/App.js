@@ -4,23 +4,25 @@ import "./mobile.css";
 import Navbar from "./components/Navbar";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
-import Auth from "./components/auth";
+import Auth from "./components/Auth/auth";
 import Sidebar from "./components/sideBar";
 import DeleteItems from "./components/deleteItems";
 import AddProduct from "./components/addProduct";
 import Fail from "./components/fail";
-import Forget from "./components/Forget";
-import ResetPassword from "./components/resetPassword";
+import Forget from "./components/Auth/Forget";
+import ResetPassword from "./components/Auth/resetPassword";
 import Checkout from "./components/checkout";
 import Success from "./components/success";
 import NotFound from "./components/404";
 import Contact from "./components/contact";
 import Order from "./components/order";
-import { useLanguage } from "./context/LanguageContext"; // إذا عندك hook اللغة
-import { BrowserRouter as Router, Switch, Route ,useLocation} from "react-router-dom";
-import VerifyEmail from "./components/verifyEmail";
-import RegistrationSuccess from "./components/registrationSuccess";
+import { useLanguage } from "./context/LanguageContext"; 
+import { BrowserRouter as  Switch, Route ,useLocation} from "react-router-dom";
+import VerifyEmail from "./components/Auth/verifyEmail";
+import RegistrationSuccess from "./components/Auth/registrationSuccess";
 import Profile from "./components/profile";
+import AuthProvider from "./context/auth/authProvider";
+import AboutUs from "./components/aboutUs";
 
 export default function App() {
   const [display, setDisplay] = useState(0);
@@ -64,6 +66,7 @@ export default function App() {
       ) : (
         // باقي الصفحات: اتجاه الصفحة حسب اللغة
         <div className={lang === "ar" ? "rtl" : "ltr"}>
+          <AuthProvider>
           <Navbar display={display} changeDisplay={changeDisplay} />
           <Switch>
             <Route exact path="/" component={Menu} />
@@ -81,7 +84,9 @@ export default function App() {
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/order" component={Order} />
             <Route exact path="/not-found" component={NotFound} />
+            <Route exact path="/about-us" component={AboutUs} />
           </Switch>
+          </AuthProvider>
         </div>
       )}
     </>

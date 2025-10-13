@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import AuthContext from "../context/auth/authContext";
-import CartContext from "../context/cart/cartContext";
-import LoadingContext from "../context/loading/loadingContext";
-import { useLanguage } from "../context/LanguageContext";
-import "../auth.css";
-import Toast from "./toastAnimated";
+import AuthContext from "../../context/auth/authContext";
+import CartContext from "../../context/cart/cartContext";
+import LoadingContext from "../../context/loading/loadingContext";
+import { useLanguage } from "../../context/LanguageContext";
+import Toast from "../toastAnimated";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
-import { GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
+import "../../css/auth.css"
 // Auth Component: Handles login and registration
 const Auth = () => {
   // State: Form data, loading, toast, input type, language
@@ -128,12 +127,13 @@ try {
     };
     const res = await axios.post(
       "http://localhost:5000/api/user/auth/login",
-      { ...signInData,recaptchaToken:captchaToken},
+      { ...signInData},
       config
     );
-
-    localStorage.setItem("accessToken", res.data.accessToken);
-    localStorage.setItem("refreshToken", res.data.refreshToken);
+    const {accessToken, refreshToken,userData}=res.data
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("user", JSON.stringify(userData));
     
     setTimeout(() => {
       window.location.href = "/";
@@ -188,7 +188,9 @@ try {
       setIsLoading(true);
       const res = await axios.post("http://localhost:5000/api/user/google-login", { credential });
 
-      localStorage.setItem("accessToken", res.data.accessToken);
+      const {accessToken, refreshToken,userData}=res.data
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("user", JSON.stringify(userData));
       setToast({ show: true, message: t("login_success"), type: "success" });
       setTimeout(() => {
       window.location.href = "/";
@@ -238,8 +240,7 @@ try {
                   onChange={handleSignInChange}
                 />
               </div>
-              <input type="submit" value={t("login")} className="btn solid" />
-               {/* Google Login Button */}  
+              <input type="submit" value={t("login")} className="btn" />
               <div id="google-signin-button" style={{ marginTop: "15px" }}></div>
               <Link to="/forget">{t("forgot_password_title")}</Link>
 

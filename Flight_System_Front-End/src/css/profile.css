@@ -160,3 +160,10 @@
 .cover-edit {
   right: 10px;
 }
+.error-text {
+  color: #ff4d4f;
+  font-size: 0.85rem;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}

@@ -1,23 +1,39 @@
-import React, { useContext } from "react";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import AuthContext from "../context/auth/authContext";
+import { Link } from "react-router-dom/cjs/react-router-dom"; 
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import  AuthContext  from "../context/auth/authContext";
 import { useLanguage } from "../context/LanguageContext";
-import "../styles.css";
+import "../css/navBar.css";
 
 export default function Navbar1(props) {
   const authContext = useContext(AuthContext);
   const { lang, setLang, t } = useLanguage();
+  const [showProfileCard, setShowProfileCard] = useState(false);
+  const profileRef = useRef(null);
 
   if (!authContext) return null;
 
-  const { logout, isAuthenticated } = authContext;
+  const { logout, isAuthenticated, user ,loading} = authContext;
 
   const handleLogout = () => {
     logout();
     window.location.href = "/auth";
   };
+
+  // إغلاق البطاقة عند الضغط خارجها
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfileCard(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const defaultImage =
+    "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
   return (
     <Navbar
@@ -28,16 +44,20 @@ export default function Navbar1(props) {
         display: "flex",
         justifyContent: "space-between",
         fontFamily: "Mulish",
-        backgroundColor: "#057affff", // أزرق فاتح باهت
+        backgroundColor: "#057affff",
       }}
-    >
-          <Navbar.Brand>
-        <Link to="/" style={{ color: "#ffffffff", fontWeight: "bold", fontSize: "1.3rem" }}>
+    > 
+     
+      <Navbar.Brand>
+        <Link
+          to="/"
+          style={{ color: "#fff", fontWeight: "bold", fontSize: "1.3rem" }}
+        >
           Syrian Flight <i className="fas fa-plane-departure" />
         </Link>
       </Navbar.Brand>
 
-      <Nav style={{ alignItems: "center" }}>
+      <Nav style={{ alignItems: "center", position: "relative" }}>
         <div className="navLogout">
           <Link to="/" style={{ color: "white", textDecoration: "none" }}>
             <span className="bg_grey">{t("Home") || "Home"}</span>
@@ -71,36 +91,73 @@ export default function Navbar1(props) {
             </div>
 
             <div className="navLogout">
-              <button
-                type="button"
-                onClick={handleLogout}
-                style={{ border: "none", outline: "none", color: "white" }}
-              >
-                {t("logout") || "Logout"} <ExitToAppIcon />
-              </button>
+              <Link to="/auht" style={{ color: "white", textDecoration: "none" }}>
+                <span className="bg_grey">{t("About Us") || "About Us"}</span>
+              </Link>
             </div>
+
+            <div className="navLogout">
+              <Link to="/auth" style={{ color: "white", textDecoration: "none" }}>
+                <span className="bg_grey" onClick={handleLogout}> {t("logout") || "Logout"} <ExitToAppIcon /></span>
+              </Link>
+            </div>
+
+            
           </>
         )}
 
         {/* Dropdown اختيار اللغة */}
-        <div className="select-wrapper" style={{  color: "white", marginLeft: "1rem" }}>
-          <select 
-            value={lang} 
+        <div
+          className="select-wrapper"
+          style={{ color: "white", marginLeft: "1rem" }}
+        >
+          <select
+            value={lang}
             onChange={(e) => setLang(e.target.value)}
-            style={{ color: "white", textDecoration: "none" }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#057affff")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "#057affff")}
+            style={{ color: "white", backgroundColor: "#057affff" }}
           >
-            
             <option value="en">English</option>
             <option value="ar">العربية</option>
           </select>
         </div>
 
         <span className="hamburger">
-          <i onClick={props.changeDisplay} className="fa fa-bars" aria-hidden="true" />
+          <i
+            onClick={props.changeDisplay}
+            className="fa fa-bars"
+            aria-hidden="true"
+          />
         </span>
+        {isAuthenticated && (
+          <div className="nav-profile-container">
+              <img src={user?.picture || defaultImage} alt="Profile" className="nav-profile-img" onClick={() => setShowProfileCard(!showProfileCard)}/>
+                <div className="nav-profile-container" ref={profileRef}>
+
+              {showProfileCard && (
+                <div className={`nav-profile-popup ${lang === "ar" ? "popup-ar" : "popup-en"}`}>
+                  <div className="popup-header">
+                    <img src={user?.picture || defaultImage} alt="Profile" className="popup-avatar"/>
+                    <div className="popup-info">
+                      <h4>{user?.fullName || "User Name"}</h4>
+                      <p>{user?.email || "user@example.com"}</p>
+                    </div>
+                  </div>
+
+                  <div className="popup-actions">
+                    <button
+                      onClick={() => (window.location.href = "/profile")}
+                      className="popup-btn"
+                    >
+                      {lang === "ar" ? "تعديل الملف الشخصي" : "Edit Profile"}
+                    </button>
+                  </div>
+                </div>
+              )}
+                </div>
+            </div>
+        )}
       </Nav>
+       
     </Navbar>
   );
 }
