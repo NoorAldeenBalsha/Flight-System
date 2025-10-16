@@ -12,6 +12,7 @@ import {Toast,FormControl,InputGroup,Container,Row,DropdownButton,Dropdown,Item,
 import CartContext from "../context/cart/cartContext";
 import AuthContext from "../context/auth/authContext";
 import API from "../api/axios";
+import axios from "axios";
 
 const Menu = (props) => {
   const { Loader, loading, setLoading } = useContext(LoadingContext);
@@ -61,7 +62,8 @@ useEffect(() => {
     const fetchProfile = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
-        const res = await API.get("/user/profile", {
+        const res = await axios.get(
+          "http://localhost:5000/api/user/current-user", {
           headers: { Authorization: `Bearer ${accessToken} `},
         });
         console.log(accessToken);

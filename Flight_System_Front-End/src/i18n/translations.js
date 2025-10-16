@@ -44,7 +44,7 @@ const translations = {
     please_verify_captcha: "please verify that you are not a robot",
     /*==========================================================================================================*/
     /*This for About us page */
-     nav_about: "About Us",
+    nav_about: "About Us",
     nav_home: "Home",
     nav_contact: "Contact",
     hero_title: "About Syrian Flight",
@@ -72,7 +72,24 @@ const translations = {
     contact_name: "Name",
     contact_email: "Email",
     contact_message: "Message",
-    contact_send: "Send Message"
+    contact_send: "Send Message",
+    /*==========================================================================================================*/
+    /*This one for NavBar */
+    syrian_Flight:" Syrian Flight",
+    logout: "Logout",
+    about_Us: "About Us",
+    contact_Us:"Contact Us",
+    home:"Home",
+    /*==========================================================================================================*/
+    /*This one for Profile page */
+    bio:"Bio",
+    birth_Country:"Birth Country",
+    residence_Country:"Residence Country",
+    select_birth_Country:"Select Birth Country",
+    select_residence_Country:"Select Residence Country",
+    gender:"Gender",
+    edit:"Edit",
+    save:"Save",
     /*==========================================================================================================*/
   },
   ar: {
@@ -150,7 +167,24 @@ const translations = {
     contact_message: "الرسالة",
     contact_send: "إرسال الرسالة",
     /*==========================================================================================================*/
-  },
+    /*This one for NavBar */
+    syrian_Flight:"السورية للطيران",
+    logout: "تسجيل الخروج",
+    about_Us: "حولنا",
+    contact_Us:"تواصل معنا",
+    home:"الصفحة الرئيسية",
+    /*==========================================================================================================*/
+  /*This one for Profile page */
+    bio:"نبذة عنك",
+    birth_Country:"بلد الولادة",
+    select_birth_Country:"اختر بلد الولادة",
+    residence_Country:"بلد الاقامة",
+    select_residence_Country:"اختر بلد الاقامة",
+    gender:"الجنس",
+    edit:"تعديل",
+    save:"حفظ",
+    /*==========================================================================================================*/
+    },
 };
 
 export default translations;

@@ -60,6 +60,7 @@
   align-items: center;
   transition: transform 0.3s, box-shadow 0.3s;
 }
+
 .profile-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 30px 50px rgba(0,0,0,0.3);
@@ -166,4 +167,62 @@
   margin-top: 2px;
   margin-bottom: 8px;
   font-weight: 500;
+}
+
+/* ======================================================
+   RTL & LTR Handling
+   ====================================================== */
+
+/* لما الصفحة تصير RTL */
+.profile-info2[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+.profile-info2[dir="rtl"] .profile-info2,
+.profile-info2[dir="rtl"] .profile-info2,
+.profile-info2[dir="rtl"] .profile-info2 {
+  direction: rtl;
+  text-align: right;
+}
+
+/* محاذاة النصوص والحقول */
+.profile-info2[dir="rtl"] input,
+.profile-info2[dir="rtl"] select,
+.profile-info2[dir="rtl"] textarea {
+  text-align: right;
+}
+
+/* لما الصفحة تصير LTR */
+.profile-info2[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+.profile-info2[dir="ltr"] input,
+.profile-info2[dir="ltr"] select,
+.profile-info2[dir="ltr"] textarea {
+  text-align: left;
+}
+/* ======== Phone Input RTL Fix ======== */
+.react-tel-input.rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.react-tel-input.rtl .flag-dropdown {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.react-tel-input.rtl .selected-flag {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.react-tel-input.rtl .form-control {
+  padding-right: 60px !important; /* مسافة للعلم */
+  padding-left: 12px !important;
+  text-align: right !important;
+  direction: rtl !important;
 }

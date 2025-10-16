@@ -4,24 +4,50 @@ import { Link } from "react-router-dom/cjs/react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import  AuthContext  from "../context/auth/authContext";
 import { useLanguage } from "../context/LanguageContext";
+import axios from "axios";
 import "../css/navBar.css";
 
 export default function Navbar1(props) {
-  const authContext = useContext(AuthContext);
   const { lang, setLang, t } = useLanguage();
   const [showProfileCard, setShowProfileCard] = useState(false);
   const profileRef = useRef(null);
-
+  const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState({});
+  const token = localStorage.getItem("accessToken");
+  const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
+  //=======================================================================================================
+  const authContext = useContext(AuthContext);
   if (!authContext) return null;
-
-  const { logout, isAuthenticated, user ,loading} = authContext;
-
+  const { logout, isAuthenticated ,loading} = authContext;
+  //=======================================================================================================
+  // Logout an go to Auth page
   const handleLogout = () => {
     logout();
     window.location.href = "/auth";
   };
-
-  // إغلاق البطاقة عند الضغط خارجها
+  //=======================================================================================================
+  // Get current user  
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+     
+        const res = await axios.get(
+          "http://localhost:5000/api/user/current-user",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setUser(res.data);
+        setFormData({
+          ...res.data,
+          userId: res.data._id, 
+        });
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+  //=======================================================================================================
+  // For close & open profile card  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -32,8 +58,6 @@ export default function Navbar1(props) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const defaultImage =
-    "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
   return (
     <Navbar
@@ -47,66 +71,80 @@ export default function Navbar1(props) {
         backgroundColor: "#057affff",
       }}
     > 
-     
+      {/* Website title*/}
       <Navbar.Brand>
-        <Link
-          to="/"
-          style={{ color: "#fff", fontWeight: "bold", fontSize: "1.3rem" }}
-        >
-          Syrian Flight <i className="fas fa-plane-departure" />
+        <Link to="/" style={{ color: "#fff", fontWeight: "bold", fontSize: "1.3rem"  }}>
+           <span className="fas fa-plane-departure"></span>
+           { t("syrian_Flight") }
         </Link>
       </Navbar.Brand>
 
-      <Nav style={{ alignItems: "center", position: "relative" }}>
+      <Nav style={{ alignItems: "center", position: "relative" }}> 
+        {/* Button sign in*/}
+        {!isAuthenticated && (
+          <div className="navLogout">
+          <Link to="/auth" style={{ color: "white", textDecoration: "none" }}>
+            <span className="bg_grey">{t("sign_in") || "Sign in"}</span>
+          </Link>
+        </div>
+        )}
+
+        {/* Button Home*/}
         <div className="navLogout">
           <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-            <span className="bg_grey">{t("Home") || "Home"}</span>
+            <span className="bg_grey">{t("home") || "Home"}</span>
           </Link>
         </div>
 
+        {/* Buttons if you login*/}
         {isAuthenticated && (
           <>
+            {/* Button Order*/}
             <div className="navLogout">
               <Link to="/order" style={{ color: "white", textDecoration: "none" }}>
                 <span className="bg_grey">{t("Orders") || "Orders"}</span>
               </Link>
             </div>
 
+            {/* Button addproduct*/}
             <div className="navLogout">
               <Link to="/addproduct" style={{ color: "white", textDecoration: "none" }}>
                 <span className="bg_grey">{t("Add_items") || "Add Items"}</span>
               </Link>
             </div>
 
+            {/* Button deleteitems*/}
             <div className="navLogout">
               <Link to="/deleteitems" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("Delete_items") || "Delete Items"}</span>
+                <span className="bg_grey">{t("delete_items") || "Delete Items"}</span>
               </Link>
             </div>
 
+            {/* Button contact*/}
             <div className="navLogout">
               <Link to="/contact" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("Contact_us") || "Contact Us"}</span>
+                <span className="bg_grey">{t("contact_Us") || "Contact Us"}</span>
               </Link>
             </div>
 
+            {/* Button about-us*/}
             <div className="navLogout">
-              <Link to="/auht" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("About Us") || "About Us"}</span>
+              <Link to="/about-us" style={{ color: "white", textDecoration: "none" }}>
+                <span className="bg_grey">{t("about_Us") || "About Us"}</span>
               </Link>
             </div>
 
+            {/* Button Logout*/}
             <div className="navLogout">
               <Link to="/auth" style={{ color: "white", textDecoration: "none" }}>
                 <span className="bg_grey" onClick={handleLogout}> {t("logout") || "Logout"} <ExitToAppIcon /></span>
               </Link>
             </div>
 
-            
           </>
         )}
 
-        {/* Dropdown اختيار اللغة */}
+        {/* Choose lang*/}
         <div
           className="select-wrapper"
           style={{ color: "white", marginLeft: "1rem" }}
@@ -121,41 +159,38 @@ export default function Navbar1(props) {
           </select>
         </div>
 
-        <span className="hamburger">
-          <i
-            onClick={props.changeDisplay}
-            className="fa fa-bars"
-            aria-hidden="true"
-          />
-        </span>
+        {/* Small profile card in Navbar*/}
         {isAuthenticated && (
           <div className="nav-profile-container">
-              <img src={user?.picture || defaultImage} alt="Profile" className="nav-profile-img" onClick={() => setShowProfileCard(!showProfileCard)}/>
+            {/* Profile Picture*/}
+              <img src={user?.picture || defaultImage} alt="Profile"className="nav-profile-img" onClick={() => setShowProfileCard(!showProfileCard)}/>
+              
                 <div className="nav-profile-container" ref={profileRef}>
+                  {showProfileCard && (
+                    <div className={`nav-profile-popup ${lang === "ar" ? "popup-ar" : "popup-en"}`}>
+                      <div className="popup-header">
+                        {/* Profile Picture*/}
+                        <img src={user.picture || defaultImage} alt="Profile" className="popup-avatar"/>
+                        <div className="popup-info">
+                          {/* Profile Name*/}
+                          <h4>{user?.fullName || "User Name"}</h4>
+                          {/* Profile Email*/}
+                          <p>{user?.email || "user@example.com"}</p>
+                        </div>
+                      </div>
 
-              {showProfileCard && (
-                <div className={`nav-profile-popup ${lang === "ar" ? "popup-ar" : "popup-en"}`}>
-                  <div className="popup-header">
-                    <img src={user?.picture || defaultImage} alt="Profile" className="popup-avatar"/>
-                    <div className="popup-info">
-                      <h4>{user?.fullName || "User Name"}</h4>
-                      <p>{user?.email || "user@example.com"}</p>
+                      <div className="popup-actions">
+                        {/*Edit Button*/}
+                        <button onClick={() => (window.location.href = "/profile")}className="popup-btn">
+                          {lang === "ar" ? "تعديل الملف الشخصي" : "Edit Profile"}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="popup-actions">
-                    <button
-                      onClick={() => (window.location.href = "/profile")}
-                      className="popup-btn"
-                    >
-                      {lang === "ar" ? "تعديل الملف الشخصي" : "Edit Profile"}
-                    </button>
-                  </div>
-                </div>
-              )}
+                  )}
                 </div>
             </div>
         )}
+
       </Nav>
        
     </Navbar>

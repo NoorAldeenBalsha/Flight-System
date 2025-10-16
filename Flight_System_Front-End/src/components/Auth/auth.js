@@ -8,6 +8,8 @@ import Toast from "../toastAnimated";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import jwtDecode from "jwt-decode";
+import 'react-phone-input-2/lib/style.css';
+import PhoneInput from "react-phone-input-2";
 import "../../css/auth.css"
 // Auth Component: Handles login and registration
 const Auth = () => {
@@ -278,16 +280,35 @@ try {
                   <option value="other">{t("other")}</option>
                 </select>
               </div>
-              <div className="input-field">
-                <i className="fas fa-phone" />
-                <input
-                  name="phone"
-                  type="text"
-                  placeholder={t("phone")}
-                  value={signUpData.phone}
-                  onChange={handleSignUpChange}
-                />
-              </div>
+              <div className="input-field ">
+  <i className="fas fa-phone"></i>
+  <PhoneInput
+    country="sy"
+    value={signUpData.phone}
+    onChange={handleSignUpChange}
+    enableSearch={true}
+    preferredCountries={["sy", "sa", "ae", "eg", "lb", "tr"]}
+    placeholder={lang === "ar" ? "أدخل رقم هاتفك" : "Enter your phone"}
+    inputClass={lang === "ar" ? "rtl-input" : ""}
+    containerClass={lang === "ar" ? "rtl-container" : ""}
+    inputStyle={{
+      backgroundColor: "#f0f0f0",
+      margin: "10px 0",
+      height: "55px",
+      border: "none",
+      borderRadius: "55px",
+      paddingLeft: "55px",
+      fontSize: "16px",
+      width: "100%",
+    }}
+    buttonStyle={{
+      border: "none",
+      background: "transparent",
+      left: lang === "ar" ? "auto" : "10px",
+      right: lang === "ar" ? "10px" : "auto",
+    }}
+  />
+</div>
               <div className="input-field">
                 <i className="fas fa-id-card" />
                 <input

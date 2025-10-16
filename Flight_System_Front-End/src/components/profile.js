@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useLanguage } from "../context/LanguageContext";
+import i18nIsoCountries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
 import "../css/profile.css";
+import 'react-phone-input-2/lib/style.css';
+import PhoneInput from "react-phone-input-2";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const { lang, setLang, t } = useLanguage();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
   const token = localStorage.getItem("accessToken");
   const [uploading, setUploading] = useState(false);
   const CHUNK_SIZE = 1024 * 1024; 
+  const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
+  //=======================================================================================================
+  //This one for list of all countries in arbic or english
+  i18nIsoCountries.registerLocale(enLocale);
+  const countryList =i18nIsoCountries.getNames("en");
+  const countryOptions = Object.entries(countryList);
   //=======================================================================================================
   // Fetch the current user data when the component mounts
   useEffect(() => {
@@ -32,9 +44,7 @@ const Profile = () => {
   }, []);
   //=======================================================================================================
   // Handle input changes in the form fields
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => {setFormData({ ...formData, [e.target.name]: e.target.value });};
   //=======================================================================================================
   // Save the updated user information
   const handleSave = async () => {
@@ -122,10 +132,16 @@ const Profile = () => {
   }
   };
   //=======================================================================================================
+  // Handle Phone change
+  const handlePhoneChange = (value) => {
+    setFormData((prev) => ({ ...prev, phone: value }));
+  };
+  //=======================================================================================================
   if (!user) return <p className="loading-text">Loading...</p>;
   //=======================================================================================================
   return (
-    <div className="profile-container">
+  <div
+    className="profile-container">
       {/* Background Clouds */}
       <div className="cloud-background"></div>
 
@@ -134,14 +150,15 @@ const Profile = () => {
 
       {/* Profile Card */}
       <div className="profile-card">
-        <div
-          className="profile-cover"
-          style={{
+        {/* Cover Picture */}
+        <div>
+        <div className="profile-cover" style={{
             backgroundImage: user.coverPicture
               ? `url(${user.coverPicture})`
               : `linear-gradient(to right, #87ceeb, #b0e0e6)`,
           }}
         />
+        {/*Edit Cover Picture */}
         <label className="edit-icon cover-edit">
           <i className="fas fa-pen"></i>
           <input
@@ -151,12 +168,12 @@ const Profile = () => {
             onChange={(e) => handleFileChange(e, "coverPicture")}
           />
         </label>
+        </div>
+        
+        {/* Profile Picture */}
         <div className="profile-avatar-container">
-          {user.picture ? (
-            <img src={`${user.picture}`} alt="Profile" className="profile-avatar" />
-          ) : (
-            <div className="avatar-placeholder">No Image</div>
-          )}
+          <img src={user?.picture || defaultImage} alt="Profile" className="profile-avatar"/>
+
           <label className="edit-icon avatar-edit">
           <i className="fas fa-pen"></i>
           <input
@@ -168,51 +185,86 @@ const Profile = () => {
         </label>
         </div>
 
+        {/* Profile Details */}
         <div className="profile-info">
+          {/* Full Name & Bio in Top of profile card */}
           <h2>{user.fullName || "N/A"}</h2>
           <p className="about-me">{user.bio || "About me..."}</p><div className="profile-details">
+            <div className="profile-info2" dir={lang === "ar" ? "rtl" : "ltr"}
+                style={{ direction: lang === "ar" ? "rtl" : "ltr", textAlign: lang === "ar" ? "right" : "left",}}>
+            {/* Edit mode for change information  */}
             {editMode ? (
               <>
-                <label>Full Name</label>
+                <label>{t("full_name") || "Full Name"}</label>
                 <input type="text" name="fullName" value={formData.fullName || ""} onChange={handleChange} />
-                <label>Email</label>
+                <label>{t("email") || "Email"}</label>
                 <input type="email" name="email" value={formData.email || ""} onChange={handleChange} />
-                <label>Phone</label>
-                <input type="text" name="phone" value={formData.phone || ""} onChange={handleChange} />
-                <label>Birth Country</label>
-                <input type="text" name="birthCountry" value={formData.birthCountry || ""} onChange={handleChange} />
-                <label>Residence Country</label>
-                <input type="text" name="residenceCountry" value={formData.residenceCountry || ""} onChange={handleChange} />
-                <label>Gender</label>
-                <select name="gender" value={formData.gender || "other"} onChange={handleChange}>
-                  <option value="other">Other</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                <label>{t("phone") || "Phone"}</label>
+                <PhoneInput
+                  country={"sy"}
+                  value={formData.phone}
+                  onChange={handlePhoneChange}
+                  enableSearch={true}
+                  preferredCountries={["sy", "sa", "ae", "eg", "lb", "tr"]}
+                  placeholder={lang === "ar" ? "أدخل رقم هاتفك" : "Enter your phone"}
+                  inputClass={lang === "ar" ? "rtl" : ""}
+                  containerClass={lang === "ar" ? "rtl" : ""}
+                  inputStyle={{ width: "100%"}}
+                />
+                <label>{t("birth_Country") || "Birth Country"}</label>
+                <select name="birthCountry" value={formData.birthCountry || ""} onChange={handleChange}>
+                <option value="other">
+                  {t("select_birth_Country") || "Select Birth Country"}
+                </option>
+                {countryOptions.map(([code, name]) => (
+                  <option key={code} value={name}>
+                    {name}
+                  </option>
+                ))}
                 </select>
-                <label>Passport Number</label>
+                <label>{t("residence_Country") || "Residence Country"}</label>
+                <select name="residenceCountry" value={formData.residenceCountry || ""} onChange={handleChange}>
+                <option value="other">
+                  {t("select_residence_Country") || "Select Residence Country"}
+                </option>
+                {countryOptions.map(([e, name]) => (
+                  <option key={e} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+                <label>{t("select_gender") || "Select Gender"}</label>
+                <select name="gender" value={formData.gender || "other"} onChange={handleChange}>
+                  <option value="other">{t("other") || "Other"}</option>
+                  <option value="male">{t("male") || "Male"}</option>
+                  <option value="female">{t("female") || "Female"}</option>
+                </select>
+                <label>{t("passport_number") || "Passport Number"}</label>
                 <input type="text" name="passportNumber" value={formData.passportNumber || ""} onChange={handleChange} />
-                <label>Bio</label>
+                <label>{t("bio") || "Bio"}</label>
                 <textarea name="bio" value={formData.bio || ""} onChange={handleChange} />
               </>
             ) : (
               <>
-                <p><strong>Email:</strong> {user.email || "N/A"}</p>
-                <p><strong>Phone:</strong> {user.phone || "N/A"}</p>
-                <p><strong>Birth Country:</strong> {user.birthCountry || "N/A"}</p>
-                <p><strong>Residence Country:</strong> {user.residenceCountry || "N/A"}</p>
-                <p><strong>Gender:</strong> {user.gender || "N/A"}</p>
-                <p><strong>Passport Number:</strong> {user.passportNumber || "N/A"}</p>
+                <p><strong>{t("email") || "Email"}:</strong> {user.email || "N/A"}</p>
+                <p><strong>{t("phone") || "Phone"}:</strong> {user.phone || "N/A"}</p>
+                <p><strong>{t("birth_Country") || "Birth Country"}:</strong> {user.birthCountry || "N/A"}</p>
+                <p><strong>{t("residence_Country") || "Residence Country"}:</strong> {user.residenceCountry || "N/A"}</p>
+                <p><strong>{t("gender") || "Gender"}:</strong> {user.gender || "N/A"}</p>
+                <p><strong>{t("passport_number") || "Passport Number"}:</strong> {user.passportNumber || "N/A"}</p>
               </>
             )}
+            </div>
           </div>
 
           <div className="profile-actions">
+            {/*Buttons Edit mode*/}
             {editMode ? (
-              <button className="save-btn" onClick={handleSave}> Save</button>
+              <button className="save-btn" onClick={handleSave}> {t("save") || "Save"}</button>
             ) : (
-              <button className="edit-btn" onClick={() => setEditMode(true)}> Edit</button>
+              <button className="edit-btn" onClick={() => setEditMode(true)}> {t("edit") || "Edit"}</button>
             )}
-            <button className="password-btn" onClick={() => (window.location.href = "/forget")}> Change Password</button>
+            <button className="password-btn" onClick={() => (window.location.href = "/forget")}> {t("reset_password") || " Reset Password"}</button>
           </div>
         </div>
       </div>
