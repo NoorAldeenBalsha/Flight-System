@@ -9,6 +9,7 @@ import "../css/navBar.css";
 
 export default function Navbar1(props) {
   const { lang, setLang, t } = useLanguage();
+  const [scrolled, setScrolled] = useState(false);
   const [showProfileCard, setShowProfileCard] = useState(false);
   const profileRef = useRef(null);
   const [user, setUser] = useState(null);
@@ -61,6 +62,7 @@ export default function Navbar1(props) {
 
   return (
     <Navbar
+    className="navbarcolor"
       style={{
         position: "sticky",
         top: "0",
@@ -68,13 +70,13 @@ export default function Navbar1(props) {
         display: "flex",
         justifyContent: "space-between",
         fontFamily: "Mulish",
-        backgroundColor: "#057affff",
       }}
     > 
       {/* Website title*/}
       <Navbar.Brand>
         <Link to="/" style={{ color: "#fff", fontWeight: "bold", fontSize: "1.3rem"  }}>
-           <span className="fas fa-plane-departure"></span>
+           <span style={{ color: "#00b4d8", margin:"0.5rem"}} 
+           className="fas fa-plane-departure"></span>
            { t("syrian_Flight") }
         </Link>
       </Navbar.Brand>
@@ -130,7 +132,7 @@ export default function Navbar1(props) {
             {/* Button about-us*/}
             <div className="navLogout">
               <Link to="/about-us" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("about_Us") || "About Us"}</span>
+                <span className="bg_grey">{t("about_us") || "About Us"}</span>
               </Link>
             </div>
 
@@ -145,17 +147,15 @@ export default function Navbar1(props) {
         )}
 
         {/* Choose lang*/}
-        <div
-          className="select-wrapper"
-          style={{ color: "white", marginLeft: "1rem" }}
-        >
-          <select
+        <div className="select-wrapper"
+        style={{ color: "white" }}>
+          <select 
             value={lang}
             onChange={(e) => setLang(e.target.value)}
-            style={{ color: "white", backgroundColor: "#057affff" }}
+            style={{ color: "white"}}
           >
-            <option value="en">English</option>
-            <option value="ar">العربية</option>
+            <option  style={{ color: "white",background:"#005b96" }} value="en">English</option>
+            <option  style={{ color: "white",background:"#005b96" }} value="ar">العربية</option>
           </select>
         </div>
 

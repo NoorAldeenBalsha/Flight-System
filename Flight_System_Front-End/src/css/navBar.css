@@ -74,7 +74,7 @@
 }
 
 .popup-btn {
-  background-color: #057aff;
+  background: linear-gradient(to right, #003366, #005b96);
   color: white;
   border: none;
   padding: 8px;
@@ -85,7 +85,7 @@
 }
 
 .popup-btn:hover {
-  background-color: #005fcc;
+  background: linear-gradient(to right, #003366, #005b96);
 }
 
 .nav-link {
@@ -138,7 +138,7 @@
 .select-wrapper select {
   background: transparent;
   border: none;
-  color: white;
+  color: rgb(255, 255, 255);
   cursor: pointer;
   outline: none;
 }
@@ -189,4 +189,7 @@
 
 .navLogout .bg_grey:hover {
   color: hsla(0, 0%, 100%, 0.7);
+}
+.navbarcolor{
+        background: linear-gradient(to right, #003366, #005b96);
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./styles.css";
 import "./mobile.css";
 import Navbar from "./components/Navbar";
-import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import Auth from "./components/Auth/auth";
 import Sidebar from "./components/sideBar";
@@ -23,6 +22,8 @@ import RegistrationSuccess from "./components/Auth/registrationSuccess";
 import Profile from "./components/profile";
 import AuthProvider from "./context/auth/authProvider";
 import AboutUs from "./components/aboutUs";
+import Footer from "./components/footer";
+import index from "./components";
 
 export default function App() {
   const [display, setDisplay] = useState(0);
@@ -61,6 +62,7 @@ export default function App() {
           />
           <Switch>
             <Route exact path="/auth" component={Auth} />
+            <Footer/>
           </Switch>
         </div>
       ) : (
@@ -69,7 +71,7 @@ export default function App() {
           <AuthProvider>
           <Navbar display={display} changeDisplay={changeDisplay} />
           <Switch>
-            <Route exact path="/" component={Menu} />
+            <Route exact path="/" component={index} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/addproduct" component={AddProduct} />
             <Route exact path="/forget" component={Forget} />
@@ -86,6 +88,7 @@ export default function App() {
             <Route exact path="/not-found" component={NotFound} />
             <Route exact path="/about-us" component={AboutUs} />
           </Switch>
+          <Footer/>
           </AuthProvider>
         </div>
       )}

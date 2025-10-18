@@ -48,6 +48,7 @@ const Profile = () => {
   //=======================================================================================================
   // Save the updated user information
   const handleSave = async () => {
+    
     const gender=formData.gender.toLowerCase();
     try {
       const userId = formData.userId;
@@ -146,7 +147,11 @@ const Profile = () => {
       <div className="cloud-background"></div>
 
       {/* Plane */}
-      <div className="plane"></div>
+      <div className="plane1"></div>
+      <div className="plane2"></div>
+      <div className="plane3"></div>
+      <div className="plane4"></div>
+
 
       {/* Profile Card */}
       <div className="profile-card">
@@ -211,6 +216,8 @@ const Profile = () => {
                   containerClass={lang === "ar" ? "rtl" : ""}
                   inputStyle={{ width: "100%"}}
                 />
+                <label>{t("dateOfBirth") || "Date of Birth"}</label>
+               <input type="date" name="dateOfBirth" value={formData.dateOfBirth || ""} onChange={handleChange} />
                 <label>{t("birth_Country") || "Birth Country"}</label>
                 <select name="birthCountry" value={formData.birthCountry || ""} onChange={handleChange}>
                 <option value="other">
@@ -248,6 +255,7 @@ const Profile = () => {
               <>
                 <p><strong>{t("email") || "Email"}:</strong> {user.email || "N/A"}</p>
                 <p><strong>{t("phone") || "Phone"}:</strong> {user.phone || "N/A"}</p>
+                <p><strong>{t("dateOfBirth") || "Date of birth"}:</strong> {new Date(user.dateOfBirth).toLocaleDateString() || "N/A"}</p>
                 <p><strong>{t("birth_Country") || "Birth Country"}:</strong> {user.birthCountry || "N/A"}</p>
                 <p><strong>{t("residence_Country") || "Residence Country"}:</strong> {user.residenceCountry || "N/A"}</p>
                 <p><strong>{t("gender") || "Gender"}:</strong> {user.gender || "N/A"}</p>

@@ -6,11 +6,12 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Toast from "../toastAnimated";
-import "../../styles.css";
+import "../../css/resetPassword.css";
+import resetPasswordImage from "../../images/resetPasswordImage.jpg"
 
 const ResetPassword = () => {
   const history = useHistory();
-const { t, lang } = useLanguage(); 
+  const { t, lang } = useLanguage(); 
   //  Detect current language from localStorage (default: EN)
   const currentLang = localStorage.getItem("lang") || "en";
 
@@ -62,7 +63,7 @@ const { t, lang } = useLanguage();
       //  Redirect to login page after 3 seconds
       setTimeout(() => {
         history.push("/auth");
-      }, 3000);
+      },5000);
     } catch (err) {
       //  Handle backend errors and show proper message
       const data = err.response?.data;
@@ -74,83 +75,63 @@ const { t, lang } = useLanguage();
   };
 
   return (
-    <div className="reset-password-container" style={{ marginTop: "5vh" }}>
-      {/* 🏷 Page Title */}
-      <h3 style={{ textAlign: "center", fontFamily: "Mulish" }}>
-        {t("reset_password")}
-      </h3>
+    
+    <div className={`reset-wrapper ${lang === "ar" ? "rtl" : "ltr"}`}>
+      <div className="reset-container">
+        <div className="reset-illustration">
+          <div className="circle-bg"></div>
+          <div className="key-icon">
+            <img src={resetPasswordImage} alt="Reset illustration" />
+          </div>
+        </div>
 
-      {/*  Global Toast */}
-      {toast.show && (
-        <Toast
-          show={toast.show}
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast({ ...toast, show: false })}
-        />
-      )}
+        <div className="reset-form-box">
+          <h2>{t("reset_title")}</h2>
+           {/*  Global Toast */}
+                {toast.show && (
+                  <Toast
+                    show={toast.show}
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast({ ...toast, show: false })}
+                  />
+                )}
+          <p className="subtitle">{t("reset_subtitle")}</p>
 
-      {/*  Reset Password Form */}
-      <Form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "auto" }}>
-        {/* Email Field */}
-        <Form.Group>
-          <Form.Label>
-            {t("reset_password")} <MailOutlineIcon />
-          </Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder={t("placeholder_email", "e.g. email@domain.com")}
-            required
-          />
-        </Form.Group>
+          <form onSubmit={handleSubmit}>
+            <label>{t("reset_emailLabel")}</label>
+            <input
+              type="email"
+              name="email"
+              placeholder={t("reset_emailPlaceholder")}
+              onChange={handleChange}
+              required
+            />
 
-        {/* Verification Code Field */}
-        <Form.Group>
-          <Form.Label>
-            {t("verification_code", "Verification Code")} <LockIcon />
-          </Form.Label>
-          <Form.Control
-            type="text"
-            name="resetCode"
-            value={formData.resetCode}
-            onChange={handleChange}
-            placeholder={t("placeholder_code", "Enter the code you received")}
-            required
-          />
-        </Form.Group>
+            <label>{t("reset_codeLabel")}</label>
+            <input
+              type="text"
+              name="resetCode"
+              placeholder={t("reset_codePlaceholder")}
+              onChange={handleChange}
+              required
+            />
 
-        {/* New Password Field */}
-        <Form.Group>
-          <Form.Label>
-            {t("new_password", "New Password")} <LockIcon />
-          </Form.Label>
-          <Form.Control
-            type="password"
-            name="newPassword"
-            value={formData.newPassword}
-            onChange={handleChange}
-            placeholder={t("placeholder_new_password", "Enter new password")}
-            required
-          />
-        </Form.Group>{/* Submit Button */}
-        <Button
-          type="submit"
-          style={{
-            width: "100%",
-            borderRadius: "1rem",
-            marginTop: "1rem",
-            backgroundColor: "#007bff",
-            border: "none",
-          }}
-        >
-          {t("reset_password", "Reset Password")}
-        </Button>
-      </Form>
+            <label>{t("reset_newPasswordLabel")}</label>
+            <input
+              type="password"
+              name="newPassword"
+              placeholder={t("reset_newPasswordPlaceholder")}
+              onChange={handleChange}
+              required
+            />
+            <button type="submit" className="submit-btn">
+              {t("reset_submitButton")}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
-
 export default ResetPassword;

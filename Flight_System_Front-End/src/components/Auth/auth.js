@@ -46,9 +46,11 @@ const Auth = () => {
   const handleSignUpChange = (e) =>setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   // Update Sign In form state  
   const handleSignInChange = (e) =>setSignInData({ ...signInData, [e.target.name]: e.target.value });
+
+  const handlePhoneChange = (value) => {
+  setSignUpData({ ...signUpData, phone: value });
+};
   //=======================================================================================================
-  // Toggle password visibility
-  const togglePassword = () =>setInputType(inputType === "password" ? "text" : "password");
   // Toggle between Sign In and Sign Up forms
   const toggleForm = () => setFlag(flag ^ 1);
   //=======================================================================================================
@@ -281,34 +283,34 @@ try {
                 </select>
               </div>
               <div className="input-field ">
-  <i className="fas fa-phone"></i>
-  <PhoneInput
-    country="sy"
-    value={signUpData.phone}
-    onChange={handleSignUpChange}
-    enableSearch={true}
-    preferredCountries={["sy", "sa", "ae", "eg", "lb", "tr"]}
-    placeholder={lang === "ar" ? "أدخل رقم هاتفك" : "Enter your phone"}
-    inputClass={lang === "ar" ? "rtl-input" : ""}
-    containerClass={lang === "ar" ? "rtl-container" : ""}
-    inputStyle={{
-      backgroundColor: "#f0f0f0",
-      margin: "10px 0",
-      height: "55px",
-      border: "none",
-      borderRadius: "55px",
-      paddingLeft: "55px",
-      fontSize: "16px",
-      width: "100%",
-    }}
-    buttonStyle={{
-      border: "none",
-      background: "transparent",
-      left: lang === "ar" ? "auto" : "10px",
-      right: lang === "ar" ? "10px" : "auto",
-    }}
-  />
-</div>
+                <i className="fas fa-phone"></i>
+                <PhoneInput
+                  country="sy"
+                  value={signUpData.phone}
+                  onChange={handlePhoneChange}
+                  enableSearch={true}
+                  preferredCountries={["sy", "sa", "ae", "eg", "lb", "tr"]}
+                  placeholder={lang === "ar" ? "أدخل رقم هاتفك" : "Enter your phone"}
+                  inputClass={lang === "ar" ? "rtl-input" : ""}
+                  containerClass={lang === "ar" ? "rtl-container" : ""}
+                  inputStyle={{
+                    backgroundColor: "#f0f0f0",
+                    margin: "10px 0",
+                    height: "55px",
+                    border: "none",
+                    borderRadius: "55px",
+                    paddingLeft: "55px",
+                    fontSize: "16px",
+                    width: "100%",
+                  }}
+                  buttonStyle={{
+                    border: "none",
+                    background: "transparent",
+                    left: lang === "ar" ? "auto" : "10px",
+                    right: lang === "ar" ? "10px" : "auto",
+                  }}
+                />
+              </div>
               <div className="input-field">
                 <i className="fas fa-id-card" />
                 <input

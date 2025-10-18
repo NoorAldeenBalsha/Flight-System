@@ -11,7 +11,7 @@ const AboutUs = () => {
   }, [lang]);
 
   return (
-    <div className={`about-container ${lang === "ar" ? "rtl" : ""}`}>
+    <div >
       {/* ===== Hero Section ===== */}
       <header className="about-hero">
         <div className="overlay">
@@ -55,10 +55,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* ===== Footer ===== */}
-      <footer className="about-footer">
-        <p>© {new Date().getFullYear()} Syrian Flight. {t("footer_text")}</p>
-      </footer>
+      
     </div>
   );
 };

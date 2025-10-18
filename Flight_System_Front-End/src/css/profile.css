@@ -28,12 +28,42 @@
 }
 
 /* Plane Animation */
-.plane {
+.plane1 {
   position: absolute;
-  top: 150px;
+  top: 100px;
+  left: -200px;
+  width: 75px;
+  height: 75px;
+  background: url('../images/plane.png') no-repeat center/contain;
+  animation: fly 25s linear infinite;
+  z-index: 1;
+}
+.plane2 {
+  position: absolute;
+  top: 200px;
+  left: -300px;
+  width: 75px;
+  height: 75px;
+  background: url('../images/plane.png') no-repeat center/contain;
+  animation: fly 25s linear infinite;
+  z-index: 1;
+}
+.plane3 {
+  position: absolute;
+  top: 300px;
+  left: -400px;
+  width: 75px;
+  height: 75px;
+  background: url('../images/plane.png') no-repeat center/contain;
+  animation: fly 25s linear infinite;
+  z-index: 1;
+}
+.plane4 {
+  position: absolute;
+  top: 400px;
   left: -60px;
-  width: 50px;
-  height: 50px;
+  width: 75px;
+  height: 75px;
   background: url('../images/plane.png') no-repeat center/contain;
   animation: fly 25s linear infinite;
   z-index: 1;

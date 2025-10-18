@@ -196,6 +196,7 @@ export class UserService {
     residenceCountry:user.residenceCountry,
     bio:user.bio,
     coverPicture:user.coverPicture,
+    dateOfBirth:user.dateOfBirth,
   };
   };
   //============================================================================
@@ -248,7 +249,7 @@ export class UserService {
     const msg = lang === 'ar' ? 'المستخدم غير موجود' : 'User not found';
     throw new NotFoundException(msg);
   }
-
+  
   // حدث كل الحقول الممكنة باستثناء كلمة المرور
   const fieldsToUpdate = [
   'fullName',

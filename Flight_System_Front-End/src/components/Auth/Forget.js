@@ -55,7 +55,7 @@ const Forget = () => {
       setMail(""); // نفرغ الحقل بعد الإرسال
       setTimeout(()=>{
         window.location.href = "/reset-password";
-      },1000);
+      },5000);
     } catch (err) {
       const data = err.response?.data;
       setToast({
