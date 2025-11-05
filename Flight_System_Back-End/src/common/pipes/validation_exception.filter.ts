@@ -20,7 +20,6 @@ export class ValidationExceptionFilter implements ExceptionFilter {
       ctx.getRequest().headers['language'] ||
       'en';
 
-    // نعدل رسائل الأخطاء حسب اللغة
     if (Array.isArray(exceptionResponse.message)) {
       exceptionResponse.message = exceptionResponse.message.map((msg: string) =>
         this.translateMessage(msg, lang),
@@ -45,7 +44,6 @@ export class ValidationExceptionFilter implements ExceptionFilter {
         return 'كلمة المرور مطلوبة';
     }
 
-    // الافتراضي بالإنكليزي
     return msg;
   }
 }

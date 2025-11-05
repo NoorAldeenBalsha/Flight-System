@@ -227,7 +227,7 @@ form.sign-in-form {
 
 .btn {
   width: 150px;
-  background: linear-gradient(to right, #003366, #005b96);
+  background: linear-gradient(120deg, rgba(15,98,254,0.95), rgba(0,191,166,0.85));
   border: none;
   outline: none;
   height: 49px;
@@ -259,7 +259,7 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #003366 0%,#005b96 100%);
+  background-image: linear-gradient(120deg, rgba(0,191,166,0.85), rgba(15,98,254,0.95));
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;

@@ -1,0 +1,70 @@
+.failure-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background:  linear-gradient(120deg, rgba(15,98,254,0.95), rgba(0,191,166,0.85));
+  color: #fff;
+  font-family: "Cairo", sans-serif;
+  text-align: center;
+}
+
+.failure-content {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 40px 60px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  animation: slideDown 0.7s ease;
+}
+
+.failure-content h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #ff4d4d;
+}
+
+.failure-content p {
+  font-size: 16px;
+  margin-bottom: 25px;
+  opacity: 0.85;
+}
+
+.failure-gif {
+ width: 70px;
+  margin-bottom: 15px;
+  animation: fly 2s infinite ease-in-out;
+}
+
+.retry-button {
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 26px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(255, 77, 77, 0.4);
+}
+
+.retry-button:hover {
+  background-color: #ff1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

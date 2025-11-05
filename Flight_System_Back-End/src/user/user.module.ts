@@ -5,12 +5,13 @@ import { AuthProvider } from './auth/auth.provider';
 import { MailModule } from 'src/mail/mail.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schema/user.schema';
-import { DatabaseModule } from 'src/db/database.module';
+import { DatabaseModule } from 'src/database/database.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService ,ConfigModule} from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.stategy';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { Flight, FlightSchema } from 'src/flight/schema/flight.schema';
 
 
 @Module({
@@ -19,7 +20,10 @@ import { GoogleStrategy } from './strategies/google.strategy';
   imports: [
     DatabaseModule,
     MailModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Flight.name, schema: FlightSchema }
+    ]),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (ConfigService: ConfigService) => ({

@@ -23,12 +23,10 @@ export class CloudinaryService implements OnModuleInit {
   private readonly logger = new Logger(CloudinaryService.name);
   private isConfigured = false;
   constructor(private readonly configService: ConfigService) {}
-
+  //============================================================================
   // Called once the module has been initialized by NestJS lifecycle
-  onModuleInit() {
-    this.configureCloudinary();
-  }
-
+  onModuleInit() {this.configureCloudinary();}
+  //============================================================================
   // Configures Cloudinary client with credentials from environment/config service
   private configureCloudinary() {
     const cloudName = this.configService.get('CLOUDINARY_NAME');
@@ -50,7 +48,7 @@ export class CloudinaryService implements OnModuleInit {
     this.isConfigured = true;
     this.logger.log('Cloudinary successfully configured');
   }
-
+  //============================================================================
   // Combine all chunks into one file in correct order
   private async reassembleFile(
     uploadId: string,
@@ -70,7 +68,7 @@ export class CloudinaryService implements OnModuleInit {
     writeStream.end();
     return fullFilePath;
   }
-
+  //============================================================================
   // Upload a local file to Cloudinary using upload_stream
   private async uploadFileFromPath( filePath: string,): Promise<CloudinaryResponse> {
     return new Promise<CloudinaryResponse>((resolve, reject) => {
@@ -86,7 +84,7 @@ export class CloudinaryService implements OnModuleInit {
       fs.createReadStream(filePath).pipe(uploadStream);
     });
   }
-
+  //============================================================================
   // Remove temporary chunk files and folder for an upload session
   private async cleanup(uploadId: string): Promise<void> {
     try {
@@ -105,13 +103,13 @@ export class CloudinaryService implements OnModuleInit {
       this.logger.error('Cleanup error:', err);
     }
   }
-
+  //============================================================================
   // Directory path to temporarily store uploaded files before processing
   private readonly tempDir = path.join(process.cwd(), 'tempUploads');
-
+  //============================================================================
   // Track upload progress for chunked uploads using a map of uploadId to chunk info
   private uploadProgress = new Map<string,{ totalChunks: number; receivedChunks: number }>();
-
+  //============================================================================
   // Upload a single chunk of a file (chunked upload)
   async uploadChunkedFile(
   chunk: Express.Multer.File,
@@ -153,7 +151,7 @@ export class CloudinaryService implements OnModuleInit {
     throw error;
   }
   }
-
+  //============================================================================
   // Upload a single file directly (non-chunked)
   uploadFile(file: Express.Multer.File): Promise<CloudinaryResponse> {
     return new Promise<CloudinaryResponse>((resolve, reject) => {
@@ -173,7 +171,7 @@ export class CloudinaryService implements OnModuleInit {
       bufferStream.pipe(uploadStream);
     });
   }
-
+  //============================================================================
   // Cancel ongoing upload session and cleanup chunks
   async cancelUpload(
     uploadId: string,
@@ -193,7 +191,7 @@ export class CloudinaryService implements OnModuleInit {
       message: `No upload found with ID ${uploadId}.`,
     };
   }
-
+  //============================================================================
   // Deletes a file from Cloudinary by public ID and resource type (default to 'video')
   async deleteFile(
     publicId: string,
@@ -237,4 +235,5 @@ export class CloudinaryService implements OnModuleInit {
       );
     });
   }
+  //============================================================================
 }

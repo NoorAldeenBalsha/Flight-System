@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import CartContext from "../../context/cart/cartContext";
 import LoadingContext from "../../context/loading/loadingContext";
@@ -14,7 +14,7 @@ import "../../css/auth.css"
 // Auth Component: Handles login and registration
 const Auth = () => {
   // State: Form data, loading, toast, input type, language
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
   const { loadCart } = useContext(CartContext);
   const { Loader } = useContext(LoadingContext);
@@ -38,9 +38,9 @@ const Auth = () => {
   useEffect(() => {
     if (isAuthenticated) {
       loadCart();
-      history.push("/");
+      navigate.push("/");
     }
-  }, [isAuthenticated, history, loadCart]);
+  }, [isAuthenticated, navigate, loadCart]);
   //=======================================================================================================
   // Update Sign Up form state
   const handleSignUpChange = (e) =>setSignUpData({ ...signUpData, [e.target.name]: e.target.value });

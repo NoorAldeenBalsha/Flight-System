@@ -1,30 +1,28 @@
-import React from "react";
-import { Container } from "@material-ui/core/";
-
+import { useNavigate } from "react-router-dom";
+import "../css/fail.css"
+import icon from '../images/close.png'
+import { useLanguage } from "../context/LanguageContext";
 const Fail = () => {
-  return (
-    <Container fixed style={{ padding: "3rem" }}>
-      <img
-        src={require("../images/close.png")}
-        alt="payment_fail"
-        style={{ height: "15vh" }}
-      />
-      <h2
-        style={{
-          fontFamily: "Mulish",
-          paddingTop: "1.5rem",
-          paddingBottom: "2rem"
-        }}
-      >
-        Ohh! Snap
-      </h2>
-      <h5 style={{ fontFamily: "Poppins" }}>
-        There was a problem in processing your order. Please try again after
-        some time. If the problem still persists contact us through the Contact
-        Us tab in the navigation bar.
-      </h5>
-    </Container>
-  );
-};
 
+  const history = useNavigate();
+  const { t, lang } = useLanguage()
+
+  return (
+    <div className="failure-page">
+      <div className="failure-content">
+        <img src={icon}alt="Failure Animation"className="failure-gif"/>
+        <h1>{t("fail_title")} </h1>
+        <p>
+          {t("fail_sub")}
+          <br />
+          {t("fail_sub2")}
+        </p>
+
+        <button className="retry-button" onClick={()=> history("/")}>
+          {t("go_back_home")}
+        </button>
+      </div>
+    </div>
+  );
+}
 export default Fail;

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import "../css/index.css";
+import "../css/home.css";
 import "../mobile.css";
 import "animate.css";
 import { useLanguage } from "../context/LanguageContext";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useNavigate } from "react-router-dom";
 import about1 from"../images/about1.jpg"
 import about2 from"../images/about2.jpg"
 import private_flight from"../images/private-flight.jpg"
@@ -15,9 +15,9 @@ import Local_Global_Reach from"../images/Local_&_Global_Reach.jpg"
 import Quality_Safety from"../images/Quality_Safety.png"
 import Trusted_Partnerships from"../images/Trusted_Partnerships.png"
 
-const index = (props) => {
+const Home = (props) => {
     const { lang, t } = useLanguage();
-    const history = useHistory();
+    const history = useNavigate();
 
     const services = [
     {
@@ -84,7 +84,7 @@ const index = (props) => {
     ];
 
     const goToAbout = () => {
-    history.push("/about-us");
+    history("/about-us");
     };
 
     const scrollToNextSection = () => {
@@ -236,4 +236,4 @@ const index = (props) => {
     </>
   );
 };
-export default index;
+export default Home;

@@ -16,7 +16,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import type { RequestWithCookies } from 'utilitis/interface';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { AuthProvider } from './auth/auth.provider';
 import { GoogleAuthGuard } from './guard/google-auth.guard';
 
 @ApiTags('Users')
@@ -176,7 +175,7 @@ export class UserController {
   //Get list of all users with filters and pagination [Admin only]
   @Get()
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles('admin')
+  @Roles(UserRole.ADMIN)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Get all users with pagination and filters' })
   @ApiQuery({ name: 'page', required: false, type: Number })

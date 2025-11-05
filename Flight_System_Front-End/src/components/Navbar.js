@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom/cjs/react-router-dom"; 
+import { Link } from "react-router-dom"; 
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import  AuthContext  from "../context/auth/authContext";
 import { useLanguage } from "../context/LanguageContext";
@@ -101,10 +101,10 @@ export default function Navbar1(props) {
         {/* Buttons if you login*/}
         {isAuthenticated && (
           <>
-            {/* Button Order*/}
+            {/* Button flight*/}
             <div className="navLogout">
-              <Link to="/order" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("Orders") || "Orders"}</span>
+              <Link to="/flights" style={{ color: "white", textDecoration: "none" }}>
+                <span className="bg_grey">{t("flights") || "Flights"}</span>
               </Link>
             </div>
 

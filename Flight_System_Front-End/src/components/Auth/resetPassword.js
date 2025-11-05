@@ -3,14 +3,14 @@ import { Form, Button } from "react-bootstrap";
 import { useLanguage } from "../../context/LanguageContext"; 
 import LockIcon from "@material-ui/icons/Lock";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Toast from "../toastAnimated";
 import "../../css/resetPassword.css";
 import resetPasswordImage from "../../images/resetPasswordImage.jpg"
 
 const ResetPassword = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const { t, lang } = useLanguage(); 
   //  Detect current language from localStorage (default: EN)
   const currentLang = localStorage.getItem("lang") || "en";

@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/auth/authContext";
 import { Route, Redirect } from "react-router-dom";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles.css";
 
 const RgistrationSuccess = ({ component: Component, ...rest }) => {
   const { isAuthenticated, verified, loading } = useContext(AuthContext);
 
  const location = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
 
   // الرسالة القادمة من التسجيل
   const message =

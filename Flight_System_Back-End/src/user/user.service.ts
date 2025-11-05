@@ -53,7 +53,7 @@ export class UserService {
       });
     }
 
-    // ✅ تحقق من اسم المستخدم
+  
     if (!fullName || typeof fullName !== 'string') {
       errors.push({
         field: 'fullName',
@@ -72,10 +72,10 @@ export class UserService {
       });
     }
 
-    // ✅ تحويل الاسم إلى lowercase قبل التخزين
+    
     registerUserDto.fullName = fullName.toLowerCase();
 
-    // ✅ تابع تسجيل المستخدم
+   
     return await this.authProvider.Register(registerUserDto, lang);
   };
   //============================================================================

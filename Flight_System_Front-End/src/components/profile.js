@@ -6,6 +6,7 @@ import enLocale from "i18n-iso-countries/langs/en.json";
 import "../css/profile.css";
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from "react-phone-input-2";
+import loadingGif from "../images/Spinner.gif"
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -138,7 +139,10 @@ const Profile = () => {
     setFormData((prev) => ({ ...prev, phone: value }));
   };
   //=======================================================================================================
-  if (!user) return <p className="loading-text">Loading...</p>;
+  if (!user) return   <div className="loading-container">
+      <img src={loadingGif} alt="Loading..." className="loading-gif" />
+      <p>جارٍ تحميل البيانات...</p>
+    </div>
   //=======================================================================================================
   return (
   <div

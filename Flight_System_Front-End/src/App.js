@@ -11,25 +11,25 @@ import Fail from "./components/fail";
 import Forget from "./components/Auth/Forget";
 import ResetPassword from "./components/Auth/resetPassword";
 import Checkout from "./components/checkout";
-import Success from "./components/success";
 import NotFound from "./components/404";
 import Contact from "./components/contact";
-import Order from "./components/order";
 import { useLanguage } from "./context/LanguageContext"; 
-import { BrowserRouter as  Switch, Route ,useLocation} from "react-router-dom";
+import { Routes, Route ,useLocation} from "react-router-dom";
 import VerifyEmail from "./components/Auth/verifyEmail";
 import RegistrationSuccess from "./components/Auth/registrationSuccess";
 import Profile from "./components/profile";
 import AuthProvider from "./context/auth/authProvider";
 import AboutUs from "./components/aboutUs";
 import Footer from "./components/footer";
-import index from "./components";
+import Home from "./components/home";
+import FlightsPage from "./components/flightPage";
+import SeatSelectionPage from "./components/seatSelection";
+import PaymentSuccess from "./components/paymentSuccess";
 
 export default function App() {
   const [display, setDisplay] = useState(0);
   const { lang } = useLanguage();
   const location = useLocation();
-
   const changeDisplay = () => setDisplay(display ^ 1);
 
   const isAuthPage = location.pathname === "/auth";
@@ -60,34 +60,34 @@ export default function App() {
             changeDisplay={changeDisplay}
             className={lang === "ar" ? "rtl" : "ltr"} // Navbar فقط يعكس اللغة
           />
-          <Switch>
-            <Route exact path="/auth" component={Auth} />
-            <Footer/>
-          </Switch>
+          <Routes>
+            <Route exact path="/auth" element={<Auth />} />
+          </Routes>
+          <Footer/>
         </div>
       ) : (
         // باقي الصفحات: اتجاه الصفحة حسب اللغة
         <div className={lang === "ar" ? "rtl" : "ltr"}>
           <AuthProvider>
           <Navbar display={display} changeDisplay={changeDisplay} />
-          <Switch>
-            <Route exact path="/" component={index} />
-            <Route exact path="/cart" component={Cart} />
-            <Route exact path="/addproduct" component={AddProduct} />
-            <Route exact path="/forget" component={Forget} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/registration-success" component={RegistrationSuccess}/>
-            <Route exact path="/verify-email/:id/:verificationToken" component={VerifyEmail}/>
-            <Route exact path="/checkout" component={Checkout} />
-            <Route exact path="/success" component={Success} />
-            <Route exact path="/fail" component={Fail} />
-            <Route exact path="/deleteitems" component={DeleteItems} />
-            <Route exact path="/reset-password" component={ResetPassword} />
-            <Route exact path="/contact" component={Contact} />
-            <Route exact path="/order" component={Order} />
-            <Route exact path="/not-found" component={NotFound} />
-            <Route exact path="/about-us" component={AboutUs} />
-          </Switch>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/cart" element={<Cart />} />
+            <Route exact path="/addproduct" element={<AddProduct />} />
+            <Route exact path="/forget" element={<Forget />} />
+            <Route exact path="/profile" element={<Profile />} />
+            <Route exact path="/registration-success" element={<RegistrationSuccess />}/>
+            <Route exact path="/verify-email/:id/:verificationToken" element={<VerifyEmail />}/>
+            <Route exact path="/checkout" element={<Checkout />} />
+            <Route exact path="/fail" element={<Fail />} />
+            <Route exact path="/deleteitems" element={<DeleteItems />} />
+            <Route exact path="/reset-password" element={<ResetPassword />} />
+            <Route exact path="/contact" element={<Contact />} />
+            <Route exact path="/paymentSuccess" element={<PaymentSuccess/>}/>
+            <Route exact path="/about-us" element={<AboutUs />} />
+            <Route exact path="/flights" element={<FlightsPage />} />
+            <Route exact path="/seat-selection" element={<SeatSelectionPage />} />
+          </Routes>
           <Footer/>
           </AuthProvider>
         </div>

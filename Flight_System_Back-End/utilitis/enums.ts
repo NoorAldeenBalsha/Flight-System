@@ -1,7 +1,11 @@
 export enum UserRole{
-    ADMIN='admin',
-    PERSON='person',
-
+    ADMIN='admin', // كل الصلااحيات
+    MANAGER='manager', // مدير العمليات 
+    PILOT='pilot',// الطيار
+    CABIN_CREW='cabin_crew',//طاقم المقصورة
+    PASSENGER='passenger',//الركاب
+    GROUND_STAFF='ground_staff',// موظفو المطار
+    USER='user',
 }
 
 export enum UserGender{

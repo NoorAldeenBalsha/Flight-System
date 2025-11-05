@@ -1,0 +1,104 @@
+.purchase-success-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(120deg, rgba(15,98,254,0.95), rgba(0,191,166,0.85));
+  color: #fff;
+  font-family: "Poppins", "Cairo", sans-serif;
+}
+
+.success-container {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 40px 50px;
+  text-align: center;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.success-icon {
+  width: 70px;
+  margin-bottom: 15px;
+  animation: fly 2s infinite ease-in-out;
+}
+
+@keyframes fly {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.success-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-bottom: 25px;
+}
+
+.ticket-info {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.ticket-info h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.status-paid {
+  color: #00ff99;
+  font-weight: bold;
+}
+
+.home-btn {
+  background-color: #00b4d8;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.home-btn:hover {
+  background-color: #0096c7;
+  transform: translateY(-2px);
+}
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+.loading-gif {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+/* RTL دعم */
+.purchase-success-page.rtl {
+  direction: rtl;
+  text-align: right;
+}

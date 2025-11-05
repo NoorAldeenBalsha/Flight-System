@@ -13,7 +13,7 @@ export class CloudinaryController {
   config: any;
 
   constructor(private readonly cloudinaryService: CloudinaryService,) {}
-
+  //============================================================================
   // Endpoint to handle chunked file uploads
   @Post('chunk')
   @UseGuards(AuthGuard)
@@ -36,7 +36,6 @@ export class CloudinaryController {
       });
     }
     
-    this.logger.log(`User ${user.id} uploading chunk for ${body.fileName}`)
     return this.cloudinaryService.uploadChunkedFile(
       files[0],
       body.fileName,
@@ -45,7 +44,7 @@ export class CloudinaryController {
       body.uploadId,
     );
   }
-
+  //============================================================================
   // Endpoint to cancel an ongoing chunked upload session
   @Delete('cancel/:uploadId')
   @UseGuards(AuthGuard)
@@ -57,7 +56,6 @@ export class CloudinaryController {
   async cancelUpload(@Param('uploadId') uploadId: string,@CurrentUser() user: JWTPayloadType,@Headers('accept-language') acceptLanguage?: string,) {
     const lang = acceptLanguage === 'ar' ? 'ar' : 'en';
     const result = await this.cloudinaryService.cancelUpload(uploadId);
-    this.logger.log(`User ${user.id} requested cancel for upload id   ${uploadId}`)
 
     if (!result.cancelled) {
       const message =
@@ -77,7 +75,7 @@ export class CloudinaryController {
           : `Upload ${uploadId} canceled and cleaned up.`,
     };
   }
-
+  //============================================================================
   // Endpoint to delete an uploaded file from Cloudinary by its public ID
   @Delete('file/:publicId')
   @ApiOperation({ summary: 'Delete an uploaded file from Cloudinary' })
@@ -96,8 +94,6 @@ export class CloudinaryController {
   ): Promise<{ message: string; publicId: string }> {
     const lang = acceptLanguage === 'ar' ? 'ar' : 'en';
 
-    this.logger.log(`[CloudinaryController]  User ${user.id} requested deletion for: ${publicId} as ${resourceType ?? 'video'}`);
-
     if (!publicId) {
       throw new BadRequestException({
         message: lang === 'ar' ? 'يوجد أخطاء' : 'There are errors',
@@ -108,11 +104,11 @@ export class CloudinaryController {
     try {
       return await this.cloudinaryService.deleteFile(publicId, resourceType ?? 'video', lang);
     } catch (error) {
-      this.logger.error(`[CloudinaryController]  Deletion failed: ${error.message}`);
       throw new BadRequestException({
         message: lang === 'ar' ? 'يوجد أخطاء' : 'There are errors',
         errors: error.message,
       });
     }
   }
+  //============================================================================
 }

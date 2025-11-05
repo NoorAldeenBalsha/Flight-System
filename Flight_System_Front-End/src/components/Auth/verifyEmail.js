@@ -1,10 +1,10 @@
 import React,{ useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const VerifyEmail = () => {
   const { id, verificationToken } = useParams();
-  const history = useHistory();
+  const history = useNavigate();
   const [message, setMessage] = useState("Verifying...");
 
   useEffect(() => {

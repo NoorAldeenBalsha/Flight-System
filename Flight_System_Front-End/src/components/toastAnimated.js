@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../styles.css";
 import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 
-
-
 export default function Toast({ show, message, type, onClose }) {
   const [visible, setVisible] = useState(false);
 
@@ -13,8 +11,8 @@ export default function Toast({ show, message, type, onClose }) {
 
       const timer = setTimeout(() => {
         setVisible(false);
-        setTimeout(onClose, 500); // يختفي بعد الانيميشن
-      }, 2000);
+        setTimeout(onClose, 1000); // يختفي بعد الانيميشن
+      }, 5000);
 
       return () => clearTimeout(timer);
     }
