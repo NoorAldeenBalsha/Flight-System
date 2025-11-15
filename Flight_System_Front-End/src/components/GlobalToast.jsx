@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
-import "../globalToast.css"; // ملف التنسيقات
+import "../css/globalToast.css";
 
 const ToastContext = createContext();
 

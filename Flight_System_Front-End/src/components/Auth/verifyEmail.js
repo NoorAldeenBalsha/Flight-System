@@ -14,7 +14,7 @@ const VerifyEmail = () => {
         `http://localhost:5000/api/user/auth/verify-email/${id}/${verificationToken}`
         );
         setMessage(res.data.message || "Email verified successfully!");
-        setTimeout(() => history.push("/auth"), 5000); // بعد 3 ثواني تحويل لصفحة تسجيل الدخول
+        setTimeout(() => history.push("/auth"), 5000);
       } catch (err) {
         setMessage(err.response?.data?.message || "Verification failed.");
       }

@@ -3,11 +3,15 @@ import { TicketService } from './ticket.service';
 import { Ticket } from './schema/ticket.schema';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { AnalyticsTicketService } from './analytice/ticket-analytice.service';
 
 @ApiTags('Tickets')
 @Controller('api/tickets')
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) {}
+  constructor(
+    private readonly ticketService: TicketService,
+    private readonly analyticsTicketService: AnalyticsTicketService,
+  ) {}
   //============================================================================
   // Get all ticket
   @Get('flight/:id')
@@ -48,4 +52,11 @@ export class TicketController {
     return this.ticketService.createPendingTicket(dto);
   }
   //============================================================================
+  // analytices data for tickets
+  @Get('analytics/tickets')
+  @ApiOperation({ summary: 'Get detailed ticket sales and financial analytics' })
+  @ApiResponse({status: 200,description: 'Returns a complete ticket analytics summary',})
+  async getTicketAnalytics() {
+    return this.analyticsTicketService.getTicketAnalytics();
+  }
 }

@@ -17,12 +17,14 @@ import type { RequestWithCookies } from 'utilitis/interface';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { GoogleAuthGuard } from './guard/google-auth.guard';
+import { UserAnalyticsService } from './analytice/user-analytice.service';
 
 @ApiTags('Users')
 @Controller('api/user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    private readonly userAnalyticsService: UserAnalyticsService,
   ) {}
   //============================================================================
   //Register a new user [Public]
@@ -65,6 +67,20 @@ export class UserController {
   ) {
     const lang = req.lang || 'en';
     return this.userService.getCurrentUser(userPayload.id, lang);
+  }
+  //============================================================================
+  //Get user by Id
+  @Get('/:id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth('JWT')
+  @ApiOperation({ summary: 'Get user by Id' })
+  @ApiResponse({ status: 200, description: 'user retrieved successfully' })
+  public getUserbyId(
+    @Param('id', ParseObjectIdPipe) id: Types.ObjectId,
+    @Req() req?: any,
+  ) {
+    const lang = req.lang || 'en';
+    return this.userService.getUserbyId(id, lang);
   }
   //============================================================================
   //Login with google account
@@ -230,4 +246,11 @@ export class UserController {
     return this.userService.deleteUser(id, payload, lang);
   }
   //============================================================================
+  // analytices data for users
+  @Get('analytices/user')
+  @ApiOperation({summary: 'Comprehensive user analytics',  })
+  @ApiResponse({status: 200,description: 'Successfully retrieved user analytics.',})
+  async getUserAnalytices(){
+    return this.userAnalyticsService.getUserAnalytics();
+  }
 }

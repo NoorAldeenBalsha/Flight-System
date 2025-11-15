@@ -19,12 +19,11 @@ function PaymentSuccess() {
     const userId = searchParams.get("userId");
     const ticketId = searchParams.get("ticketId");
     const token = localStorage.getItem("accessToken");
-      const [toast, setToast] = useState({ show: false, message: "", type: "success" });
-      // تغيير اتجاه الصفحة بناءً على اللغة
-      useEffect(() => {
+    const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+    //=======================================================================================================
+    useEffect(() => {
         document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
       }, [lang]);
-    
     //=======================================================================================================
     useEffect(() => {
         const capturePayment = async () => {

@@ -1,22 +1,19 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/auth/authContext";
-import { Route, Redirect } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles.css";
 
 const RgistrationSuccess = ({ component: Component, ...rest }) => {
-  const { isAuthenticated, verified, loading } = useContext(AuthContext);
 
  const location = useLocation();
   const history = useNavigate();
 
-  // الرسالة القادمة من التسجيل
   const message =
     location.state?.message ||
     "Account created successfully! Please check your email to verify your account.";
 
   const goToLogin = () => {
-    history.push("/auth"); // الرجوع لتسجيل الدخول
+    history.push("/auth"); 
   };
 
   return (

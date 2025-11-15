@@ -7,6 +7,7 @@ import { TicketController } from './ticket.controller';
 import { FlightModule } from '../flight/flight.module';
 import { ArchivedTicket, ArchivedTicketSchema } from './schema/ticket-archive.schema';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AnalyticsTicketService } from './analytice/ticket-analytice.service';
 
 
 @Module({
@@ -20,7 +21,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ScheduleModule.forRoot(),
   ],
   controllers: [TicketController],
-  providers: [TicketService],
-  exports: [TicketService,MongooseModule],
+  providers: [TicketService,AnalyticsTicketService],
+  exports: [TicketService,MongooseModule,AnalyticsTicketService],
 })
 export class TicketModule {}

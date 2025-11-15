@@ -12,7 +12,6 @@ import { UserRole } from 'utilitis/enums';
 import { RequestWithCookies } from 'utilitis/interface';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import axios from 'axios';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
@@ -20,7 +19,6 @@ export class UserService {
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     private readonly authProvider: AuthProvider,
-    private readonly jwtService: JwtService
   ) {}
   //============================================================================
   //This for language of role
@@ -200,6 +198,32 @@ export class UserService {
   };
   };
   //============================================================================
+  // Get current user (general usage)
+  public async getUserbyId(id: Types.ObjectId,lang: 'en' | 'ar' = 'en',) {
+      lang=['en','ar'].includes(lang)?lang:'en';
+      const user = await this.userModel.findById(id)
+      if (!user) {
+        const msg = lang === 'ar' ? 'المستخدم غير موجود' : 'User not found';
+        throw new NotFoundException(msg);
+  }
+  return {
+    _id: user._id,
+    fullName: user.fullName,
+    role: this.roleTranslations[user.role]?.[lang] || user.role,
+    gender: this.genderTranslations[user.gender]?.[lang] || user.gender,
+    email:user.email,
+    phone:user.phone,
+    passportNumber:user.passportNumber,
+    picture:user.picture,
+    lastLogin:user.lastLogin,
+    birthCountry:user.birthCountry,
+    residenceCountry:user.residenceCountry,
+    bio:user.bio,
+    coverPicture:user.coverPicture,
+    dateOfBirth:user.dateOfBirth,
+  };
+  };
+  //============================================================================
   // Get all users with pagination, search, and role filtering
   public async getAllUsers(page: number = 1,limit: number = 10,search?: string,role?: string,lang: 'en' | 'ar' = 'en',) {
         lang=['en','ar'].includes(lang)?lang:'en';
@@ -217,12 +241,14 @@ export class UserService {
         const totalPages = Math.ceil(totalUsers / limit);
         const users = await this.userModel
           .find(query)
-          .select('userName userEmail role profileImage enrolledCourses gender age')
+          .select('fullName email role picture gender age')
           .skip((page - 1) * limit)
           .limit(limit)
           .lean();
         const usersWithLang = users.map((u) => ({...u,
-          userName: u.fullName,
+          fullName  : u.fullName,
+          email: u.email,
+          picture :u.picture,
           role: this.roleTranslations[u.role]?.[lang] || u.role,
           gender: this.genderTranslations[u.gender]?.[lang] || u.gender,}));
          return {success: true,totalUsers,currentPage: page,totalPages,data: usersWithLang,};
@@ -250,7 +276,6 @@ export class UserService {
     throw new NotFoundException(msg);
   }
   
-  // حدث كل الحقول الممكنة باستثناء كلمة المرور
   const fieldsToUpdate = [
   'fullName',
   'email',
@@ -274,7 +299,7 @@ export class UserService {
   });
 
   return await userFromDB.save();
-}
+  };
   //============================================================================
   // Remove (delete) a user
   public async deleteUser(id: Types.ObjectId,currentUser: JWTPayloadType,lang: 'en' | 'ar' = 'en',):Promise<{ message: string }> {

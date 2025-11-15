@@ -3,10 +3,9 @@ import "../css/fail.css"
 import icon from '../images/close.png'
 import { useLanguage } from "../context/LanguageContext";
 const Fail = () => {
-
   const history = useNavigate();
   const { t, lang } = useLanguage()
-
+  //=======================================================================================================
   return (
     <div className="failure-page">
       <div className="failure-content">

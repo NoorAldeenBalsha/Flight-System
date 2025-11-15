@@ -16,6 +16,8 @@
 .nav-profile-container {
   position: relative;
   display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .navbar-profile-img {
@@ -192,4 +194,74 @@
 }
 .navbarcolor{
   background-image: linear-gradient(120deg, rgba(15,98,254,0.95), rgba(0,191,166,0.85));
+}
+.icone-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lang-dropdown-wrapper {
+  position: relative;
+  margin-left: 5px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+
+.lang-selected .lang-flag {
+  width: 32px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: 40px;
+  background: linear-gradient(120deg, rgba(15,98,254,0.95), rgba(0,191,166,0.85));
+  border-radius: 6px;
+  padding: 8px 0;
+  min-width: 150px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  z-index: 100;
+}
+
+.rtl-lang .lang-dropdown {
+   left: 0px;
+   right: auto;
+}
+
+.ltr-lang .lang-dropdown {
+  right: 0px;
+  left: auto;
+}
+
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  color: white;
+  transition: 0.2s;
+}
+
+.lang-option:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.lang-option img {
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+}
+
+.active-lang {
+  background: rgba(255,255,255,0.25);
+}
+
+.lang-label {
+  font-size: 14px;
 }

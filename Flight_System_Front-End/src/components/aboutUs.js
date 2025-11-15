@@ -5,7 +5,6 @@ import { useLanguage } from "../context/LanguageContext";
 const AboutUs = () => {
   const { lang, t } = useLanguage();
 
-  // تغيير اتجاه الصفحة بناءً على اللغة
   useEffect(() => {
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   }, [lang]);

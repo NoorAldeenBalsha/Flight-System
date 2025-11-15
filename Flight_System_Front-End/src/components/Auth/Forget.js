@@ -32,7 +32,7 @@ const Forget = () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          lang, // نرسل اللغة للباك
+          lang, 
         },
       };
 
@@ -52,7 +52,7 @@ const Forget = () => {
         type: "success",
       });
 
-      setMail(""); // نفرغ الحقل بعد الإرسال
+      setMail("");
       setTimeout(()=>{
         window.location.href = "/reset-password";
       },5000);
@@ -69,25 +69,14 @@ const Forget = () => {
   };
   //=======================================================================================================
   return (
-    <>
-      {/* Toast Notifications */}
+    
+      <div className={`forgot-password-container ${lang === "ar" ? "rtl" : "ltr"}`}>
+        {/* Toast Notifications */}
       {toast.show && (
-        <Toast
-          show={toast.show}
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast({ ...toast, show: false })}
-        />
+        <Toast show={toast.show}  message={toast.message}  type={toast.type}  onClose={() => setToast({ ...toast, show: false })}/>
       )}
 
-      {/* عنوان الصفحة */}
-      <h4
-        style={{
-          marginTop: "6vh",
-          fontFamily: "Mulish",
-          textAlign: "center", // العنوان بالنص
-        }}
-      >
+      <h4 style={{  marginTop: "1%",  fontFamily: "Mulish",  textAlign: "center", }}>
         {t("forgot_password_title")}
       </h4>
 
@@ -101,12 +90,7 @@ const Forget = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label
-              style={{
-                fontFamily: "Poppins",
-                fontWeight: "550",
-              }}
-            >
+            <label style={{  fontFamily: "Poppins",  fontWeight: "550", }}>
               {t("email_label")} <MailOutlineIcon />
             </label>
             <input
@@ -137,7 +121,8 @@ const Forget = () => {
           </button>
         </form>
       </div>
-    </>
+      </div>
+    
   );
 };
 //=======================================================================================================

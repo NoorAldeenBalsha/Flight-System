@@ -11,7 +11,7 @@ export default function Toast({ show, message, type, onClose }) {
 
       const timer = setTimeout(() => {
         setVisible(false);
-        setTimeout(onClose, 1000); // يختفي بعد الانيميشن
+        setTimeout(onClose, 1000); 
       }, 5000);
 
       return () => clearTimeout(timer);
