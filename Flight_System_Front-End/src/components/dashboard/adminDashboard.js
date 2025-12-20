@@ -1,12 +1,14 @@
 import React, { useEffect, useState ,useRef} from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Overview from "./overview";
 import UsersPage from "./usersDashboard.js";
 import FlightsPage from "./flightDashboard.js";
 import TicketsPage from "./ticketDashboard.js";
 import "../../css/adminDashboard.css";
 import { useLanguage } from "../../context/LanguageContext.js";
-import LoadingGif from "../../images/Spinner.gif";
+import LoadingGif from "../../images/Rocket.gif";
+import { apiFetch } from "../../services/apiFetch.js";
+
 
 const AdminDashboard = () => {
   const [userStats, setUserStats] = useState(null);
@@ -30,24 +32,30 @@ const AdminDashboard = () => {
   //=======================================================================================================
   //This one for get data
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-          const users = await fetch("http://localhost:5000/api/user/analytices/user").then((res) => res.json());
-          const flights = await fetch("http://localhost:5000/api/flights/analytics/flights").then((res) => res.json());
-          const tickets = await fetch("http://localhost:5000/api/tickets/analytics/tickets").then((res) => res.json());
+  const fetchData = async () => {
+    try {
+      const [usersRes, flightsRes, ticketsRes] = await Promise.all([
+        apiFetch('/user/analytices/user'),
+        apiFetch('/flights/analytics/flights'),
+        apiFetch('/tickets/analytics/tickets'),
+      ]);
 
-          setUserStats(users);
-          setFlightStats(flights);
-          setTicketStats(tickets);
-      } catch (err) {
-        console.error("Error while fetching:", err);
-      } finally {
-        setLoading(false);
-      }
-      
-    };
-    fetchData();
-  }, []);
+      const users = await usersRes.json();
+      const flights = await flightsRes.json();
+      const tickets = await ticketsRes.json();
+
+      setUserStats(users);
+      setFlightStats(flights);
+      setTicketStats(tickets);
+    } catch (err) {
+      console.error('Error while fetching:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
   //=======================================================================================================
   // This one for not find information or loading
   if (loading)

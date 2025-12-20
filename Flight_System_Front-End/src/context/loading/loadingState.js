@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LoadingContext from "./loadingContext";
-import Spinner from "../../images/Spinner.gif";
+import Spinner from "../../images/Rocket.gif";
 const LoadingState = (props) => {
   const [loading, setLoading] = useState(1);
   const Loader = () => {

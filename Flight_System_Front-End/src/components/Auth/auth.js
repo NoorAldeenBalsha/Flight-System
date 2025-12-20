@@ -4,12 +4,12 @@ import AuthContext from "../../context/auth/authContext";
 import LoadingContext from "../../context/loading/loadingContext";
 import { useLanguage } from "../../context/LanguageContext";
 import Toast from "../toastAnimated";
-import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import jwtDecode from "jwt-decode";
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from "react-phone-input-2";
 import "../../css/auth.css"
+import API from "../../services/api";
 // Auth Component: Handles login and registration
 const Auth = () => {
   // State: Form data, loading, toast, input type, language
@@ -25,7 +25,6 @@ const Auth = () => {
   const [inputType, setInputType] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
-  
   //=======================================================================================================
   // Redirect if already authenticated
   useEffect(() => {
@@ -35,7 +34,6 @@ const Auth = () => {
   }, []);
   useEffect(() => {
     if (isAuthenticated) {
-      loadCart();
       navigate.push("/");
     }
   }, [isAuthenticated, navigate]);
@@ -44,10 +42,10 @@ const Auth = () => {
   const handleSignUpChange = (e) =>setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   // Update Sign In form state  
   const handleSignInChange = (e) =>setSignInData({ ...signInData, [e.target.name]: e.target.value });
-
+  //This one for Update phone box
   const handlePhoneChange = (value) => {
-  setSignUpData({ ...signUpData, phone: value });
-};
+    setSignUpData({ ...signUpData, phone: value });
+  };
   //=======================================================================================================
   // Toggle between Sign In and Sign Up forms
   const toggleForm = () => setFlag(flag ^ 1);
@@ -80,8 +78,8 @@ try {
       setToast({ show: true, message: t("please_verify_captcha"), type: "error" });
       return;
     }
-    const res = await axios.post(
-      "http://localhost:5000/api/user/auth/register",
+    const res = await API.post(
+      "/user/auth/register",
       { ...signUpData,recaptchaToken:captchaToken}, 
       config
     );
@@ -127,8 +125,8 @@ try {
         "lang": lang,
       },
     };
-    const res = await axios.post(
-      "http://localhost:5000/api/user/auth/login",
+    const res = await API.post(
+      "/user/auth/login",
       { ...signInData},
       config
     );
@@ -188,7 +186,7 @@ try {
       const credential = response.credential;
       const user = jwtDecode(credential);
       setIsLoading(true);
-      const res = await axios.post("http://localhost:5000/api/user/google-login", { credential });
+      const res = await API.post("/user/google-login", { credential });
 
       const {accessToken, refreshToken,userData}=res.data
     localStorage.setItem("accessToken", accessToken);
@@ -292,7 +290,7 @@ try {
                   inputClass={lang === "ar" ? "rtl-input" : ""}
                   containerClass={lang === "ar" ? "rtl-container" : ""}
                   inputStyle={{
-                    backgroundColor: "#f0f0f0",
+                    backgroundColor: "var(--bg-main)",
                     margin: "10px 0",
                     height: "55px",
                     border: "none",

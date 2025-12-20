@@ -13,7 +13,7 @@ import {
   Title,
 } from "chart.js";
 import "../../css/ticketDashboard.css";
-import LoadingGif from '../../images/Spinner.gif';
+import LoadingGif from '../../images/Rocket.gif';
 import { useLanguage } from "../../context/LanguageContext";
 
 ChartJS.register(

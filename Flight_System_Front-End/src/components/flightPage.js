@@ -4,13 +4,15 @@ import { useLanguage } from "../context/LanguageContext";
 import "../css/flightpage.css";
 import Toast from "./toastAnimated";
 import { useNavigate } from "react-router-dom";
+import API from "../services/api";
+import { apiFetch } from "../services/apiFetch.js";
 
 const FlightsPage = () => {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
   const [user, setUser] = useState(null);
   const [flights, setFlights] = useState([]);
-  const [editingFlight, setEditingFlight] = useState(null);
+  const [editingFlight, setEditingFlight] = useState();
   const [showModal, setShowModal] = useState(false);
   const token = localStorage.getItem("accessToken");
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -27,44 +29,23 @@ const FlightsPage = () => {
     aircraftType: "",
     flightType: "international",
     gate: "",
-    originLocation: { lat: "", lng: "" },
-    destinationLocation: { lat: "", lng: "" },
   });
+  const [showFilter, setShowFilter] = useState(false);
+  const [filters, setFilters] = useState({
+    origin: "",
+    destination: "",
+    status: "",
+  });
+  const airports = [
+  { en: "Aleppo International Airport", ar: "مطار حلب الدولي" },
+  { en: "Damascus International Airport", ar: "مطار دمشق الدولي" },
+  { en: "Latakia International Airport", ar: "مطار اللاذقية الدولي" },
+  { en: "Deir ez-Zor International Airport", ar: "مطار دير الزور الدولي" },
+  { en: "Qamishli International Airport", ar: "مطار القامشلي الدولي" }
+];
   //=======================================================================================================
   const handleBookClick = (flight) => {
     navigate("/seat-selection",{state:flight});
-  };
-  //=======================================================================================================
-  // fetchFlights
-  const fetchFlights = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/flights/list/getAllTrips", {
-        headers: {
-          lang: lang,
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setFlights(res.data?.data || []);
-    } catch (err) {
-      console.error("Error fetching flights:", err);
-      setToast({ show: true, message:t("erorr_get_flight") , type: "error" });
-    }
-  };
-  //=======================================================================================================
-  // get Location Value For Send
-  const getLocationValueForSend = (locObj) => {
-  if (!locObj) return { en: "" };
-  if (typeof locObj === "string") {
-    return lang === "ar" ? { ar: locObj } : { en: locObj };
-  }
-  const en = locObj.en && String(locObj.en).trim();
-  const ar = locObj.ar && String(locObj.ar).trim();
-
-  if (lang === "en") {
-    return { en: en || (ar ? ar : "") };
-  } else {
-    return { ar: ar || (en ? en : "") };
-  }
   };
   //=======================================================================================================
   // Fetch the current user data when the component mounts
@@ -72,8 +53,8 @@ const FlightsPage = () => {
       // fetch User
       const fetchUser = async () => {
           try {
-            const res = await axios.get(
-              "http://localhost:5000/api/user/current-user",
+            const res = await API.get(
+              "/user/current-user",
               { headers: { Authorization: `Bearer ${token}` } }
             );
             setUser(res.data);
@@ -85,7 +66,7 @@ const FlightsPage = () => {
   // Get flights
   useEffect(() => {fetchFlights();}, [lang]);
   //=======================================================================================================
-  // for open Modal
+  // for open Modal and send _id 
   const handleEditFlight = (flight) => {
     setEditingFlight({ ...flight });
     setShowModal(true);
@@ -108,12 +89,8 @@ const FlightsPage = () => {
   try {
     //For Toast Error
     const requiredFields = [
-      { key: "flightNumber", label: t("flight_number") },
-      { key: "origin", label: t("from") },
-      { key: "destination", label: t("to") },
       { key: "departureTime", label: t("flights_departure") },
       { key: "arrivalTime", label:t("flights_arrival") },
-      { key: "flightType", label: t("flights_flightType") },
       { key: "gate", label: t("flights_gate") },
       { key: "status", label: t("flights_status") },
     ];
@@ -140,37 +117,26 @@ const FlightsPage = () => {
           .join("\n")}` , type: "error" });
       return; 
     }
-    //======================
-    const allowedFields = [
-      "flightNumber",
-      "origin",
-      "destination",
-      "departureTime",
-      "arrivalTime",
-      "status",
-      "flightType",
-      "gate",
-    ];
+        //======================
+    const departureISO = editingFlight.departureTime
+      ? new Date(editingFlight.departureTime).toISOString()
+      : undefined;
+    const arrivalISO = editingFlight.arrivalTime
+      ? new Date(editingFlight.arrivalTime).toISOString()
+      : undefined;
 
-    const filteredData = {};
+    const filteredData = {
+      flightNumber: editingFlight.flightNumber,
+      origin: {en:editingFlight.origin},           
+      destination: {en:editingFlight.destination}, 
+      departureTime: departureISO,
+      arrivalTime: arrivalISO,
+      status: editingFlight.status,
+      gate: editingFlight.gate || undefined,
+    };
 
-    allowedFields.forEach((field) => {
-      if (editingFlight[field] !== undefined && editingFlight[field] !== null) {
-        filteredData[field] = editingFlight[field];
-      }
-    });
-    // Fix origin and destination to be objects according to the language
-    if (typeof editingFlight.origin === "string") {
-      filteredData.origin = {
-        [lang]: editingFlight.origin,
-      };
-    }
-
-    if (typeof editingFlight.destination === "string") {
-      filteredData.destination = {
-        [lang]: editingFlight.destination,
-      };
-    }
+    console.log("Editing flight payload:", filteredData);
+    
 
     await axios.patch(
       `http://localhost:5000/api/flights/${editingFlight._id}`,
@@ -178,7 +144,8 @@ const FlightsPage = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}` ,
+          lang: lang,
         },
       }
     );
@@ -205,11 +172,8 @@ const FlightsPage = () => {
       { key: "destination", label: t("to") },
       { key: "departureTime", label: t("flights_departure") },
       { key: "arrivalTime", label:t("flights_arrival") },
-      { key: "flightType", label: t("flights_flightType") },
-      { key: "gate", label: t("flights_gate") },
       { key: "status", label: t("flights_status") },
       { key: "airlineCode", label:t("airlineCode") },
-      { key: "revenue", label:t("revenue") },
       { key: "aircraftType", label: t("flights_aircraft") },
     ];
 
@@ -243,45 +207,23 @@ const FlightsPage = () => {
       ? new Date(newFlight.arrivalTime).toISOString()
       : undefined;
 
-    const originForSend = getLocationValueForSend(newFlight.origin);
-    const destinationForSend = getLocationValueForSend(newFlight.destination);
-
     const payload = {
       flightNumber: newFlight.flightNumber,
-      origin: originForSend,           
-      destination: destinationForSend, 
+      origin: newFlight.origin,           
+      destination: newFlight.destination, 
       departureTime: departureISO,
       arrivalTime: arrivalISO,
       status: newFlight.status,
       revenue: newFlight.revenue ? Number(newFlight.revenue) : undefined,
       airlineCode: newFlight.airlineCode || undefined,
       aircraftType: newFlight.aircraftType || undefined,
-      flightType: newFlight.flightType || undefined,
+      flightType: "domestic" || undefined,
       gate: newFlight.gate || undefined,
-      originLocation: {
-        lat: newFlight.originLocation.lat ? Number(newFlight.originLocation.lat) : undefined,
-        lng: newFlight.originLocation.lng ? Number(newFlight.originLocation.lng) : undefined,
-      },
-      destinationLocation: {
-        lat: newFlight.destinationLocation.lat ? Number(newFlight.destinationLocation.lat) : undefined,
-        lng: newFlight.destinationLocation.lng ? Number(newFlight.destinationLocation.lng) : undefined,
-      },
     };
-
-    Object.keys(payload).forEach((k) => {
-      if (payload[k] === undefined || payload[k] === "") delete payload[k];
-    });
-    if (payload.
-  originLocation) {
-      if (payload.originLocation.lat === undefined && payload.originLocation.lng === undefined) delete payload.originLocation;
-    }
-    if (payload.destinationLocation) {
-      if (payload.destinationLocation.lat === undefined && payload.destinationLocation.lng === undefined) delete payload.destinationLocation;
-    }
 
     console.log("Creating flight payload:", payload);
 
-    await axios.post("http://localhost:5000/api/flights/create", payload, {
+    await API.post("/flights/create", payload, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -317,7 +259,7 @@ const FlightsPage = () => {
   // Delete Flight
   const handleDelete = async (flightId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/flights/${flightId}`, {
+      await API.delete(`/flights/${flightId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -330,6 +272,35 @@ const FlightsPage = () => {
     }
   };
   //=======================================================================================================
+  // fetchFlights
+  const fetchFlights = async () => {
+    try {
+      const params = new URLSearchParams();
+
+      if (filters.origin) params.append("origin", filters.origin);
+      if (filters.destination) params.append("destination", filters.destination);
+      if (filters.status) params.append("status", filters.status);
+      if (filters.fromDate) params.append("fromDate", filters.fromDate);
+      if (filters.toDate) params.append("toDate", filters.toDate);
+
+        const flightFetch =await apiFetch(`/flights/list/getAllTrips?${params.toString()}`,{
+        headers: {
+            Authorization: `Bearer ${token}`,
+            lang: lang,
+          },});
+          const flight =await flightFetch.json()
+          console.log(flight)
+
+      setFlights(flight.data);
+    } catch (err) {
+      console.error("Fetch flights error:", err);
+    }
+  };
+  //=======================================================================================================
+  const handleApplyFilter = () => {
+    fetchFlights();
+    setShowFilter(false);
+  };
   return (
     <>
     {toast.show && (
@@ -339,6 +310,84 @@ const FlightsPage = () => {
     <div className={`flights-page ${lang === "ar" ? "rtl" : "ltr"}`}>
         <h1>{t("flights_title")}</h1>
         <p>{t("flights_subtitle")}</p>
+    {/* ===== Filter Header ===== */}
+    <div className="flights-filter-header">
+      <button
+        className="filter-toggle-btn"
+        onClick={() => setShowFilter(!showFilter)}
+      >
+        {t("filter")} ⌄
+      </button>
+    </div>
+
+    {/* ===== Filter Panel ===== */}
+    {showFilter && (
+      <div className="filter-panel">
+        <select
+          value={filters.origin}
+          onChange={(e) =>
+            setFilters({ ...filters, origin: e.target.value })
+          }
+        >
+          <option value="">{t("from")}</option>
+
+          {airports.map((airport) => (
+            <option key={airport.en} value={airport.en}>
+              {airport[lang]}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={filters.destination}
+          onChange={(e) =>
+            setFilters({ ...filters, destination: e.target.value })
+          }
+        >
+          <option value="">{t("to")}</option>
+
+          {airports.map((airport) => (
+            <option key={airport.en} value={airport.en}>
+              {airport[lang]}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={filters.status}
+          onChange={(e) =>
+            setFilters({ ...filters, status: e.target.value })
+          }
+        >
+          <option value="">{t("flights_status")}</option>
+          <option value="scheduled">{t("flights_scheduled")}</option>
+          <option value="boarding">{t("flights_boarding")}</option>
+          <option value="delayed">{t("flights_delayed")}</option>
+          <option value="completed">{t("flights_completed")}</option>
+          <option value="cancelled">{t("flights_cancelled")}</option>
+        </select>
+
+        <div className="filter-actions">
+          <button className="apply-btn" onClick={handleApplyFilter}>
+            {t("apply")}
+          </button>
+
+          <button
+            className="reset-btn"
+            onClick={() => {
+              setFilters({
+                origin: "",
+                destination: "",
+                status: "",
+              });
+              fetchFlights();
+            }}
+          >
+            {t("reset")}
+          </button>
+        </div>
+      </div>
+    )}
     {/* ===== Flights List Section ===== */}
     {!showCreateForm && (
       <section className="flights-list">
@@ -372,17 +421,17 @@ const FlightsPage = () => {
               <div className="flight-details">
                 <div>
                   <strong>{t("flights_departure")}:</strong>{" "}
-                  {new Date(flight.departureTime).toLocaleString(lang)}
+                  <h7>{new Date(flight.departureTime).toLocaleString(lang)}</h7>
                 </div>
                 <div>
                   <strong>{t("flights_arrival")}:</strong>{" "}
-                  {new Date(flight.arrivalTime).toLocaleString(lang)}
+                  <h7>{new Date(flight.arrivalTime).toLocaleString(lang)}</h7>
                 </div>
                 <div>
-                  <strong>{t("flights_gate")}:</strong> {flight.gate}
+                  <strong>{t("flights_gate")}:</strong> <h7>{flight.gate}</h7>
                 </div>
                 <div>
-                  <strong>{t("revenue")}:</strong> ${flight.revenue}
+                  <strong>{t("revenue")}:</strong> <h7>${flight.revenue}</h7>
                 </div>
               </div>
 
@@ -393,7 +442,7 @@ const FlightsPage = () => {
 
                 {user?.role === "admin" && (
                   <>
-                    <button className="edit-btn" onClick={() => handleEditFlight(flight._id)}>
+                    <button className="edit-btn" onClick={() => handleEditFlight(flight)}>
                       {t("edit_flight")}
                     </button>
                     <button className="delete-btn" onClick={() => handleDelete(flight._id)}>
@@ -434,28 +483,26 @@ const FlightsPage = () => {
               />
               {/* origin */}
               <label>{t("from")}</label>
-              <input
-                type="text"
-                name="origin"
-                value={
-                  typeof editingFlight.origin === "object"
-                    ? editingFlight.origin[lang]
-                    : editingFlight.origin
-                }
-                onChange={handleChange}
-              />
+              <select name="origin" 
+              value={ editingFlight.origin } 
+                onChange={handleChange}>
+                  <option value="Aleppo International Airport">{t("flights_Aleppo")}</option>
+                  <option value="Latakia International Airport">{t("flights_Latakia")}</option>
+                  <option value="Damascus International Airport">{t("flights_Damascus")}</option>
+                  <option value="Deir ez-Zor International Airport">{t("flights_Deir_ez_Zor")}</option>
+                  <option value="Qamishli International Airport">{t("flights_Qamishli")}</option>
+                </select>
               {/* destination */}
               <label>{t("to")}</label>
-              <input
-                type="text"
-                name="destination"
-                value={
-                  typeof editingFlight.destination === "object"
-                    ? editingFlight.destination[lang]
-                    : editingFlight.destination
-                }
-                onChange={handleChange}
-              />
+              <select name="destination" 
+              value={  editingFlight.destination} 
+                onChange={handleChange}>
+                  <option value="Aleppo International Airport">{t("flights_Aleppo")}</option>
+                  <option value="Latakia International Airport">{t("flights_Latakia")}</option>
+                  <option value="Damascus International Airport">{t("flights_Damascus")}</option>
+                  <option value="Deir ez-Zor International Airport">{t("flights_Deir_ez_Zor")}</option>
+                  <option value="Qamishli International Airport">{t("flights_Qamishli")}</option>
+                </select>
               {/* departure time */}
               <label>{t("flights_departure")}</label>
               <input
@@ -482,12 +529,6 @@ const FlightsPage = () => {
                   <option value="cancelled">{t("flights_cancelled") || "cancelled"}</option>
                 </select>
 
-              {/* flightType */}
-              <label>{t("flights_flightType")}</label>
-              <select name="flightType" value={editingFlight.flightType } onChange={handleChange}>
-                  <option value="domestic">{t("flights_domestic") || "domestic"}</option>
-                  <option value="international">{t("flights_international") || "international"}</option>
-              </select>
               {/* gate */}
               <label>{t("flights_gate")}</label>
               <input
@@ -529,30 +570,25 @@ const FlightsPage = () => {
           {/* Origin */}   
           <div className="form-group">
             <label>{t('from')}</label>
-            <input
-              type="text"
-              value={newFlight.origin.en}
-              onChange={(e) =>
-                setNewFlight({
-                  ...newFlight,
-                  origin: { en: e.target.value },
-                })
-              }
-            />
+            <select  value={ typeof newFlight.origin === "object" ? newFlight.origin[lang] : newFlight.origin} 
+            onChange={(e) =>setNewFlight({  ...newFlight,  origin: { en: e.target.value },  })}>
+                  <option value="Damascus International Airport">{t("flights_Damascus")}</option>
+                  <option value="Aleppo International Airport">{t("flights_Aleppo")}</option>
+                  <option value="Latakia International Airport">{t("flights_Latakia")}</option>
+                  <option value="Deir ez-Zor International Airport">{t("flights_Deir_ez_Zor")}</option>
+                  <option value="Qamishli International Airport">{t("flights_Qamishli")}</option>
+                </select>
           </div>
           {/* Destination */}
           <div className="form-group">
             <label>{t('to')}</label>
-            <input
-              type="text"
-              value={newFlight.destination.en}
-              onChange={(e) =>
-                setNewFlight({
-                  ...newFlight,
-                  destination: { en: e.target.value },
-                })
-              }
-            />
+            <select value={newFlight.destination.en}  onChange={(e) =>setNewFlight({  ...newFlight,  destination: { en: e.target.value },  })}>
+                  <option value="Aleppo International Airport">{t("flights_Aleppo")}</option>
+                  <option value="Latakia International Airport">{t("flights_Latakia")}</option>
+                  <option value="Damascus International Airport">{t("flights_Damascus")}</option>
+                  <option value="Deir ez-Zor International Airport">{t("flights_Deir_ez_Zor")}</option>
+                  <option value="Qamishli International Airport">{t("flights_Qamishli")}</option>
+              </select>
           </div>
           {/* Departure Time */}
           <div className="form-group">
@@ -587,15 +623,6 @@ const FlightsPage = () => {
                   <option value="completed">{t("flights_completed") || "completed"}</option>
                   <option value="cancelled">{t("flights_cancelled") || "cancelled"}</option>
                 </select>
-          </div>
-          {/* flightType */}
-          <div className="form-group">
-            <label>{t("flights_flightType")}</label>
-              <select name="flightType" value={newFlight.flightType }onChange={(e) =>
-                setNewFlight({ ...newFlight, flightType: e.target.value })}>
-                  <option value="domestic">{t("flights_domestic") || "domestic"}</option>
-                  <option value="international">{t("flights_international") || "international"}</option>
-            </select>
           </div>
           {/*revenue*/}
           <div className="form-group">
@@ -640,83 +667,17 @@ const FlightsPage = () => {
               }
             />
           </div>
-          {/*origin Location*/}
-          <div className="form-group">
-            <label> {t('originLocation')}</label>
-            <input
-              type="text"placeholder="lat"
-              value={newFlight.originLocation.lat}
-              onChange={(e) =>
-                setNewFlight({
-                  ...newFlight,
-                  originLocation: {
-                    ...newFlight.originLocation,
-                    lat: e.target.value,
-                  },
-                })
-              }
-            />
-            <input
-              type="text"
-              placeholder="lng"
-              value={newFlight.originLocation.lng}
-              onChange={(e) =>
-                setNewFlight({
-                  ...newFlight,
-                  originLocation: {
-                    ...newFlight.originLocation,
-                    lng: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          {/*destination Location*/}
-          <div className="form-group">
-            <label> {t('destinationLocation')}</label>
-            <input
-              type="text"
-              placeholder="lat"
-              value={newFlight.destinationLocation.lat}
-              onChange={(e) =>
-                setNewFlight({
-                  ...newFlight,
-                  destinationLocation: {
-                    ...newFlight.destinationLocation,
-                    lat: e.target.value,
-                  },
-                })
-              }
-            />
-            <input
-              type="text"
-              placeholder="lng"
-              value={newFlight.destinationLocation.lng}
-              onChange={(e) =>
-                setNewFlight({
-                  ...newFlight,
-                  destinationLocation: {
-                    ...newFlight.destinationLocation,
-                    lng: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-
           <button  className='create-flight-btn' onClick={handleCreateFlight}>{t('saveFlight')}</button>
         </div>
-        <div className="flights-header">
           {user?.role === "admin" && (
             <button className="create-flight-btn" onClick={() => setShowCreateForm(!showCreateForm) } >
               {t("flights_go_back_button")}
             </button>
           )}
-        </div>
+
         </div>
       )}
 
-       
     </div>
     </>
   );

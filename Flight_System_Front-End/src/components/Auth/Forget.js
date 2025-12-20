@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useLanguage } from "../../context/LanguageContext"; 
 import Toast from "../toastAnimated";
 import LockIcon from "@material-ui/icons/Lock";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import ReCAPTCHA from "react-google-recaptcha";
 import "../../css/forgetPassword.css";
+import API from "../../services/api";
 // Forget Component
 const Forget = () => {
   // State: loading, toast, input type, language
@@ -40,8 +40,8 @@ const Forget = () => {
       setToast({ show: true, message: t("please_verify_captcha"), type: "error" });
       return;
       }
-      const res = await axios.post(
-        "http://localhost:5000/api/user/forgot-password",
+      const res = await API.post(
+        "/user/forgot-password",
         { email: mail ,recaptchaToken:captchaToken},
         config
       );

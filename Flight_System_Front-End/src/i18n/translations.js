@@ -59,11 +59,10 @@ const translations = {
     vision_text:
       "To be the leading online travel platform in the region, offering innovative solutions that simplify travel and inspire people to explore the world.",
     team_title: "Meet Our Team",
-    team_members: [
-      { name: "Noor Aldeen Balsha", role: "BackEnd Developer & Data science" },
-      { name: "Kinan Alesh", role: "FrontEnd Developer & Unity Developer" },
-      { name: "Rateb Nopre", role: "UI/UX Designer" },
-    ],
+    team_members_first_name:"Noor Aldeen Balsha",
+    team_members_first_role:"BackEnd Developer & Data science",
+    team_members_second_name:"Kinan Alesh",
+    team_members_second_role: "FrontEnd Developer & Unity Developer",
     footer_text: "All rights reserved.",
     switch_lang: "العربية",
     /*==========================================================================================================*/
@@ -73,6 +72,11 @@ const translations = {
     contact_email: "Email",
     contact_message: "Message",
     contact_send: "Send Message",
+    /*==========================================================================================================*/
+    /*This one for RgistrationSuccess */
+    RgistrationSuccess_success:"Success!",
+    RgistrationSuccess_message:"Account created successfully! Please check your email to verify your account.",
+    RgistrationSuccess_login:"Go to Login",
     /*==========================================================================================================*/
     /*This one for NavBar */
     syrian_Flight:" Syrian Flight",
@@ -93,6 +97,8 @@ const translations = {
     edit:"Edit",
     save:"Save",
     dateOfBirth:"Date of birth",
+    Image_uploaded_successfully:"Image uploaded successfully!",
+    Error_uploading_image:"Error uploading image",
     /*==========================================================================================================*/
     /*This one for footer */
     footer_description: "Syrian Flight is your trusted partner for seamless travel experiences around the world",
@@ -199,6 +205,14 @@ const translations = {
     error_fields:"Please fill in the following fields before creating the trip:",
     erorr_get_flight:"An error occurred while fetching the trips",
     flights_go_back_button:"Go back",
+    flights_Qamishli:"Qamishli",
+    flights_Deir_ez_Zor:"Deir ez Zor",
+    flights_Damascus:"Damascus",
+    flights_Latakia:"Latakia",
+    flights_Aleppo:"Aleppo",
+    filter: "Filter",
+    apply: "Apply",
+    reset: "Reset",
   /*==========================================================================================================*/
     /* this one for seat selection*/
     select_Seat_title:' Select Your Best Seat',
@@ -285,6 +299,7 @@ const translations = {
     dash_name:"Name",
     dash_email:"Eamil",
     dash_role:"Role",
+    dash_delete:"Delete",
     dash_not_fetch_user_data:"Not fetch user data.",
     dash_User_Analytics_Dashboard:"User Analytics Dashboard",
     dash_Home_title:"Home page",
@@ -293,6 +308,9 @@ const translations = {
     dash_users:"Users",
     dash_flight:"Flights",
     dash_Control_Panel:"Control Panel",
+    dash_User_deleted_successfully:"User deleted successfully",
+    dash_User_deleting_user:"User deleting user",
+    dash_sure_deleting:"Are you sure you want to delete this user?",
   
   },
   ar: {
@@ -355,11 +373,10 @@ const translations = {
     vision_text:
       "أن نكون المنصة الرائدة للسفر عبر الإنترنت في المنطقة، من خلال تقديم حلول مبتكرة تبسط السفر وتلهم الناس لاكتشاف العالم.",
     team_title: "تعرف على فريقنا",
-    team_members: [
-      { name: "نور الدين بلشة", role: "باك ايند و علوم البيانات" },
-      { name: " كنان العش", role: "فرونت ايند و مبرمج يونتي" },
-      { name: "راتيب نوريي", role: "مصممة واجهات المستخدم" },
-    ],
+    team_members_first_name:"نور الدين بلشة ",
+    team_members_first_role:"باك ايند و علوم البيانات",
+    team_members_second_name:" كنان العش",
+    team_members_second_role: "فرونت ايند و مبرمج يونتي",
     footer_text: "جميع الحقوق محفوظة.",
     switch_lang: "English",
     /*==========================================================================================================*/
@@ -369,6 +386,11 @@ const translations = {
     contact_email: "البريد الإلكتروني",
     contact_message: "الرسالة",
     contact_send: "إرسال الرسالة",
+    /*==========================================================================================================*/
+    /*This one for RgistrationSuccess */
+    RgistrationSuccess_success:"النجاح!",
+    RgistrationSuccess_message:"تم إنشاء الحساب بنجاح! يرجى التحقق من بريدك الإلكتروني لتأكيد حسابك.",
+    RgistrationSuccess_login:"اذهب إلى تسجيل الدخول",
     /*==========================================================================================================*/
     /*This one for NavBar */
     syrian_Flight:"السورية للطيران",
@@ -389,6 +411,8 @@ const translations = {
     edit:"تعديل",
     save:"حفظ",
     dateOfBirth:"تاريخ الولادة",
+    Image_uploaded_successfully:"تم رفع الصورة بنجاح!",
+    Error_uploading_image:"حدث خطأ أثناء تحميل الصورة",
     /*==========================================================================================================*/
     /*This one for footer */
     footer_description: "سوريان فلايت هي شريكك الموثوق لتجارب سفر سلسة حول العالم.",
@@ -429,7 +453,7 @@ const translations = {
     whyus_quality_desc: "نلتزم بأعلى معايير السلامة والجودة العالمية في كل رحلة.",
     testi_badge: "آراء عملائنا",
     testi_title: "ماذا يقول عملاؤنا",
-    testi_subtitle: "نفخر بتقديم حلول طيران نالت ثقة عملائنا حول العالم.",
+    testi_subtitl: "نفخر بتقديم حلول طيران نالت ثقة عملائنا حول العالم.",
     testi_client1_name: "مايكل روبرتس",
     testi_client1_role: "مدير تنفيذي لشركة طيران",
     testi_client1_quote: "خدمة عالية الجودة ودعم تشغيلي متميز، شريك موثوق في مجال الطيران.",
@@ -497,6 +521,14 @@ const translations = {
     error_fields:"الرجاء ملئ الحقول التالية قبل إنشاء الرحلة:",
     erorr_get_flight:"حدث خطأ أثناء جلب الرحلات",
     flights_go_back_button:"عودة",
+    flights_Qamishli:"القامشلي",
+    flights_Deir_ez_Zor:"دير الزور",
+    flights_Damascus:"دمشق",
+    flights_Latakia:"اللاذقية",
+    flights_Aleppo:"حلب",
+    filter: "فلترة",
+    apply: "تطبيق",
+    reset: "إعادة تعيين",
     /*==========================================================================================================*/
     /* this one for seat selection*/
     select_Seat_title:' اختر مقعدك المفضل ',
@@ -570,7 +602,7 @@ const translations = {
     dash_Verified:"مُحقق",
     dash_Unverified:"غير مُحقق",
     dash_Total_Users:" إجمالي المستخدمين",
-    dash_Active_accounts_in_the_last_30_days:"الحسابات النشطة اخر 30 يوم",
+    dash_Active_accounts_in_the_last_30_days:"الحسابات المفعلة اخر 30 يوم",
     dash_Role_Distribution:"توزيع الأدوار",
     dash_Gender_distribution:"توزيع الجنس",
     dash_Account_verification:" التحقق من الحساب",
@@ -583,6 +615,7 @@ const translations = {
     dash_name:"الاسم",
     dash_email:"البريد الإلكتروني",
     dash_role:"الدور",
+    dash_delete:"حذف",
     dash_not_fetch_user_data:"لا توجد بيانات مستخدمين.",
     dash_User_Analytics_Dashboard:"لوحة تحليلات المستخدمين",
     dash_Home_title:"الصفحة الرئيسية",
@@ -591,6 +624,9 @@ const translations = {
     dash_users:"المستخدمون",
     dash_flight:"الرحلات",
     dash_Control_Panel:"لوحة التحكم",
+    dash_User_deleted_successfully:"تم حذف المستخدم بنجاح",
+    dash_error_deleting_user:"خطأ في حذف المستخدم",
+    dash_sure_deleting:"هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
     },
 };
 

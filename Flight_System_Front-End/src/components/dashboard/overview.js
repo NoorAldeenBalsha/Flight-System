@@ -12,19 +12,19 @@ const Overview = ({ userStats, flightStats, ticketStats }) => {
       <p>{t("dash_Home_subtitle")} </p>
 
       <div className="overview-grid">
-        <div className="card">
+        <div className="card-overview">
           <h3> {t("dash_users")}</h3>
           <p className="number">{userStats.totalUsers}</p>
           <p>{t("dash_Total_Users")}</p>
         </div>
 
-        <div className="card">
+        <div className="card-overview">
           <h3> {t("dash_flight")}</h3>
           <p className="number">{flightStats.totalFlights}</p>
           <p>{t("dash_total_flights")}</p>
         </div>
 
-        <div className="card">
+        <div className="card-overview">
           <h3> {t("dash_ticket")}</h3>
           <p className="number">{ticketStats.totalTickets}</p>
           <p>{t("dash_total_tickets")}</p>

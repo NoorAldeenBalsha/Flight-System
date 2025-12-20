@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import  AuthContext  from "../context/auth/authContext";
 import { useLanguage } from "../context/LanguageContext";
-import axios from "axios";
 import "../css/navBar.css";
 import EN from "../images/en.jpg"
 import AR from "../images/ar.png"
+import ThemeSwitcher from "./themeSwitcher";
+import API from "../services/api";
+
 
 export default function Navbar1(props) {
   const { lang, setLang, t } = useLanguage();
@@ -36,8 +38,8 @@ export default function Navbar1(props) {
     const fetchUser = async () => {
       try {
      
-        const res = await axios.get(
-          "http://localhost:5000/api/user/current-user",
+        const res = await API.get(
+          "/user/current-user",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUser(res.data);
@@ -179,6 +181,9 @@ export default function Navbar1(props) {
             </div>
           )}
         </div>
+
+
+          <ThemeSwitcher></ThemeSwitcher>
 
         {/* Profile card */}
         {isAuthenticated && (

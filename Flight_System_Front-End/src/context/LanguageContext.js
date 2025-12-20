@@ -5,13 +5,13 @@ import Cookies from "js-cookie";
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-  // قراءة اللغة من الكوكيز أو افتراضيًا "en"
+  
   const [lang, setLang] = useState(() => Cookies.get("lang") || "en");
 
-  // تغيير اللغة وحفظها بالكوكيز
+  
   const changeLang = (newLang) => {
     setLang(newLang);
-    Cookies.set("lang", newLang, { expires: 365 }); // الصلاحية سنة كاملة
+    Cookies.set("lang", newLang, { expires: 365 }); 
   };
 
   const t = (key) => translations[lang][key] || key;

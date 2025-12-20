@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import {createRoot }from "react-dom/client"
 import App from "./App";
 import AuthState from "./context/auth/authState";
 import LoadingState from "./context/loading/loadingState";
@@ -9,25 +9,35 @@ import process from "process";
 import { BrowserRouter as Router} from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AuthProvider from "./context/auth/authProvider";
+import "./styles/theme.css"
+import ThemeProvider from "./context/theme/themeContext";
+import "./styles/theme.css"
+import ScrollToTop from "./components/scrollToTop";
+
 window.process=process;
-ReactDOM.render(
-  
-  <LanguageProvider>
-    <React.StrictMode>
+
+const container=document.getElementById("root")
+const root = createRoot(container)
+
+root.render(
+  <React.StrictMode>
+    <LanguageProvider>
       <GlobalToastProvider>
-          <AuthState>
-            <LoadingState>
-                  <Router>
-                    <GoogleOAuthProvider clientId="136188509800-5cs4tpi1pol2jfgna16g0rj7cb759abq.apps.googleusercontent.com">
-                    <AuthProvider>
+        <AuthState>
+          <LoadingState>
+            <ThemeProvider>
+              <Router future={{ v7_relativeSplatPath:true,v7_startTransition:true}}>
+                <GoogleOAuthProvider clientId="136188509800-5cs4tpi1pol2jfgna16g0rj7cb759abq.apps.googleusercontent.com">
+                  <AuthProvider>
+                    <ScrollToTop/>
                     <App />
-                    </AuthProvider>
-                    </GoogleOAuthProvider>
-                  </Router>
-            </LoadingState>
-          </AuthState>
+                  </AuthProvider>
+                </GoogleOAuthProvider>
+              </Router>
+            </ThemeProvider>
+          </LoadingState>
+        </AuthState>
       </GlobalToastProvider>
-    </React.StrictMode>
-  </LanguageProvider>,
-  document.getElementById("root")
+    </LanguageProvider>
+  </React.StrictMode>,
 );

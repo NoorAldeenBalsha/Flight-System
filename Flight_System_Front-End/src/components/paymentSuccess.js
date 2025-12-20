@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import '../css/paymentSuccess.css'
-import LoadingGif from '../images/Spinner.gif'
+import LoadingGif from '../images/Rocket.gif'
 import icon from '../images/check.png'
 import { useNavigate } from "react-router-dom";
 import Toast from "./toastAnimated";
 import { useLanguage } from "../context/LanguageContext";
+import API from "../services/api";
 
 function PaymentSuccess() {
     const { t, lang } = useLanguage();
@@ -30,8 +30,8 @@ function PaymentSuccess() {
         if (!orderId || !token) return;
 
         try {
-            const res = await axios.post(
-            "http://localhost:5000/api/payment/paypal/capture",
+            const res = await API.post(
+            "/payment/paypal/capture",
             { orderId ,ticketId,userId},
             {
                 headers: {
@@ -60,8 +60,8 @@ function PaymentSuccess() {
         const fetchUser = async () => {
         try {
         
-            const res = await axios.get(
-            "http://localhost:5000/api/user/current-user",
+            const res = await API.get(
+            "/user/current-user",
             { headers: { Authorization: `Bearer ${token}` } }
             );
             setUser(res.data);
@@ -78,7 +78,7 @@ function PaymentSuccess() {
     useEffect(() => {
         const fetchTicket = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/tickets/${ticketId}`);
+            const res = await API.get(`/tickets/${ticketId}`);
             setTicket(res.data)
         } catch (err) {
             console.error("Error fetching seat data", err);

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css";
 import "./mobile.css";
 import Navbar from "./components/Navbar";
 import Auth from "./components/auth/auth";
@@ -47,12 +46,10 @@ export default function App() {
     <>
       {isAuthPage ? (
 
-        <div className="ltr">
-          <Navbar
-            display={display}
-            changeDisplay={changeDisplay}
-            className={lang === "ar" ? "rtl" : "ltr"}
-          />
+        <div>
+          <div className={lang === "ar" ? "rtl" : "ltr"}>
+            <Navbar display={display}  changeDisplay={changeDisplay}/>
+            </div>
           <Routes>
             <Route exact path="/auth" element={<Auth />} />
           </Routes>
@@ -69,6 +66,7 @@ export default function App() {
             <Route exact path="/registration-success" element={<RegistrationSuccess />}/>
             <Route exact path="/verify-email/:id/:verificationToken" element={<VerifyEmail />}/>
             <Route exact path="/fail" element={<Fail />} />
+            <Route exact path="/not-found" element={<NotFound />} />
             <Route exact path="/reset-password" element={<ResetPassword />} />
             <Route exact path="/contact" element={<Contact />} />
             <Route exact path="/paymentSuccess" element={<PaymentSuccess/>}/>

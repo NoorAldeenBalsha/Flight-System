@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "../css/home.css";
 import "../mobile.css";
-import "animate.css";
 import { useLanguage } from "../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import about1 from"../images/about1.jpg"
@@ -112,7 +111,7 @@ const Home = (props) => {
       </section>
 
       {/* ABOUT */}
-      <section id="about-section" className={`about-section ${lang === "ar" ? "rtl" : "ltr"}`}>
+      <section id="about-section" className={`about-section-home ${lang === "ar" ? "rtl" : "ltr"}`}>
       <div className="about-container">
         <div className="about-text">
           <h2>{t("index_about_title")}</h2>
@@ -181,7 +180,7 @@ const Home = (props) => {
       <div className="testimonials-header">
         <span className="testimonials-badge">{t("testi_badge")}</span>
         <h2>{t("testi_title")}</h2>
-        <p>{t("testi_subtitle")}</p>
+        <p>{t("testi_subtitl")}</p>
       </div>
 
       <div className="testimonials-grid">
@@ -217,7 +216,7 @@ const Home = (props) => {
               <i className="fas fa-comment"></i>
               <textarea placeholder={t("contact_message")} required></textarea>
             </div>
-            <button type="submit" className="send-btn">
+            <button type="submit" className="send-btn"onClick={scrollToNextSection}>
               {t("contact_send")}
             </button>
           </form>

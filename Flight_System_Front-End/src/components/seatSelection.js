@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useLanguage } from "../context/LanguageContext";
 import "../css/seatSelection.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Toast from "./toastAnimated";
+import API from "../services/api";
 
 const SeatSelection = () => {
   const { t, lang } = useLanguage();
@@ -20,8 +20,8 @@ const SeatSelection = () => {
     const fetchUser = async () => {
       try {
      
-        const res = await axios.get(
-          "http://localhost:5000/api/user/current-user",
+        const res = await API.get(
+          "/user/current-user",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUser(res.data);
@@ -40,7 +40,7 @@ const SeatSelection = () => {
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/tickets/flight/${flight._id}`);
+        const res = await API.get(`/tickets/flight/${flight._id}`);
         setLayout(res.data.layout);
       } catch (err) {
         console.error("Error fetching seat data", err);
@@ -67,7 +67,7 @@ const SeatSelection = () => {
   const handleReserve = async () => {
 
     try {
-      const bookingResponse=await axios.post('http://localhost:5000/api/tickets/book', 
+      const bookingResponse=await API.post('/tickets/book', 
       {      
         seatId: selectedSeat._id,
       userId: user._id,
@@ -80,7 +80,7 @@ const SeatSelection = () => {
       );
         setToast({ show: true, message:t("select_Seat_pending_success") , type: "success" });
         console.log(selectedSeat._id)
-        const paymentResponse=await axios.post('http://localhost:5000/api/payment/paypal',
+        const paymentResponse=await API.post('/payment/paypal',
           { ticketId:selectedSeat._id,
             userId:user._id
           },

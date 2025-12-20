@@ -1,0 +1,100 @@
+/* ===== Registration Success Page ===== */
+.registration-success-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    120deg,
+    rgba(15, 98, 254, 0.15),
+    rgba(0, 191, 166, 0.15)
+  );
+  font-family: "Poppins", "Cairo", sans-serif;
+  padding: 20px;
+}
+
+.success-card {
+  background: #ffffff;
+  max-width: 420px;
+  width: 100%;
+  padding: 45px 35px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  animation: successFade 0.8s ease forwards;
+}
+
+.success-card h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #0f62fe;
+}
+
+.success-card p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.success-card .btn {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-image: linear-gradient(
+    120deg,
+    rgba(15, 98, 254, 0.95),
+    rgba(0, 191, 166, 0.85)
+  );
+  transition: all 0.3s ease;
+}
+
+.success-card .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 98, 254, 0.35);
+}
+
+/* ===== Animations ===== */
+@keyframes successFade {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RTL Support ===== */
+.rtl .success-card {
+  text-align: right;
+}
+
+.rtl .success-card h2,
+.rtl .success-card p {
+  direction: rtl;
+}
+
+/* ===== Dark Mode ===== */
+[data-theme="dark"] .registration-success-container {
+  background: linear-gradient(
+    120deg,
+    rgba(15, 98, 254, 0.25),
+    rgba(0, 191, 166, 0.25)
+  );
+}
+
+[data-theme="dark"] .success-card {
+  background: #121826;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .success-card p {
+  color: #cfd8e3;
+}

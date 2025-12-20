@@ -13,7 +13,7 @@ import {Chart as ChartJS,
 } from "chart.js";
 import "../../css/flightDashboard.css";
 import { useLanguage } from "../../context/LanguageContext";
-import LoadingGif from "../../images/Spinner.gif";
+import LoadingGif from "../../images/Rocket.gif";
 
 ChartJS.register(
   ArcElement,

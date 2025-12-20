@@ -150,69 +150,73 @@ export class FlightService {
   }
   //============================================================================
   // Update specific trip data
-  async update(id: string, updateData: Partial<CreateFlightDto>, lang: 'en' | 'ar' = 'en'): Promise<Flight> {
-    const flight = await this.flightModel.findById(id);
-    if (!flight) throw new NotFoundException({
-          message: lang === 'ar'
-            ? `لم يتم العثور على الرحلة التي تحمل المعرف ${id}.`
-            : `Flight with ID ${id} not found.`,
-        });
-
-    // Translate for ORIGIN
-    if (updateData.origin) {
-      const { en, ar } = updateData.origin;
-
-      // لو دخل المستخدم بالعربي فقط
-      if (ar && !en) {
-        const translated = await this.translationService.translateText(ar, 'en');
-        flight.origin = { ar, en: translated };
-      }
-      // لو دخل المستخدم بالإنكليزي فقط
-      else if (en && !ar) {
-        const translated = await this.translationService.translateText(en, 'ar');
-        flight.origin = { en, ar: translated };
-      }
-      // لو دخل الاثنين
-      else if (en && ar) {
-        flight.origin = { en, ar };
-      }
-    }
-
-    // Translate forDESTINATION
-    if (updateData.destination) {
-      const { en, ar } = updateData.destination;
-
-      if (ar && !en) {
-        const translated = await this.translationService.translateText(ar, 'en');
-        flight.destination = { ar, en: translated };
-      } else if (en && !ar) {
-        const translated = await this.translationService.translateText(en, 'ar');
-        flight.destination = { en, ar: translated };
-      } else if (en && ar) {
-        flight.destination = { en, ar };
-      }
-    }
-
-    const fieldsToUpdate = [
-        "flightNumber",
-        "origin",
-        "destination",
-        "departureTime",
-        "arrivalTime",
-        "status",
-        "flightType",
-        "gate",
-        "price",
-    ];
-
-    fieldsToUpdate.forEach((field) => {
-      if (updateData[field] !== undefined) {
-        flight[field] = updateData[field];
-      }
+  async update(id: string,updateData: Partial<CreateFlightDto>,lang: 'en' | 'ar' = 'en'): Promise<Flight> {
+  const flight = await this.flightModel.findById(id);
+  if (!flight)
+    throw new NotFoundException({
+      message:
+        lang === 'ar'
+          ? `لم يتم العثور على الرحلة التي تحمل المعرف ${id}.`
+          : `Flight with ID ${id} not found.`,
     });
 
-    return flight.save();
+  // ORIGIN TRANSLATION 
+  if (updateData.origin) {
+    let originEn = updateData.origin.en ?? flight.origin.en;
+    let originAr = updateData.origin.ar ?? flight.origin.ar;
+
+    if (updateData.origin.en && !updateData.origin.ar) {
+      originAr = await this.translationService.translateText(originEn, 'ar');
+    }
+
+    if (!updateData.origin.en && updateData.origin.ar) {
+      originEn = await this.translationService.translateText(originAr, 'en');
+    }
+
+    flight.origin = { en: originEn, ar: originAr };
   }
+
+  //  DESTINATION TRANSLATION 
+  if (updateData.destination) {
+    let destinationEn = updateData.destination.en ?? flight.destination.en;
+    let destinationAr = updateData.destination.ar ?? flight.destination.ar;
+
+    if (updateData.destination.en && !updateData.destination.ar) {
+      destinationAr = await this.translationService.translateText(
+        destinationEn,
+        'ar'
+      );
+    }
+
+    if (!updateData.destination.en && updateData.destination.ar) {
+      destinationEn = await this.translationService.translateText(
+        destinationAr,
+        'en'
+      );
+    }
+
+    flight.destination = { en: destinationEn, ar: destinationAr };
+  }
+
+  // SIMPLE FIELDS UPDATE (exclude origin, destination) 
+  const fieldsToUpdate = [
+    'flightNumber',
+    'departureTime',
+    'arrivalTime',
+    'status',
+    'gate',
+    'aircraftType',
+    'airlineCode',
+  ];
+
+  fieldsToUpdate.forEach((field) => {
+    if (updateData[field] !== undefined) {
+      flight[field] = updateData[field];
+    }
+  });
+
+  return flight.save();
+}
   //============================================================================
   // Delete a specific trip
   async remove(id: string, lang: 'en' | 'ar' = 'en'): Promise<{ message: string }> {

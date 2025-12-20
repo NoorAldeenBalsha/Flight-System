@@ -1,39 +1,29 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
 import { useLanguage } from "../../context/LanguageContext"; 
-import LockIcon from "@material-ui/icons/Lock";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Toast from "../toastAnimated";
 import "../../css/resetPassword.css";
 import resetPasswordImage from "../../images/resetPasswordImage.jpg"
+import API from "../../services/api";
 
 const ResetPassword = () => {
   const history = useNavigate();
   const { t, lang } = useLanguage(); 
-  //  Detect current language from localStorage (default: EN)
-  const currentLang = localStorage.getItem("lang") || "en";
-
   //  Form state
   const [formData, setFormData] = useState({
     email: "",
     resetCode: "",
     newPassword: "",
   });
-
   //  Toast state
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
-
   //  Handle input changes
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
   //  Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, resetCode, newPassword } = formData;
-
     //  Frontend validation
     if (!email || !resetCode || !newPassword) {
       setToast({ show: true, message: t.error_fill_all, type: "error" });
@@ -42,13 +32,13 @@ const ResetPassword = () => {
 
     try {
       //  Send request to backend with language header
-      const res = await axios.post(
-        "http://localhost:5000/api/user/reset-password",
+      const res = await API.post(
+        "/api/user/reset-password",
         formData,
         {
           headers: {
             "Content-Type": "application/json",
-            lang, // 🔑 Pass language to backend
+            lang, //  Pass language to backend
           },
         }
       );

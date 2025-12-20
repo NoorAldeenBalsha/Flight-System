@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles.css";
+import "../css/globalToast.css";
 import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 
 export default function Toast({ show, message, type, onClose }) {

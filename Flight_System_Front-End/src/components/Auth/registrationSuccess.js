@@ -1,17 +1,11 @@
-import React, { useContext } from "react";
-import AuthContext from "../../context/auth/authContext";
-import { useLocation, useNavigate } from "react-router-dom";
-import "../../styles.css";
+import React from "react";
+import {  useNavigate } from "react-router-dom";
+import "../../css/rgistrationSuccess.css"
+import { useLanguage } from "../../context/LanguageContext";
 
 const RgistrationSuccess = ({ component: Component, ...rest }) => {
-
- const location = useLocation();
+  const { t, lang } = useLanguage(); 
   const history = useNavigate();
-
-  const message =
-    location.state?.message ||
-    "Account created successfully! Please check your email to verify your account.";
-
   const goToLogin = () => {
     history.push("/auth"); 
   };
@@ -19,10 +13,10 @@ const RgistrationSuccess = ({ component: Component, ...rest }) => {
   return (
     <div className="registration-success-container">
       <div className="success-card">
-        <h2> Success!</h2>
-        <p>{message}</p>
+        <h2> {t("RgistrationSuccess_success")}</h2>
+        <p>{t("RgistrationSuccess_message")}</p>
         <button className="btn" onClick={goToLogin}>
-          Go to Login
+         {t("RgistrationSuccess_login")}
         </button>
       </div>
     </div>

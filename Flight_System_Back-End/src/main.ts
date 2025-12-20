@@ -12,7 +12,7 @@ import { LanguageInterceptor } from './common/interceptors/language.interceptor'
 import { ValidationExceptionFilter } from './common/pipes/validation_exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{cors:true});
+  const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   //========================================================================================
   app.useGlobalInterceptors(new LanguageInterceptor());
@@ -47,27 +47,24 @@ async function bootstrap() {
     }
   });
   //========================================================================================
-   app.enableCors({
-  origin: [
-    'http://localhost:3000',
-  ],
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'lang',
-    'language',
-    'Accept',
-  ],
-  exposedHeaders: [
-    'Set-Cookie',
-    'Authorization',
-    'lang',
-  ],
-  credentials: true,
-});
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'lang',
+      'language',
+      'Accept',
+    ],
+    exposedHeaders: [
+      'Set-Cookie',
+      'Authorization',
+      'lang',
+    ],
+  });
   //========================================================================================
-  //JSON & URL-encoded  زيادة الحد الأقصى لحجم
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   const swaggerConfig = new DocumentBuilder()
