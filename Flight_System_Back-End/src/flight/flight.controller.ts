@@ -7,12 +7,15 @@ import { AuthGuard } from 'src/user/guard/auth.guard';
 import { AuthRolesGuard } from '../user/guard/auth-role.guard';
 import { Roles } from '../user/decorator/user-role.decorator';
 import { UserRole } from 'utilitis/enums';
+import { FlightAnalyticsService } from './analytice/flight-analytice.service';
 
 @ApiTags('Flights')
 @Controller('api/flights')
 export class FlightController {
-  private readonly logger = new Logger(FlightController.name);
-  constructor(private readonly flightService: FlightService) {}
+  constructor(
+    private readonly flightService: FlightService,
+    private readonly flightAnalyticsService: FlightAnalyticsService,
+  ) {}
   //============================================================================
   // Create a new trip [ Admin only ]
   @Post('create')
@@ -103,4 +106,13 @@ export class FlightController {
       return this.flightService.remove(id,lang);
   }
   //============================================================================
+   // analytices data for flights
+  @Get('analytics/flights')
+  @ApiOperation({ summary: 'Get comprehensive flight performance & operational analytics' })
+  @ApiResponse({ status: 200,description: 'Flight analytics payload',})
+  async getFlightAnalytics() {
+    return this.flightAnalyticsService.getFlightAnalytics();
+  }
+  //============================================================================
 }
+

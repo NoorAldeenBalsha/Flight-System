@@ -5,7 +5,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #fff;
+  background:var(--bg-card);
   padding: 30px 40px;
   border-radius: 15px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -17,11 +17,11 @@
 
 .verification-notice h3 {
   margin-bottom: 10px;
-  color: #333;
+  color: var(--text-main);
 }
 
 .verification-notice p {
-  color: #555;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
@@ -46,8 +46,8 @@
 .language-selector select {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  background-color: #ffffff;
+  border: 1px solid var(--text-dark);
+  background-color: var(--bg-card);
   font-family: 'Mulish', sans-serif;
   font-size: 0.9rem;
   cursor: pointer;
@@ -55,12 +55,12 @@
 }
 
 .language-selector select:hover {
-  border-color: #007bff;
+  border-color: var(--primary-light);
 }
 
 .language-selector select:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--primary-light);
   box-shadow: 0 0 5px rgba(0,123,255,0.5);
 }
 .select-wrapper select {
@@ -75,7 +75,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
-  color: #1b1b1b;
+  color: var( --text-main);
 }
 
 /* لإظهار سهم الـ dropdown */
@@ -90,7 +90,7 @@
   right: 0px;
   transform: translateY(-50%);
   pointer-events: none;
-  color: #1b1b1b;
+  color: var(--text-main);
 }
 
 * {
@@ -107,7 +107,7 @@ input {
 .container1 {
   position: relative;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--bg-card);
   min-height: 100vh;
   overflow: hidden;
 }
@@ -155,14 +155,14 @@ form.sign-in-form {
 
 .title {
   font-size: 2.2rem;
-  color: #444;
+  color:var(--text-secondary);
   margin-bottom: 10px;
 }
 
 .input-field {
   max-width: 380px;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color: var(--bg-main);
   margin: 10px 0;
   height: 55px;
   border-radius: 55px;
@@ -175,7 +175,7 @@ form.sign-in-form {
 .input-field i {
   text-align: center;
   line-height: 55px;
-  color: #1b1a1a;
+  color: var(--text-main);
   transition: 0.5s;
   font-size: 1.1rem;
 }
@@ -187,11 +187,11 @@ form.sign-in-form {
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #1b1a1a;
+  color:var(--text-main);
 }
 
 .input-field input::placeholder {
-  color: #1b1a1a;
+  color:var(--text-main);
   font-weight: 500;
 }
 
@@ -212,27 +212,27 @@ form.sign-in-form {
   justify-content: center;
   align-items: center;
   margin: 0 0.45rem;
-  color: #333;
+  color: var(--text-main);
   border-radius: 50%;
-  border: 1px solid #333;
+  border: 1px solid var(--text-main);
   text-decoration: none;
   font-size: 1.1rem;
   transition: 0.3s;
 }
 
 .social-icon:hover {
-  color: #4481eb;
-  border-color: #4481eb;
+  color:var( --primary-light);
+  border-color:var( --primary-light);
 }
 
 .btn {
   width: 150px;
-  background: linear-gradient(120deg, rgba(15,98,254,0.95), rgba(0,191,166,0.85));
+  background: var(--nav-bg);
   border: none;
   outline: none;
   height: 49px;
   border-radius: 49px;
-  color: #fff;
+  color:white;
   text-transform: uppercase;
   font-weight: 600;
   margin: 10px 0;
@@ -259,7 +259,7 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(120deg, rgba(0,191,166,0.85), rgba(15,98,254,0.95));
+  background-image: var(--nav-bg);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
@@ -291,7 +291,7 @@ form.sign-in-form {
 }
 
 .panel .content {
-  color: #fff;
+  color:white;
   transition: transform 0.9s ease-in-out;
   transition-delay: 0.6s;
 }
@@ -310,7 +310,7 @@ form.sign-in-form {
 .btn.transparent {
   margin: 0;
   background: none;
-  border: 2px solid #fff;
+  border: 2px solid var(--bg-card);
   width: 130px;
   height: 41px;
   font-weight: 600;

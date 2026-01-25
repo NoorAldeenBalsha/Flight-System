@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useLanguage } from "../../context/LanguageContext"; 
 import Toast from "../toastAnimated";
 import LockIcon from "@material-ui/icons/Lock";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import ReCAPTCHA from "react-google-recaptcha";
 import "../../css/forgetPassword.css";
+import API from "../../services/api";
 // Forget Component
 const Forget = () => {
   // State: loading, toast, input type, language
@@ -22,7 +22,7 @@ const Forget = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!mail) {setToast({show: true,message: t("error_fill_all"),type: "error",});
+    if (!mail) {setToast({show: true,message: t.error_fill_all,type: "error",});
       return;
     }
 
@@ -32,27 +32,27 @@ const Forget = () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          lang, // نرسل اللغة للباك
+          lang, 
         },
       };
 
       if (!captchaToken) {
-      setToast({ show: true, message: t("please_verify_captcha"), type: "error" });
+      setToast({ show: true, message: t.please_verify_captcha, type: "error" });
       return;
       }
-      const res = await axios.post(
-        "http://localhost:5000/api/user/forgot-password",
+      const res = await API.post(
+        "/user/forgot-password",
         { email: mail ,recaptchaToken:captchaToken},
         config
       );
 
       setToast({
         show: true,
-        message: res.data?.message || t("success_check_email"),
+        message: res.data?.message || t.success_check_email,
         type: "success",
       });
 
-      setMail(""); // نفرغ الحقل بعد الإرسال
+      setMail("");
       setTimeout(()=>{
         window.location.href = "/reset-password";
       },5000);
@@ -60,7 +60,7 @@ const Forget = () => {
       const data = err.response?.data;
       setToast({
         show: true,
-        message: data?.errors?.[0]?.message || data?.message || t("error_server"),
+        message: data?.errors?.[0]?.message || data?.message || t.error_server,
         type: "error",
       });
     } finally {
@@ -69,51 +69,35 @@ const Forget = () => {
   };
   //=======================================================================================================
   return (
-    <>
-      {/* Toast Notifications */}
+    
+      <div className={`forgot-password-container ${lang === "ar" ? "rtl" : "ltr"}`}>
+        {/* Toast Notifications */}
       {toast.show && (
-        <Toast
-          show={toast.show}
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast({ ...toast, show: false })}
-        />
+        <Toast show={toast.show}  message={toast.message}  type={toast.type}  onClose={() => setToast({ ...toast, show: false })}/>
       )}
 
-      {/* عنوان الصفحة */}
-      <h4
-        style={{
-          marginTop: "6vh",
-          fontFamily: "Mulish",
-          textAlign: "center", // العنوان بالنص
-        }}
-      >
-        {t("forgot_password_title")}
+      <h4 style={{  marginTop: "1%",  fontFamily: "Mulish",  textAlign: "center", }}>
+        {t.forgot_password_title}
       </h4>
 
       <div className="forget">
         <p>
           <LockIcon style={{ fontSize: "1.2rem", color: "grey" }} />
           <span style={{ fontFamily: "Poppins", fontSize: "0.95rem" }}>
-            {t("forgot_password_description")}
+            {t.forgot_password_description}
           </span>
         </p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label
-              style={{
-                fontFamily: "Poppins",
-                fontWeight: "550",
-              }}
-            >
-              {t("email_label")} <MailOutlineIcon />
+            <label style={{  fontFamily: "Poppins",  fontWeight: "550", }}>
+              {t.email_label} <MailOutlineIcon />
             </label>
             <input
               type="email"
               className="form-control"
               style={{ width: "125%" }}
-              placeholder={t("email_placeholder")}
+              placeholder={t.email_placeholder}
               value={mail}
               onChange={handleChange}
             />
@@ -133,11 +117,12 @@ const Forget = () => {
             }}
             disabled={isLoading}
           >
-            {isLoading ? t("loading") : t("reset_password")}
+            {isLoading ? t.loading : t.reset_password}
           </button>
         </form>
       </div>
-    </>
+      </div>
+    
   );
 };
 //=======================================================================================================

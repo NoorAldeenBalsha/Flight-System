@@ -1,24 +1,22 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
-import CartContext from "../../context/cart/cartContext";
 import LoadingContext from "../../context/loading/loadingContext";
 import { useLanguage } from "../../context/LanguageContext";
 import Toast from "../toastAnimated";
-import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import jwtDecode from "jwt-decode";
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from "react-phone-input-2";
 import "../../css/auth.css"
+import API from "../../services/api";
 // Auth Component: Handles login and registration
 const Auth = () => {
   // State: Form data, loading, toast, input type, language
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
-  const { loadCart } = useContext(CartContext);
   const { Loader } = useContext(LoadingContext);
-  const { t, lang } = useLanguage();
+  const { lang,t } = useLanguage();
   const isMounted = useRef(true);
   const [flag, setFlag] = useState(0); // 0 = login, 1 = signup
   const [signUpData, setSignUpData] = useState({fullName: "",email: "",password: "",gender: "",phone: "",passportNumber: "",});
@@ -27,7 +25,7 @@ const Auth = () => {
   const [inputType, setInputType] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
-  
+
   //=======================================================================================================
   // Redirect if already authenticated
   useEffect(() => {
@@ -37,19 +35,18 @@ const Auth = () => {
   }, []);
   useEffect(() => {
     if (isAuthenticated) {
-      loadCart();
-      navigate.push("/");
+      navigate("/");
     }
-  }, [isAuthenticated, navigate, loadCart]);
+  }, [isAuthenticated, navigate]);
   //=======================================================================================================
   // Update Sign Up form state
   const handleSignUpChange = (e) =>setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   // Update Sign In form state  
   const handleSignInChange = (e) =>setSignInData({ ...signInData, [e.target.name]: e.target.value });
-
+  //This one for Update phone box
   const handlePhoneChange = (value) => {
-  setSignUpData({ ...signUpData, phone: value });
-};
+    setSignUpData({ ...signUpData, phone: value });
+  };
   //=======================================================================================================
   // Toggle between Sign In and Sign Up forms
   const toggleForm = () => setFlag(flag ^ 1);
@@ -63,7 +60,7 @@ const Auth = () => {
     if (!fullName || !email || !password || !gender || !phone || !passportNumber) {
       setToast({
         show: true,
-        message: t('error_fill_all'),
+        message: t.error_fill_all,
         type: 'error'
       });
       return;
@@ -79,11 +76,11 @@ try {
       }
     };
     if (!captchaToken) {
-      setToast({ show: true, message: t("please_verify_captcha"), type: "error" });
+      setToast({ show: true, message: t.please_verify_captcha, type: "error" });
       return;
     }
-    const res = await axios.post(
-      "http://localhost:5000/api/user/auth/register",
+    const res = await API.post(
+      "/user/auth/register",
       { ...signUpData,recaptchaToken:captchaToken}, 
       config
     );
@@ -106,7 +103,7 @@ try {
       if (data?.message) {
       setToast({show: true,message: data.message,type: 'error'});
     } else {
-      setToast({show: true,message: t('error_server'),type: 'error'});
+      setToast({show: true,message: t.error_server,type: 'error'});
     }
   } finally {
     setIsLoading(false);
@@ -118,7 +115,7 @@ try {
   const { email, password } = signInData;
 
   if (!email || !password) {
-    setToast({ show: true, message: t("error_fill_all"), type: "error" });
+    setToast({ show: true, message: t.error_fill_all, type: "error" });
     return;
   }
 
@@ -129,8 +126,8 @@ try {
         "lang": lang,
       },
     };
-    const res = await axios.post(
-      "http://localhost:5000/api/user/auth/login",
+    const res = await API.post(
+      "/user/auth/login",
       { ...signInData},
       config
     );
@@ -163,7 +160,7 @@ try {
     } else {
       setToast({
         show: true,
-        message: t("error_server"),
+        message: t.error_server,
         type: "error",
       });
     }
@@ -190,17 +187,17 @@ try {
       const credential = response.credential;
       const user = jwtDecode(credential);
       setIsLoading(true);
-      const res = await axios.post("http://localhost:5000/api/user/google-login", { credential });
+      const res = await API.post("/user/google-login", { credential });
 
       const {accessToken, refreshToken,userData}=res.data
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("user", JSON.stringify(userData));
-      setToast({ show: true, message: t("login_success"), type: "success" });
+      setToast({ show: true, message: t.login_success, type: "success" });
       setTimeout(() => {
       window.location.href = "/";
     });
     } catch (err) {
-      setToast({ show: true, message: t("error_server"), type: "error" });
+      setToast({ show: true, message: t.error_server, type: "error" });
     } finally {
       setIsLoading(false);
     }
@@ -223,13 +220,13 @@ try {
           <div className="signin-signup">
             {/* Sign In */}
             <form className="sign-in-form" onSubmit={handleSignInSubmit}>
-              <h2 className="title">{t("sign_in")}</h2>
+              <h2 className="title">{t.sign_in}</h2>
               <div className="input-field">
                 <i className="fas fa-user" />
                 <input
                   name="email"
                   type="email"
-                  placeholder={t("email")}
+                  placeholder={t.email}
                   value={signInData.email}
                   onChange={handleSignInChange}
                 />
@@ -239,26 +236,26 @@ try {
                 <input
                   name="password"
                   type={inputType}
-                  placeholder={t("password")}
+                  placeholder={t.password}
                   value={signInData.password}
                   onChange={handleSignInChange}
                 />
               </div>
-              <input type="submit" value={t("login")} className="btn" />
+              <input type="submit" value={t.login} className="btn" />
               <div id="google-signin-button" style={{ marginTop: "15px" }}></div>
-              <Link to="/forget">{t("forgot_password_title")}</Link>
+              <Link to="/forget">{t.forgot_password_title}</Link>
 
             </form>
 
             {/* Sign Up */}
             <form className="sign-up-form" onSubmit={handleSignUpSubmit}>
-              <h2 className="title">{t("sign_up")}</h2>
+              <h2 className="title">{t.sign_up}</h2>
               <div className="input-field">
                 <i className="fas fa-user" />
                 <input
                   name="fullName"
                   type="text"
-                  placeholder={t("full_name")}
+                  placeholder={t.full_name}
                   value={signUpData.fullName}
                   onChange={handleSignUpChange}
                 />
@@ -268,7 +265,7 @@ try {
                 <input
                   name="email"
                   type="email"
-                  placeholder={t("email")}
+                  placeholder={t.email}
                   value={signUpData.email}
                   onChange={handleSignUpChange}
                 />
@@ -276,10 +273,10 @@ try {
               <div className="input-field select-wrapper">
                 <i className="fas fa-venus-mars" />
                 <select name="gender" value={signUpData.gender} onChange={handleSignUpChange}>
-                  <option value="">{t("select_gender")}</option>
-                  <option value="male">{t("male")}</option>
-                  <option value="female">{t("female")}</option>
-                  <option value="other">{t("other")}</option>
+                  <option value="">{t.select_gender}</option>
+                  <option value="male">{t.male}</option>
+                  <option value="female">{t.female}</option>
+                  <option value="other">{t.other}</option>
                 </select>
               </div>
               <div className="input-field ">
@@ -294,7 +291,7 @@ try {
                   inputClass={lang === "ar" ? "rtl-input" : ""}
                   containerClass={lang === "ar" ? "rtl-container" : ""}
                   inputStyle={{
-                    backgroundColor: "#f0f0f0",
+                    backgroundColor: "var(--bg-main)",
                     margin: "10px 0",
                     height: "55px",
                     border: "none",
@@ -316,7 +313,7 @@ try {
                 <input
                   name="passportNumber"
                   type="text"
-                  placeholder={t("passport_number")}
+                  placeholder={t.passport_number}
                   value={signUpData.passportNumber}
                   onChange={handleSignUpChange}
                 />
@@ -325,7 +322,7 @@ try {
                 <i className="fas fa-lock" />
                 <input
                   name="password"
-                  type="password"placeholder={t("password")}
+                  type="password"placeholder={t.password}
                   value={signUpData.password}
                   onChange={handleSignUpChange}
                 />
@@ -334,7 +331,7 @@ try {
                 sitekey="6Lf4fMIrAAAAAODY0eqDV4PIp_nCcVh8lamiNGU4"
                 onChange={(token) => setCaptchaToken(token)}
               />
-              <input type="submit" className="btn" value={t("sign_up")} />
+              <input type="submit" className="btn" value={t.sign_up} />
             </form>
           </div>
         </div>
@@ -343,19 +340,19 @@ try {
         <div className="panels-container">
           <div className="panel left-panel">
             <div className="content">
-              <h3>{t("new_here")}</h3>
-              <p>{t("signup_prompt")}</p>
+              <h3>{t.new_here}</h3>
+              <p>{t.signup_prompt}</p>
               <button className="btn transparent" onClick={toggleForm}>
-                {t("sign_up")}
+                {t.sign_up}
               </button>
             </div>
           </div>
           <div className="panel right-panel">
             <div className="content">
-              <h3>{t("one_of_us")}</h3>
-              <p>{t("signin_prompt")}</p>
+              <h3>{t.one_of_us}</h3>
+              <p>{t.signin_prompt}</p>
               <button className="btn transparent" onClick={toggleForm}>
-                {t("sign_in")}
+                {t.sign_in}
               </button>
             </div>
           </div>

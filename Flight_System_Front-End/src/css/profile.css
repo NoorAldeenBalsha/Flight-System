@@ -6,7 +6,7 @@
   align-items: flex-start;
   padding: 50px 20px;
   overflow: hidden;
-  background-color: #87ceeb;
+  background-color: var(--accent);
 }
 
 /* Clouds Background */
@@ -28,51 +28,30 @@
 }
 
 /* Plane Animation */
-.plane1 {
-  position: absolute;
-  top: 100px;
-  left: -200px;
-  width: 75px;
-  height: 75px;
-  background: url('../images/plane.png') no-repeat center/contain;
-  animation: fly 25s linear infinite;
-  z-index: 1;
-}
-.plane2 {
-  position: absolute;
-  top: 200px;
-  left: -300px;
-  width: 75px;
-  height: 75px;
-  background: url('../images/plane.png') no-repeat center/contain;
-  animation: fly 25s linear infinite;
-  z-index: 1;
-}
-.plane3 {
-  position: absolute;
-  top: 300px;
-  left: -400px;
-  width: 75px;
-  height: 75px;
-  background: url('../images/plane.png') no-repeat center/contain;
-  animation: fly 25s linear infinite;
-  z-index: 1;
-}
+.plane1,
+.plane2,
+.plane3,
 .plane4 {
   position: absolute;
-  top: 400px;
-  left: -60px;
   width: 75px;
   height: 75px;
-  background: url('../images/plane.png') no-repeat center/contain;
-  animation: fly 25s linear infinite;
+  background: url('../images/plane.png') no-repeat center / contain;
+  animation: flyPlane 25s linear infinite;
   z-index: 1;
 }
 
-@keyframes fly {
-  0% { transform: translateX(-60px) rotate(0deg); }
-  50% { transform: translateX(50vw) rotate(15deg); }
-  100% { transform: translateX(120vw) rotate(0deg); }
+.plane1 { top: 100px; animation-delay: 0s; }
+.plane2 { top: 200px; animation-delay: 6s; }
+.plane3 { top: 300px; animation-delay: 12s; }
+.plane4 { top: 400px; animation-delay: 18s; }
+
+@keyframes flyPlane {
+  from {
+    left: -100px;
+  }
+  to {
+    left: 120vw;
+  }
 }
 
 /* Profile Card */
@@ -89,6 +68,7 @@
   flex-direction: column;
   align-items: center;
   transition: transform 0.3s, box-shadow 0.3s;
+  background-color:var(--bg-card);
 }
 
 .profile-card:hover {
@@ -117,7 +97,7 @@
   border-radius: 50%;
   overflow: hidden;
   border: 5px solid #fff;
-  background: #ccc;
+  background:var(--text-dark);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,7 +110,7 @@
   object-fit: cover;
 }
 .avatar-placeholder {
-  color: #666;
+  color: var(--text-secondary);
   font-weight: bold;
   text-align: center;
 }
@@ -140,11 +120,12 @@
   width: 90%;
   text-align: center;
   margin-top: 10px;
+  
 }
-.profile-info h2 { margin: 10px 0 5px; color: #1e3d59; }
-.about-me { font-style: italic; color: #555; margin-bottom: 15px; }
+.profile-info h2 { margin: 10px 0 5px; color: var(--heading); }
+.about-me { font-style: italic; color:var(--text-secondary); margin-bottom: 15px; }
 .profile-details { text-align: left; width: 100%; }
-.profile-details p, .profile-details label { margin: 5px 0; color: #333; font-size: 14px; }
+.profile-details p, .profile-details label { margin: 5px 0; color: var(--text-main); font-size: 14px; }
 .profile-details input, .profile-details select, .profile-details textarea {
   width: 100%;
   padding: 8px;
@@ -157,19 +138,19 @@
 /* Buttons */
 .profile-actions { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
 .profile-actions button { padding: 8px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-.save-btn { background-color: #1e90ff; color: #fff; }
-.edit-btn { background-color: #ffa500; color: #fff; }
+.save-btn-profile { background-color: var(--primary-light); color: #fff; }
+.edit-btn-profile { background-color:#ffa500; color: #fff; }
 .password-btn { background-color: #32cd32; color: #fff; }
 .profile-actions button:hover { opacity: 0.8; }
 
 /* Loading */
-.loading-text { text-align: center; font-size: 18px; color: #333; margin-top: 50px; }
+.loading-text { text-align: center; font-size: 18px; color: var(--text-main); margin-top: 50px; }
 /* أيقونات القلم */
 .edit-icon {
   position: absolute;
   cursor: pointer;
-  color: rgb(0, 0, 0);
-  background: rgba(255, 255, 255, 0.6);
+  color: var(--overlay-dark);
+  background:var(--text-muted);
   border-radius: 100%;
   padding: 5px;
   font-size: 10px;
@@ -177,7 +158,7 @@
 }
 
 .edit-icon:hover {
-  background: #1e90ff;
+  background:var(--primary-light);
   transform: scale(1.1);
 }
 
@@ -270,4 +251,10 @@
   height: 120px;
   object-fit: contain;
   margin-bottom: 10px;
+}
+
+/* السهم داخل لائحة البلدان */
+.phone-rtl .flag-dropdown .selected-flag .arrow {
+  right: 25px !important;
+  left: auto !important;
 }

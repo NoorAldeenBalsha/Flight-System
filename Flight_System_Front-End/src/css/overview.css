@@ -1,0 +1,7 @@
+.overview {padding: 20px;}
+.overview h1 {color: var(--text-main);margin-bottom: 10px;}
+.overview p {color: var(--text-secondary);}
+.overview-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;}
+.card-overview {background: var(--bg-card);padding: 25px;border-radius: 12px;box-shadow:var(--shadow-card);text-align: center;}
+.card-overview h3 {margin-bottom: 10px;color: var(--text-main);}
+.card .number {font-size: 32px;font-weight: bold;color: var(--text-main);}

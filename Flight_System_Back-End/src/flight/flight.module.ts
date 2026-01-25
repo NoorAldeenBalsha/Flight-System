@@ -12,6 +12,7 @@ import { TranslationModule } from '../translation/translation.module';
 import { TicketModule } from 'src/ticket/ticket.module';
 import { Ticket, TicketSchema } from 'src/ticket/schema/ticket.schema';
 import { ArchivedTicket, ArchivedTicketSchema } from 'src/ticket/schema/ticket-archive.schema';
+import { FlightAnalyticsService } from './analytice/flight-analytice.service';
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import { ArchivedTicket, ArchivedTicketSchema } from 'src/ticket/schema/ticket-a
 
   ],
   controllers: [FlightController],
-  providers: [FlightService,FlightStatusScheduler,FlightArchiveScheduler],
-  exports: [FlightService,MongooseModule],
+  providers: [FlightService,FlightStatusScheduler,FlightArchiveScheduler,FlightAnalyticsService],
+  exports: [FlightService,MongooseModule,FlightAnalyticsService],
 })
 export class FlightModule {}

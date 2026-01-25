@@ -1,0 +1,112 @@
+/* ===== Wrapper ===== */
+.plane-loader-wrapper {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #eaf3ff, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* ===== Sky ===== */
+.sky {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+}
+
+/* ===== Plane ===== */
+.plane {
+  position: absolute;
+  left: -80px;
+  top: 70px;
+  animation: fly 2.8s ease-in-out infinite;
+}
+
+.plane .body {
+  width: 80px;
+  height: 14px;
+  background: linear-gradient(120deg, #0f62fe, #00bfa6);
+  border-radius: 10px;
+}
+
+.plane .wing {
+  position: absolute;
+  top: 5px;
+  left: 25px;
+  width: 30px;
+  height: 12px;
+  background: #0f62fe;
+  transform: skew(-20deg);
+}
+
+.plane .tail {
+  position: absolute;
+  right: -10px;
+  top: -6px;
+  width: 12px;
+  height: 22px;
+  background: #00bfa6;
+  transform: skew(20deg);
+}
+
+/* ===== Clouds ===== */
+.cloud {
+  position: absolute;
+  width: 50px;
+  height: 20px;
+  background: #fff;
+  border-radius: 20px;
+  opacity: 0.9;
+  animation: clouds 4s linear infinite;
+}
+
+.c1 { top: 20px; left: 40px; animation-delay: 0s; }
+.c2 { top: 50px; left: 120px; animation-delay: 1s; }
+.c3 { top: 90px; left: 200px; animation-delay: 2s; }
+
+/* ===== Text ===== */
+.loading-text {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  color: #0f62fe;
+  letter-spacing: 1px;
+}
+
+/* ===== Animations ===== */
+@keyframes fly {
+  0% {
+    transform: translateX(0) translateY(0) rotate(2deg);
+  }
+  50% {
+    transform: translateX(180px) translateY(-10px) rotate(-2deg);
+  }
+  100% {
+    transform: translateX(360px) translateY(0) rotate(2deg);
+  }
+}
+
+@keyframes clouds {
+  0% {
+    transform: translateX(0);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(-120px);
+    opacity: 1;
+  }
+}
+
+/* ===== Dark Mode ===== */
+[data-theme="dark"] .plane-loader-wrapper {
+  background: linear-gradient(180deg, #0b1220, #121826);
+}
+
+[data-theme="dark"] .loading-text {
+  color: #7dd3fc;
+}

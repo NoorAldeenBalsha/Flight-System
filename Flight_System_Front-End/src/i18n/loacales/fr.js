@@ -1,0 +1,223 @@
+const fr = {
+  /*This for Auth page*/
+  sign_in: "Se connecter",
+  sign_up: "S'inscrire",
+  login: "Connexion",
+  logout: "Déconnexion",
+  email: "E-mail",
+  password: "Mot de passe",
+  show: "Afficher",
+  hide: "Masquer",
+  full_name: "Nom complet",
+  select_gender: "Sélectionner le genre",
+  male: "Homme",
+  female: "Femme",
+  other: "Autre",
+  phone: "Téléphone",
+  passport_number: "Numéro de passeport",
+  forgot_password_title: "Mot de passe oublié ?",
+  forgot_password_description:
+    "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+  email_label: "Adresse e-mail",
+  email_placeholder: "ex. email@domaine.com",
+  reset_password: "Réinitialiser le mot de passe",
+  verification_code: "Code de vérification",
+  new_password: "Nouveau mot de passe",
+  new_here: "Nouveau ici ?",
+  signup_prompt: "Alors inscrivez-vous et commencez à commander !",
+  one_of_us: "Déjà membre ?",
+  signin_prompt: "Alors connectez-vous et commencez !",
+  error_fill_all: "Veuillez remplir tous les champs",
+  error_invalid_email: "Format d’e-mail invalide",
+  error_wrong_credentials: "E-mail ou mot de passe incorrect",
+  error_network: "Aucune connexion au serveur",
+  error_server: "Erreur serveur, réessayez plus tard",
+  success_signup: "Compte créé avec succès",
+  success_login: "Connexion réussie",
+  success_reset_password: "Mot de passe réinitialisé avec succès",
+  success_check_email: "Vérifiez votre e-mail pour le code",
+  success: "Succès",
+  fail: "Erreur",
+  placeholder_code: "Entrez le code reçu",
+  placeholder_new_password: "Entrez le nouveau mot de passe",
+  placeholder_email: "ex. email@domaine.com",
+  please_verify_captcha: "Veuillez vérifier que vous n’êtes pas un robot",
+
+  /*==========================================================================================================*/
+  /*This for About us page */
+  nav_about: "À propos de nous",
+  nav_home: "Accueil",
+  nav_contact: "Contact",
+  hero_title: "À propos de Syrian Flight",
+  hero_subtitle: "Votre voyage commence avec nous ✈️",
+  who_title: "Qui sommes-nous",
+  who_text:
+    "Syrian Flight est une plateforme moderne de réservation de vols qui offre un moyen fluide et sécurisé de planifier vos voyages. Nous proposons un accès facile aux vols, des prix abordables et un support client fiable afin de garantir à chaque voyageur une expérience confortable et sans stress.",
+  mission_title: "Notre mission",
+  mission_text:
+    "Notre mission est de connecter les voyageurs à des destinations du monde entier avec confort, efficacité et confiance. Nous nous efforçons de rendre le voyage accessible à tous grâce à des services transparents et une expérience conviviale.",
+  vision_title: "Notre vision",
+  vision_text:
+    "Devenir la principale plateforme de voyage en ligne de la région, en offrant des solutions innovantes qui simplifient les voyages et inspirent les gens à explorer le monde.",
+  team_title: "Rencontrez notre équipe",
+  team_members_first_name: "Noor Aldeen Balsha",
+  team_members_first_role: "Développeur BackEnd & Data Science",
+  team_members_second_name: "Kinan Alesh",
+  team_members_second_role: "Développeur FrontEnd & Développeur Unity",
+  footer_text: "Tous droits réservés.",
+  switch_lang: "العربية",
+
+  /*==========================================================================================================*/
+  /*This one for Contact page */
+  contact_title: "Contactez-nous",
+  contact_name: "Nom",
+  contact_email: "E-mail",
+  contact_message: "Message",
+  contact_send: "Envoyer le message",
+
+  /*==========================================================================================================*/
+  /*This one for RgistrationSuccess */
+  RgistrationSuccess_success: "Succès !",
+  RgistrationSuccess_message:
+    "Compte créé avec succès ! Veuillez vérifier votre e-mail pour activer votre compte.",
+  RgistrationSuccess_login: "Aller à la connexion",
+
+  /*==========================================================================================================*/
+  /*This one for NavBar */
+  syrian_Flight: "Syrian Flight",
+  about_us: "À propos de nous",
+  contact_Us: "Contactez-nous",
+  home: "Accueil",
+  flights: "Vols",
+  data_analysis: "Analyse des données",
+  ar : 'arabe' ,
+  en :  'anglais' ,
+  de :  'allemand' ,
+  zh : 'chinois' ,
+  es :  'espagnol' ,
+  fr :  'français' ,
+  jp :  'japonais' ,
+  ru :  'russe' ,
+  tr :  'turc' ,
+  /*==========================================================================================================*/
+  /*This one for Profile page */
+  bio: "Bio",
+  birth_Country: "Pays de naissance",
+  residence_Country: "Pays de résidence",
+  select_birth_Country: "Sélectionner le pays de naissance",
+  select_residence_Country: "Sélectionner le pays de résidence",
+  gender: "Genre",
+  edit: "Modifier",
+  save: "Enregistrer",
+  dateOfBirth: "Date de naissance",
+  Image_uploaded_successfully: "Image téléchargée avec succès !",
+  Error_uploading_image: "Erreur lors du téléchargement de l’image",
+
+  /*==========================================================================================================*/
+  /*This one for footer */
+  footer_description:
+    "Syrian Flight est votre partenaire de confiance pour des expériences de voyage fluides à travers le monde",
+  quick_links: "Liens rapides",
+  follow_us: "Suivez-nous",
+  damascus_syria: "Damas, Syrie",
+  all_rights_reserved: "Tous droits réservés",
+
+  /*==========================================================================================================*/
+  /*This one for index page*/
+  index_hero_title: "Votre voyage commence ici",
+  index_hero_subtitle:
+    "Votre partenaire de confiance pour des solutions de transport aérien modernes et fluides.",
+  index_hero_button: "Plus d’informations",
+  index_about_title: "À propos de nous",
+  index_about_description:
+    "Chez FlightSystem, nous nous engageons à redéfinir le transport aérien avec confort, innovation et sécurité. Notre équipe garantit une expérience de vol moderne et fluide adaptée à vos besoins.",
+  index_about_button: "En savoir plus",
+  solution_title: "Solutions aéronautiques sur mesure",
+  solution_subtitle:
+    "Nous fournissons des services aéronautiques premium conçus pour répondre à vos besoins uniques en matière de voyage et de logistique avec précision, sécurité et confort.",
+  solution_private_title: "Vols charter privés",
+  solution_private_desc:
+    "Découvrez le voyage exclusif en jet privé pour les loisirs ou les affaires — luxe, confidentialité et flexibilité à votre service.",
+  solution_business_title: "Aviation d’affaires",
+  solution_business_desc:
+    "Vols sur mesure pour cadres, délégations et équipes d’entreprise — parce que votre temps mérite une efficacité exceptionnelle.",
+  solution_cargo_title: "Opérations de fret aérien",
+  solution_cargo_desc:
+    "Services de fret aérien rapides et sécurisés pour les envois précieux et urgents dans la région et au-delà.",
+  solution_services_title: "Services de support de vol",
+  solution_services_desc:
+"Support complet au sol et en vol, y compris la gestion, les autorisations et la coordination des vols 24h/24 et 7j/7.",
+    whyus_badge: "POURQUOI NOUS",
+    whyus_title: "Pourquoi choisir Syrian Flight ?",
+    whyus_subtitle: "Nous combinons expertise régionale, excellence opérationnelle et normes internationales pour offrir des services aéronautiques là où d’autres ne peuvent pas.",
+    whyus_global_title: "Portée locale et internationale",
+    whyus_global_desc: "Nous opérons dans les principaux aéroports de la région, garantissant l’accès où que votre voyage vous mène.",
+    whyus_ready_title: "Disponibilité opérationnelle 24/7",
+    whyus_ready_desc: "Notre équipe et nos équipements sont entièrement prêts à soutenir vos vols à tout moment et en tout lieu.",
+    whyus_partnership_title: "Partenariats de confiance",
+    whyus_partnership_desc: "Des relations solides avec les autorités aéronautiques et la gestion des aéroports garantissent des opérations fluides.",
+    whyus_quality_title: "Qualité et sécurité",
+    whyus_quality_desc: "Nous respectons les normes mondiales les plus élevées en matière de sécurité et de service pour chaque vol.",
+
+    /* ===================== Testimonials ===================== */
+    testi_badge: "AVIS CLIENTS",
+    testi_title: "Ce que disent nos clients",
+    testi_subtitl: "Nous sommes fiers de fournir des solutions aéronautiques reconnues par des clients du monde entier.",
+    testi_client1_name: "Michael Roberts",
+    testi_client1_role: "Cadre aérien",
+    testi_client1_quote: "La qualité du service et le support opérationnel sont exceptionnels. Un partenaire aéronautique de confiance.",
+    testi_client2_name: "Layla Ahmad",
+    testi_client2_role: "Coordinatrice de vols",
+    testi_client2_quote: "Professionnels, efficaces et toujours fiables. Ils ont rendu nos opérations en Syrie fluides.",
+    testi_client3_name: "John Smith",
+    testi_client3_role: "Responsable fret",
+    testi_client3_quote: "Excellente gestion et coordination. Nous ne pouvions pas demander un meilleur partenaire local.",
+
+    /* ===================== Reset Password ===================== */
+    reset_title: "Réinitialiser le mot de passe",
+    reset_subtitle: "Veuillez saisir votre e-mail, le code de vérification et le nouveau mot de passe.",
+    reset_emailLabel: "E-mail",
+    reset_emailPlaceholder: "exemple@email.com",
+    reset_codeLabel: "Code de vérification",
+    reset_codePlaceholder: "Entrez le code envoyé à votre e-mail",
+    reset_newPasswordLabel: "Nouveau mot de passe",
+    reset_newPasswordPlaceholder: "********",
+    confirmPasswordLabel: "Confirmer le mot de passe",
+    reset_confirmPasswordPlaceholder: "********",
+    reset_submitButton: "Réinitialiser le mot de passe",
+
+    /* ===================== Flights ===================== */
+    flights_title: "Vols disponibles",
+    flights_subtitle: "Explorez les meilleures routes et réservez votre prochain voyage.",
+    flights_create_button: "Créer un vol",
+    flights_no_available: "Aucun vol disponible actuellement.",
+    flights_departure: "Départ",
+    flights_arrival: "Arrivée",
+    flights_aircraft: "Avion",
+    flights_currency: "USD",
+    flight_number: "Numéro de vol",
+    book_now: "Réserver",
+    from: "De",
+    to: "À",
+    status_scheduled: "Programmé",
+    status_completed: "Terminé",
+    edit_flight: "Modifier le vol",
+    flights_scheduled: "Programmé",
+    flights_boarding: "Embarquement",
+    flights_delayed: "Retardé",
+    flights_completed: "Terminé",
+    flights_cancelled: "Annulé",
+    flights_status: "Statut",
+    flights_flightType: "Type de vol",
+    flights_gate: "Porte",
+    cancel: "Annuler",
+    flights_domestic: "Domestique",
+    flights_international: "International",
+    edit_flight_title: "Modifier le vol",
+    delete_flight: "Supprimer le vol",
+    create_new_flight: "Créer un nouveau vol",
+    revenue: "Revenu",
+    airlineCode: "Code de la compagnie aérienne",
+    originLocation: "Lieu d’origine (Lat, Lng)",
+      };
+export default fr;

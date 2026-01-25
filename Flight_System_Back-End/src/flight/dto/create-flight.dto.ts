@@ -6,7 +6,7 @@ export class TranslatedFieldDto {
   @ApiProperty({ example: 'Dubai', description: 'English name' })
   @IsString()
   @IsOptional()
-  en: string;
+  en?: string;
 
   @ApiProperty({ example: 'دبي', description: 'Arabic name', required: false })
   @IsString()

@@ -1,0 +1,12 @@
+.ticket-analytics-container {  padding: 20px;  font-family: "Cairo", sans-serif;  background-color:var(--bg-soft);  color:var(--text-main);  min-height: 100vh;
+}
+.ticket-stats h2 {  text-align: center;  font-size: 26px;  color: var(--text-main);margin-bottom: 20px;}
+.ticket-stats-cards { display: flex;  flex-wrap: wrap;  gap: 15px;  justify-content: center;  margin-bottom: 25px;}
+.ticket-card {  background-color: var(--bg-card);  border-radius: 20px;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  padding: 20px;text-align: center;  width: 32%;}
+.ticket-card h3 {  color: var( --text-main);  margin-bottom: 10px;  font-size: 18px;}
+.ticket-card p {  font-size: 20px;  font-weight: bold;  color: var(  --text-main);}
+.ticket-charts-grid {  align-items: center;  display: grid;grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));  gap: 30px;}
+.ticket-chart-box h4 {color: var(--text-main);}
+.ticket-chart-box  {  background: var(--bg-card);  border-radius: 20px;  width: 100%;  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);}
+.ticket-loading-container {  display: flex;  flex-direction: column;  align-items: center;  justify-content: center;  height: 80vh;}
+.ticket-loading-gif { width:80px;  height: 80px;  object-fit: contain;  margin-bottom: 10px;}

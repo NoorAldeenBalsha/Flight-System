@@ -1,27 +1,29 @@
 .about-container {
   font-family: "Poppins", "Cairo", sans-serif;
-  color: #333;
-  background-color: #f7f9fc;
+  color: var(--text-main);
+  background-color: var(--bg-card);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
 }
-
+.about-body{  background:var(--bg-section-alt);
+}
 /* ===== Hero Section ===== */
 .about-hero {
-  background-image: url("https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1");
+  background-image:  url("../images/syria.jpg");
   background-size: cover;
   background-position: center;
   height: 65vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #ffffff;
   position: relative;
+  width: 100%;;
 }
 
 .about-hero .overlay {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.45);
   padding: 40px;
   border-radius: 10px;
   backdrop-filter: blur(2px);
@@ -41,32 +43,32 @@
 /* ===== Sections ===== */
 .about-section {
   padding: 60px 10%;
-  background: #fff;
+  background: var(--bg-card);
   margin: 30px auto;
   border-radius: 10px;
   max-width: 1200px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-soft);
 }
 
 .about-section h2 {
-  color: #0056b3;
+  color: var(--text-main);
   margin-bottom: 15px;
   font-size: 1.8rem;
 }
 
 .about-section p {
   line-height: 1.8;
-  color: #555;
+  color: var(--text-secondary);
   font-size: 1.05rem;
 }
 
 /* ===== Team Section ===== */
 .about-team {
   padding: 60px 10%;
-  background-color: #e9f0fb;
+  background-color: var(--bg-section-alt);
   animation: fadeInUp 1s ease-in;
 }
-
+.about-team h2{  color: var(--text-main);}
 .team-grid {
   display: flex;
   justify-content: center;
@@ -75,17 +77,17 @@
 }
 
 .team-member {
-  background: #fff;
+  background: var(--bg-card);
   padding: 25px;
   border-radius: 12px;
   width: 250px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-card);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .team-member:hover {
   transform: translateY(-10px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-hover);
 }
 
 .team-member img {
@@ -97,22 +99,14 @@
 
 .team-member h3 {
   margin-bottom: 5px;
-  color: #1a73e8;
+  color: var(--text-main);
 }
 
 .team-member p {
-  color: #777;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 
-/* ===== Footer ===== */
-.about-footer {
-  background-color: #004b8d;
-  color: white;
-  padding: 20px 0;
-  margin-top: 40px;
-  font-size: 0.9rem;
-}
 
 /* ===== RTL Support ===== */
 .about-container.rtl {
@@ -129,6 +123,7 @@
   opacity: 0;
   animation: fadeIn 1.2s ease-in forwards;
 }
+
 .fade-in-up {
   opacity: 0;
   transform: translateY(40px);

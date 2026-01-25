@@ -12,11 +12,12 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.stategy';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { Flight, FlightSchema } from 'src/flight/schema/flight.schema';
+import { UserAnalyticsService } from './analytice/user-analytice.service';
 
 
 @Module({
   controllers: [UserController],
-  providers: [UserService, AuthProvider, JwtStrategy, GoogleStrategy],
+  providers: [UserService, AuthProvider, JwtStrategy, GoogleStrategy,UserAnalyticsService],
   imports: [
     DatabaseModule,
     MailModule,
@@ -43,6 +44,6 @@ import { Flight, FlightSchema } from 'src/flight/schema/flight.schema';
     }),
     ConfigModule,
   ],
-  exports: [UserService, JwtModule],
+  exports: [UserService, JwtModule,UserAnalyticsService],
 })
 export class UserModule {}

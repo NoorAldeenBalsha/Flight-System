@@ -17,26 +17,26 @@ const AuthState = (props) => {
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  // تسجيل مستخدم جديد
+  
 const register = async (formData) => {
   const config = { headers: { "Content-Type": "application/json" } };
   try {
     const res = await axios.post("http://localhost:5000/api/user/auth/register", formData, config);
 
-    // dispatch النجاح
+    
     dispatch({type: "REGISTER_SUCCESS", payload: { ...res.data, isAccountVerified: res.data.isAccountVerified || false }});
 
-    // إرجاع الرسالة للـ Auth.js
+   
     return res.data;
 
     } catch (err) {
  const errorData = err.response?.data || { message: "Unknown error" };
     dispatch({ type: "REGISTER_FAIL", payload: errorData });
-    throw err; // ✅ رجّع الخطأ للواجهة
+    throw err; 
     }
 };
 
-  // تسجيل الدخول
+  
   const login = async (formData) => {
     const config = { headers: { "Content-Type": "application/json" } };
     try {
@@ -45,15 +45,15 @@ const register = async (formData) => {
       localStorage.setItem("token", res.data.token);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
 
-      return res.data; // ✅ رجّع البيانات بالنجاح
+      return res.data; 
     } catch (err) {
  const errorData = err.response?.data || { message: "Unknown error" };
     dispatch({ type: "REGISTER_FAIL", payload: errorData });
-    throw err; // ✅ رجّع الخطأ للواجهة
+    throw err; 
     }
   };
 
-  // تسجيل الخروج
+ 
   const logout = async () => {
     try {
       await axios.post(

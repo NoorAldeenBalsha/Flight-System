@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useLanguage } from "../context/LanguageContext";
 import "../css/seatSelection.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Toast from "./toastAnimated";
+import API from "../services/api";
 
 const SeatSelection = () => {
   const { t, lang } = useLanguage();
@@ -20,8 +20,8 @@ const SeatSelection = () => {
     const fetchUser = async () => {
       try {
      
-        const res = await axios.get(
-          "http://localhost:5000/api/user/current-user",
+        const res = await API.get(
+          "/user/current-user",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUser(res.data);
@@ -40,7 +40,7 @@ const SeatSelection = () => {
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/tickets/flight/${flight._id}`);
+        const res = await API.get(`/tickets/flight/${flight._id}`);
         setLayout(res.data.layout);
       } catch (err) {
         console.error("Error fetching seat data", err);
@@ -67,7 +67,7 @@ const SeatSelection = () => {
   const handleReserve = async () => {
 
     try {
-      const bookingResponse=await axios.post('http://localhost:5000/api/tickets/book', 
+      const bookingResponse=await API.post('/tickets/book', 
       {      
         seatId: selectedSeat._id,
       userId: user._id,
@@ -78,9 +78,9 @@ const SeatSelection = () => {
       seatLetter:selectedSeat.seatLetter,
       seatNumber: selectedSeat.seatNumber}
       );
-        setToast({ show: true, message:t("select_Seat_pending_success") , type: "success" });
+        setToast({ show: true, message:t.select_Seat_pending_success , type: "success" });
         console.log(selectedSeat._id)
-        const paymentResponse=await axios.post('http://localhost:5000/api/payment/paypal',
+        const paymentResponse=await API.post('/payment/paypal',
           { ticketId:selectedSeat._id,
             userId:user._id
           },
@@ -94,10 +94,10 @@ const SeatSelection = () => {
           window.location.href = redirectUrl;
         }
         else{
-          setToast({ show: true, message:t("select_Seat_approveLink") , type: "error" });
+          setToast({ show: true, message:t.select_Seat_approveLink , type: "error" });
       }
     } catch (err) {
-      setToast({ show: true, message:t("select_Seat_reseving_seat") , type: "error" });
+      setToast({ show: true, message:t.select_Seat_reseving_seat , type: "error" });
     }
   };
   //=======================================================================================================
@@ -111,8 +111,8 @@ const SeatSelection = () => {
         <div className="seat-page">
           <div className="seat-selection-page">
             <div className="seat-header">
-              <h1>{t("select_Seat_title")}</h1>
-              <p>{t('select_seat_sub')}</p>
+              <h1>{t.select_Seat_title}</h1>
+              <p>{t.select_seat_sub}</p>
             </div>
 
             <div className="aircraft-container">
@@ -151,15 +151,15 @@ const SeatSelection = () => {
             <div className="seat-legend">
               <div className="legend-item">
                 <div className="legend-color available"></div>
-                <span>{t("select_Seat_Available")}</span>
+                <span>{t.select_Seat_Available}</span>
               </div>
               <div className="legend-item">
                 <div className="legend-color reserved"></div>
-                <span>{t("select_Seat_Reserved")}</span>
+                <span>{t.select_Seat_Reserved}</span>
               </div>
               <div className="legend-item">
                 <div className="legend-color selected"></div>
-                <span > {t("select_Seat_Selected")} </span>
+                <span > {t.select_Seat_Selected} </span>
               </div>
             </div>
           </div>
@@ -171,23 +171,23 @@ const SeatSelection = () => {
                 {/* left section */}
                 <div className="boarding-pass-left">
                   <div className="bp-header">
-                    <h2>{t('syrian_Flight')}</h2>
-                    <span>{t('select_Seat_ticket_sub')}</span>
+                    <h2>{t.syrian_Flight}</h2>
+                    <span>{t.select_Seat_ticket_sub}</span>
                   </div>
 
                   <div className="bp-info">
-                    <div><strong>{t('flight_number')}: </strong> {flight?.flightNumber }</div>
-                    <div><strong>{t('select_Seat_Boarding')}: </strong> {formatTime(boardingStart)}</div>
-                    <div><strong>{t('select_Seat_Boarding_till')}: </strong> {formatTime(boardingEnd)}</div>
-                    <div><strong>{t('select_Seat_Seat')}: </strong> {selectedSeat?.seatNumber}</div>
-                    <div><strong>{t('select_Seat_Class')}: </strong> 
+                    <div><strong>{t.flight_number}: </strong> {flight?.flightNumber }</div>
+                    <div><strong>{t.select_Seat_Boarding}: </strong> {formatTime(boardingStart)}</div>
+                    <div><strong>{t.select_Seat_Boarding_till}: </strong> {formatTime(boardingEnd)}</div>
+                    <div><strong>{t.select_Seat_Seat}: </strong> {selectedSeat?.seatNumber}</div>
+                    <div><strong>{t.select_Seat_Class}: </strong> 
                     {typeof selectedSeat.seatClass === "Object" ? selectedSeat.seatClass[lang] : selectedSeat.seatClass[lang]}</div>
-                    <div><strong>{t('select_Seat_seatPosition')}: </strong> 
+                    <div><strong>{t.select_Seat_seatPosition}: </strong> 
                     {typeof selectedSeat.seatPosition === "Object" ? selectedSeat.seatPosition[lang] : selectedSeat.seatPosition[lang]}</div>
-                    <div><strong>{t('select_Seat_seatSide')}: </strong> 
+                    <div><strong>{t.select_Seat_seatSide}: </strong> 
                     {typeof selectedSeat.seatSide === "object" ? selectedSeat.seatSide[lang] : selectedSeat.seatSide[lang]}</div>
-                    <div><strong>{t('select_Seat_status')}: </strong> {selectedSeat?.status}</div>
-                    <div><strong>{t('select_Seat_price')}: </strong> {selectedSeat?.price}</div>
+                    <div><strong>{t.select_Seat_status}: </strong> {selectedSeat?.status}</div>
+                    <div><strong>{t.select_Seat_price}: </strong> {selectedSeat?.price}</div>
                   </div>
 
                   <div className="bp-barcode-vertical"></div>
@@ -206,28 +206,28 @@ const SeatSelection = () => {
 
                   <div className="bp-main">
                     <div className="bp-row">
-                      <div><strong>{t('select_Seat_ticket_from')}: </strong> 
+                      <div><strong>{t.select_Seat_ticket_from}: </strong> 
                       {typeof flight.origin === "object" ? flight.origin[lang] : flight.origin}</div>
-                      <div><strong>{t('select_Seat_ticket_to')}: </strong> 
+                      <div><strong>{t.select_Seat_ticket_to}: </strong> 
                       {typeof flight.destination === "object" ? flight.destination[lang] : flight.destination}</div>
                     </div>
 
                     <div className="bp-row">
-                      <div><strong>{t('select_Seat_ticket_date')}: </strong> {formatDate(departure)}</div>
-                      <div><strong>{t('select_Seat_ticket_time')}: </strong> {formatTime(departure)}</div>
+                      <div><strong>{t.select_Seat_ticket_date}: </strong> {formatDate(departure)}</div>
+                      <div><strong>{t.select_Seat_ticket_time}: </strong> {formatTime(departure)}</div>
                     </div>
 
                     <div className="bp-row">
-                      <div><strong>{t('flights_gate')}: </strong> {flight?.gate || "A12"}</div>
-                      <div><strong>{t('select_Seat_Seat')}: </strong> {selectedSeat?.seatNumber}</div>
+                      <div><strong>{t.flights_gate}: </strong> {flight?.gate || "A12"}</div>
+                      <div><strong>{t.select_Seat_Seat}: </strong> {selectedSeat?.seatNumber}</div>
                     </div>
 
                     <div className="bp-row">
-                      <div><strong>{t('flight_number')}: </strong> {flight?.flightNumber || "EK2314"}</div>
+                      <div><strong>{t.flight_number}: </strong> {flight?.flightNumber || "EK2314"}</div>
                       
                     </div>
                       <div className="bp-row">
-                      <div><strong>{t('select_Seat_status')}: </strong> {flight?.status || "Scheduled"}</div>
+                      <div><strong>{t.select_Seat_status}: </strong> {flight?.status || "Scheduled"}</div>
                     </div>
                   </div>
 
@@ -238,10 +238,10 @@ const SeatSelection = () => {
               {/* buttons */}
               <div className="flight-ticket-footer">
                 <button className="ticket-btn-reserve" onClick={handleReserve}>
-                  {t('select_Seat_ticket_Book_now')}
+                  {t.select_Seat_ticket_Book_now}
                 </button>
                 <button className="ticket-btn-close" onClick={() => setSelectedSeat(null)}>
-                  {t('select_Seat_ticket_close')}
+                  {t.select_Seat_ticket_close}
                 </button>
               </div>
             </div>

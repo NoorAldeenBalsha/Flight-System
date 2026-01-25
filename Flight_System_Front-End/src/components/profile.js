@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useLanguage } from "../context/LanguageContext";
 import i18nIsoCountries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import "../css/profile.css";
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from "react-phone-input-2";
-import loadingGif from "../images/Spinner.gif"
+import loadingGif from "../images/Rocket.gif"
+import Toast from "./toastAnimated";
+import API from "../services/api";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const { lang, setLang, t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
   const token = localStorage.getItem("accessToken");
   const [uploading, setUploading] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const CHUNK_SIZE = 1024 * 1024; 
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
   //=======================================================================================================
@@ -28,8 +30,8 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
      
-        const res = await axios.get(
-          "http://localhost:5000/api/user/current-user",
+        const res = await API.get(
+          "/user/current-user",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUser(res.data);
@@ -49,14 +51,12 @@ const Profile = () => {
   //=======================================================================================================
   // Save the updated user information
   const handleSave = async () => {
-    
-    const gender=formData.gender.toLowerCase();
     try {
       const userId = formData.userId;
       const {_id,userId:_,role,gender,lastLogin,...cleanData}=formData;
       if (!userId) throw new Error("User ID not found!");
-      await axios.patch(
-        `http://localhost:5000/api/user/update/${userId}`,
+      await API.patch(
+        `/user/update/${userId}`,
         cleanData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -71,67 +71,67 @@ const Profile = () => {
   // Handle image upload (profile or cover picture)
   const handleFileChange = async (e, type) => {
     const token = localStorage.getItem("accessToken");
-  const file = e.target.files[0];
-  if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-  setUploading(true);
+    setUploading(true);
 
-  try {
-    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-    const uploadId = Date.now().toString();
-    let uploadedFileUrl = "";
+    try {
+      const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+      const uploadId = Date.now().toString();
+      let uploadedFileUrl = "";
 
-    // رفع جميع chunks
-    for (let chunkNumber = 0; chunkNumber < totalChunks; chunkNumber++) {
-      const start = chunkNumber * CHUNK_SIZE;
-      const end = Math.min(file.size, (chunkNumber + 1) * CHUNK_SIZE);
-      const chunk = file.slice(start, end);
+      // رفع جميع chunks
+      for (let chunkNumber = 0; chunkNumber < totalChunks; chunkNumber++) {
+        const start = chunkNumber * CHUNK_SIZE;
+        const end = Math.min(file.size, (chunkNumber + 1) * CHUNK_SIZE);
+        const chunk = file.slice(start, end);
 
-      const formData = new FormData();
-      formData.append("files", chunk, file.name);
-      formData.append("fileName", file.name);
-      formData.append("chunkNumber", chunkNumber.toString());
-      formData.append("totalChunks", totalChunks.toString());
-      formData.append("uploadId", uploadId);
+        const formData = new FormData();
+        formData.append("files", chunk, file.name);
+        formData.append("fileName", file.name);
+        formData.append("chunkNumber", chunkNumber.toString());
+        formData.append("totalChunks", totalChunks.toString());
+        formData.append("uploadId", uploadId);
 
-      const response = await axios.post(
-        "http://localhost:5000/api/upload/chunk",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await API.post(
+          "/upload/chunk",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        
+        if (response.data.secure_url) {
+          uploadedFileUrl = response.data.secure_url;
         }
-      );
+      }
 
       
-      if (response.data.secure_url) {
-        uploadedFileUrl = response.data.secure_url;
-      }
-    }
-
-    
-    if (uploadedFileUrl) {
-      await axios.patch(
-        `http://localhost:5000/api/user/update/${formData.userId}`,
-        {
-          [type]: uploadedFileUrl, 
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      if (uploadedFileUrl) {
+        await API.patch(
+          `/user/update/${formData.userId}`,
+          {
+            [type]: uploadedFileUrl, 
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+      setToast({ show: true, message:t.Image_uploaded_successfully , type: "success" });
+    } catch (error) {
+      setToast({ show: true, message:t.dash_error_deleting_user , type: "error" });
+      console.error(" Error uploading image:", error.response?.data || error);
+    } finally {
+      setUploading(false);
     }
-
-    alert(" Image uploaded successfully!");
-  } catch (error) {
-    console.error(" Error uploading image:", error.response?.data || error);
-  } finally {
-    setUploading(false);
-  }
   };
   //=======================================================================================================
   // Handle Phone change
@@ -141,11 +141,14 @@ const Profile = () => {
   //=======================================================================================================
   if (!user) return   <div className="loading-container">
       <img src={loadingGif} alt="Loading..." className="loading-gif" />
-      <p>جارٍ تحميل البيانات...</p>
+      <p> {t.loading_data}</p>
     </div>
   //=======================================================================================================
   return (
-  <div
+    <>
+    {toast.show && ( <Toast 
+            show={toast.show}message={toast.message}type={toast.type}onClose={() => setToast({ ...toast, show: false })}/>)}
+      <div
     className="profile-container">
       {/* Background Clouds */}
       <div className="cloud-background"></div>
@@ -204,28 +207,27 @@ const Profile = () => {
             {/* Edit mode for change information  */}
             {editMode ? (
               <>
-                <label>{t("full_name") || "Full Name"}</label>
+                <label>{t.full_name}</label>
                 <input type="text" name="fullName" value={formData.fullName || ""} onChange={handleChange} />
-                <label>{t("email") || "Email"}</label>
+                <label>{t.email }</label>
                 <input type="email" name="email" value={formData.email || ""} onChange={handleChange} />
-                <label>{t("phone") || "Phone"}</label>
+                <label>{t.phone }</label>
                 <PhoneInput
                   country={"sy"}
                   value={formData.phone}
                   onChange={handlePhoneChange}
                   enableSearch={true}
                   preferredCountries={["sy", "sa", "ae", "eg", "lb", "tr"]}
-                  placeholder={lang === "ar" ? "أدخل رقم هاتفك" : "Enter your phone"}
-                  inputClass={lang === "ar" ? "rtl" : ""}
-                  containerClass={lang === "ar" ? "rtl" : ""}
+                  placeholder={lang === "en" ? "أدخل رقم هاتفك" : "Enter your phone"}
+                  containerClass={lang === "ar" ? "phone-rtl" : ""}
                   inputStyle={{ width: "100%"}}
                 />
-                <label>{t("dateOfBirth") || "Date of Birth"}</label>
+                <label>{t.dateOfBirth}</label>
                <input type="date" name="dateOfBirth" value={formData.dateOfBirth || ""} onChange={handleChange} />
-                <label>{t("birth_Country") || "Birth Country"}</label>
+                <label>{t.birth_Country}</label>
                 <select name="birthCountry" value={formData.birthCountry || ""} onChange={handleChange}>
                 <option value="other">
-                  {t("select_birth_Country") || "Select Birth Country"}
+                  {t.select_birth_Country}
                 </option>
                 {countryOptions.map(([code, name]) => (
                   <option key={code} value={name}>
@@ -233,10 +235,10 @@ const Profile = () => {
                   </option>
                 ))}
                 </select>
-                <label>{t("residence_Country") || "Residence Country"}</label>
+                <label>{t.residence_Country}</label>
                 <select name="residenceCountry" value={formData.residenceCountry || ""} onChange={handleChange}>
                 <option value="other">
-                  {t("select_residence_Country") || "Select Residence Country"}
+                  {t.select_residence_Country}
                 </option>
                 {countryOptions.map(([e, name]) => (
                   <option key={e} value={name}>
@@ -244,26 +246,26 @@ const Profile = () => {
                   </option>
                 ))}
               </select>
-                <label>{t("select_gender") || "Select Gender"}</label>
+                <label>{t.select_gender}</label>
                 <select name="gender" value={formData.gender || "other"} onChange={handleChange}>
-                  <option value="other">{t("other") || "Other"}</option>
-                  <option value="male">{t("male") || "Male"}</option>
-                  <option value="female">{t("female") || "Female"}</option>
+                  <option value="other">{t.other}</option>
+                  <option value="male">{t.male}</option>
+                  <option value="female">{t.female}</option>
                 </select>
-                <label>{t("passport_number") || "Passport Number"}</label>
+                <label>{t.passport_number}</label>
                 <input type="text" name="passportNumber" value={formData.passportNumber || ""} onChange={handleChange} />
-                <label>{t("bio") || "Bio"}</label>
+                <label>{t.bio}</label>
                 <textarea name="bio" value={formData.bio || ""} onChange={handleChange} />
               </>
             ) : (
               <>
-                <p><strong>{t("email") || "Email"}:</strong> {user.email || "N/A"}</p>
-                <p><strong>{t("phone") || "Phone"}:</strong> {user.phone || "N/A"}</p>
-                <p><strong>{t("dateOfBirth") || "Date of birth"}:</strong> {new Date(user.dateOfBirth).toLocaleDateString() || "N/A"}</p>
-                <p><strong>{t("birth_Country") || "Birth Country"}:</strong> {user.birthCountry || "N/A"}</p>
-                <p><strong>{t("residence_Country") || "Residence Country"}:</strong> {user.residenceCountry || "N/A"}</p>
-                <p><strong>{t("gender") || "Gender"}:</strong> {user.gender || "N/A"}</p>
-                <p><strong>{t("passport_number") || "Passport Number"}:</strong> {user.passportNumber || "N/A"}</p>
+                <p><strong>{t.email}:</strong> {user.email || "N/A"}</p>
+                <p><strong>{t.phone}:</strong> {user.phone || "N/A"}</p>
+                <p><strong>{t.dateOfBirth}:</strong> {new Date(user.dateOfBirth).toLocaleDateString() || "N/A"}</p>
+                <p><strong>{t.birth_Country}:</strong> {user.birthCountry || "N/A"}</p>
+                <p><strong>{t.residence_Country}:</strong> {user.residenceCountry || "N/A"}</p>
+                <p><strong>{t.gender}:</strong> {user.gender || "N/A"}</p>
+                <p><strong>{t.passport_number}:</strong> {user.passportNumber || "N/A"}</p>
               </>
             )}
             </div>
@@ -272,15 +274,17 @@ const Profile = () => {
           <div className="profile-actions">
             {/*Buttons Edit mode*/}
             {editMode ? (
-              <button className="save-btn" onClick={handleSave}> {t("save") || "Save"}</button>
+              <button className="save-btn-profile" onClick={handleSave}> {t.save}</button>
             ) : (
-              <button className="edit-btn" onClick={() => setEditMode(true)}> {t("edit") || "Edit"}</button>
+              <button className="edit-btn-profile" onClick={() => setEditMode(true)}> {t.edit}</button>
             )}
-            <button className="password-btn" onClick={() => (window.location.href = "/forget")}> {t("reset_password") || " Reset Password"}</button>
+            <button className="password-btn" onClick={() => (window.location.href = "/forget")}> {t.reset_password}</button>
           </div>
         </div>
       </div>
     </div>
+    </>
+  
   );
 };
   //=======================================================================================================

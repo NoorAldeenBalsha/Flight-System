@@ -1,7 +1,6 @@
 import React,{ useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import API from "../../services/api";
 const VerifyEmail = () => {
   const { id, verificationToken } = useParams();
   const history = useNavigate();
@@ -10,11 +9,11 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verify = async () => {
       try {
-        const res = await axios.get(
-        `http://localhost:5000/api/user/auth/verify-email/${id}/${verificationToken}`
+        const res = await API.get(
+        `/user/auth/verify-email/${id}/${verificationToken}`
         );
         setMessage(res.data.message || "Email verified successfully!");
-        setTimeout(() => history.push("/auth"), 5000); // بعد 3 ثواني تحويل لصفحة تسجيل الدخول
+        setTimeout(() => history.push("/auth"), 5000);
       } catch (err) {
         setMessage(err.response?.data?.message || "Verification failed.");
       }

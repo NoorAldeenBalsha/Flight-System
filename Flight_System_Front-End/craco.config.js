@@ -2,18 +2,17 @@ const webpack = require("webpack");
 
 module.exports = {
   webpack: {
-    configure: (webpackConfig) => {
-      webpackConfig.resolve.fallback = {
-        ...webpackConfig.resolve.fallback,
+    configure: (config) => {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
         process: require.resolve("process/browser"),
       };
-      webpackConfig.plugins = [
-        ...webpackConfig.plugins,
+      config.plugins.push(
         new webpack.ProvidePlugin({
           process: "process/browser",
-        }),
-      ];
-      return webpackConfig;
+        })
+      );
+      return config;
     },
   },
 };
