@@ -7,11 +7,18 @@ import { useLanguage } from "../context/LanguageContext";
 import "../css/navBar.css";
 import EN from "../images/en.jpg"
 import AR from "../images/ar.png"
+import DE from "../images/de.png"
+import ES from "../images/es.png"
+import FR from "../images/fr.png"
+import ZH from "../images/zh.png"
+import RU from "../images/ru.png"
+import TR from "../images/tr.png"
+import JP from "../images/jp.png"
 import ThemeSwitcher from "./themeSwitcher";
 import API from "../services/api";
 
 
-export default function Navbar1(props) {
+export default function Navbar1() {
   const { lang, setLang, t } = useLanguage();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const langRef = useRef();
@@ -21,7 +28,17 @@ export default function Navbar1(props) {
   const [formData, setFormData] = useState({});
   const token = localStorage.getItem("accessToken");
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
-  const LANG_FLAGS = {en: EN,ar: AR};
+  const LANG_FLAGS = {
+    en: EN,
+    ar: AR,
+    de:DE,
+    zh:ZH,
+    ru:RU,
+    tr:TR,
+    es:ES,
+    fr:FR,
+    jp:JP
+  };
   //=======================================================================================================
   const authContext = useContext(AuthContext);
   if (!authContext) return null;
@@ -83,9 +100,7 @@ export default function Navbar1(props) {
       {/* Website title*/}
       <Navbar.Brand>
         <Link to="/" style={{ color: "#fff", fontWeight: "bold", fontSize: "1.3rem"  }}>
-           <span style={{ color: "#ffffffff", margin:"0.5rem"}} 
-           className="fas fa-plane-departure"></span>
-           { t("syrian_Flight") }
+           { t.syrian_Flight }
         </Link>
       </Navbar.Brand>
 
@@ -95,7 +110,7 @@ export default function Navbar1(props) {
         {!isAuthenticated && (
           <div className="navLogout">
             <Link to="/auth" style={{ color: "white", textDecoration: "none" }}>
-              <span className="bg_grey">{t("sign_in") || "Sign in"}</span>
+              <span className="bg_grey">{t.sign_in}</span>
             </Link>
           </div>
         )}
@@ -103,7 +118,7 @@ export default function Navbar1(props) {
         {/* Home */}
         <div className="navLogout">
           <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-            <span className="bg_grey">{t("home") || "Home"}</span>
+            <span className="bg_grey">{t.home}</span>
           </Link>
         </div>
 
@@ -113,21 +128,21 @@ export default function Navbar1(props) {
             {/* Flights */}
             <div className="navLogout">
               <Link to="/flights" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("flights") || "Flights"}</span>
+                <span className="bg_grey">{t.flights}</span>
               </Link>
             </div>
 
             {/* Contact */}
             <div className="navLogout">
               <Link to="/contact" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("contact_Us") || "Contact Us"}</span>
+                <span className="bg_grey">{t.contact_Us}</span>
               </Link>
             </div>
 
             {/* About */}
             <div className="navLogout">
               <Link to="/about-us" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey">{t("about_us") || "About Us"}</span>
+                <span className="bg_grey">{t.about_us}</span>
               </Link>
             </div>
 
@@ -135,7 +150,7 @@ export default function Navbar1(props) {
             {user?.role === "admin" && (
               <div className="navLogout">
                 <Link to="/admin" style={{ color: "white", textDecoration: "none" }}>
-                  <span className="bg_grey">{t("data_analysis") || "Data analysis"}</span>
+                  <span className="bg_grey">{t.data_analysis}</span>
                 </Link>
               </div>
             )}
@@ -144,7 +159,7 @@ export default function Navbar1(props) {
             <div className="navLogout">
               <Link to="/auth" style={{ color: "white", textDecoration: "none" }}>
                 <span className="bg_grey" onClick={handleLogout}>
-                  {t("logout") || "Logout"} <ExitToAppIcon />
+                  {t.logout} <ExitToAppIcon />
                 </span>
               </Link>
             </div>
@@ -155,7 +170,17 @@ export default function Navbar1(props) {
         <div className={`lang-dropdown-wrapper ${lang === "ar" ? "rtl-lang" : "ltr-lang"}`} ref={langRef}>
           <div className="lang-selected" onClick={() => setShowLangDropdown(!showLangDropdown)}>
             <img
-              src={lang === "en" ? LANG_FLAGS.en : LANG_FLAGS.ar}
+              src={
+              lang === "en" ? LANG_FLAGS.en :
+              lang === "ar" ? LANG_FLAGS.ar :
+              lang === "zh" ? LANG_FLAGS.zh :
+              lang === "tr" ? LANG_FLAGS.tr :
+              lang === "ru" ? LANG_FLAGS.ru :
+              lang === "es" ? LANG_FLAGS.es :
+              lang === "fr" ? LANG_FLAGS.fr :
+              lang === "de" ? LANG_FLAGS.de :
+              lang === "jp" ? LANG_FLAGS.jp :
+              LANG_FLAGS.en}
               alt="flag"
               className="lang-flag"
             />
@@ -163,21 +188,79 @@ export default function Navbar1(props) {
 
           {showLangDropdown && (
             <div className="lang-dropdown">
+               {/* Language En */}
               <div 
                 className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
                 onClick={() => { setLang("en"); setShowLangDropdown(false); }}
               >
                 <img src={LANG_FLAGS.en} alt="en" className="lang-flag" />
-                <span className="lang-label">English</span>
+                <span className="lang-label">{t.en}</span>
               </div>
-
+              {/* Language Es */}
+              <div 
+                className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
+                onClick={() => { setLang("es"); setShowLangDropdown(false); }}
+              >
+                <img src={LANG_FLAGS.es} alt="es" className="lang-flag" />
+                <span className="lang-label">{t.es}</span>
+              </div>
+              {/* Language Fn */}
+              <div 
+                className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
+                onClick={() => { setLang("fr"); setShowLangDropdown(false); }}
+              >
+                <img src={LANG_FLAGS.fr} alt="fr" className="lang-flag" />
+                <span className="lang-label">{t.fr}</span>
+              </div>
+              {/* Language DE */}
+              <div 
+                className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
+                onClick={() => { setLang("de"); setShowLangDropdown(false); }}
+              >
+                <img src={LANG_FLAGS.de} alt="de" className="lang-flag" />
+                <span className="lang-label">{t.de}</span>
+              </div>
+              {/* Language Tr */}
+              <div 
+                className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
+                onClick={() => { setLang("tr"); setShowLangDropdown(false); }}
+              >
+                <img src={LANG_FLAGS.tr} alt="tr" className="lang-flag" />
+                <span className="lang-label">{t.tr}</span>
+              </div>
+              {/* Language Ru */}
+              <div 
+                className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
+                onClick={() => { setLang("ru"); setShowLangDropdown(false); }}
+              >
+                <img src={LANG_FLAGS.ru} alt="ru" className="lang-flag" />
+                <span className="lang-label">{t.ru}</span>
+              </div>
+              {/* Language Zh */}
+              <div 
+                className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
+                onClick={() => { setLang("zh"); setShowLangDropdown(false); }}
+              >
+                <img src={LANG_FLAGS.zh} alt="zh" className="lang-flag" />
+                <span className="lang-label">{t.zh}</span>
+              </div>
+              {/* Language JP */}
+              <div 
+                className={`lang-option ${lang === "en" ? "active-lang" : ""}`} 
+                onClick={() => { setLang("jp"); setShowLangDropdown(false); }}
+              >
+                <img src={LANG_FLAGS.jp} alt="jp" className="lang-flag" />
+                <span className="lang-label">{t.jp}</span>
+              </div>
+              {/* Language Ar */}
               <div 
                 className={`lang-option ${lang === "ar" ? "active-lang" : ""}`} 
                 onClick={() => { setLang("ar"); setShowLangDropdown(false); }}
               >
                 <img src={LANG_FLAGS.ar} alt="ar" className="lang-flag" />
-                <span className="lang-label">العربية</span>
+                <span className="lang-label">{t.ar}</span>
               </div>
+
             </div>
           )}
         </div>

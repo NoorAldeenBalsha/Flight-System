@@ -1,23 +1,18 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import translations from "../i18n/translations";
+import React, { createContext, useState, useContext } from "react";
+import { languages,defaultlang } from "../i18n";
 import Cookies from "js-cookie"; 
 
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   
-  const [lang, setLang] = useState(() => Cookies.get("lang") || "en");
-
+  const [lang, setLang] = useState(() => Cookies.get("lang") || defaultlang);
   
-  const changeLang = (newLang) => {
-    setLang(newLang);
-    Cookies.set("lang", newLang, { expires: 365 }); 
-  };
-
-  const t = (key) => translations[lang][key] || key;
+  
+  const t=languages[lang];
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang: changeLang, t }}>
+    <LanguageContext.Provider value={{ lang, setLang, t }}>
       {children}
     </LanguageContext.Provider>
   );

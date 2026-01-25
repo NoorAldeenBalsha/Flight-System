@@ -37,7 +37,7 @@ const UsersPage = () => {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("accessToken");
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
   //=======================================================================================================
@@ -82,10 +82,10 @@ const UsersPage = () => {
      await axios.delete(`http://localhost:5000/api/user/delete/${userId}`, {
        headers: {Authorization: `Bearer ${token}`,},
     });
-    setToast({ show: true, message:t("dash_User_deleted_successfully") , type: "success" });
+    setToast({ show: true, message:t.dash_User_deleted_successfully , type: "success" });
   } catch (error) {
     console.error("Delete error:", error);
-    setToast({ show: true, message:t("dash_error_deleting_user") , type: "error" });
+    setToast({ show: true, message:t.dash_error_deleting_user , type: "error" });
 
   }
 };
@@ -94,11 +94,11 @@ const UsersPage = () => {
   if (loading) return (
       <div className="user-loading-container">
         <img src={LoadingGif} alt="Loading..." className="user-loading-gif" />
-        <p>{t("loading_data")}</p>
+        <p>{t.loading_data}</p>
       </div>
     );
 
-    if (!analytics) return <p>{t("dash_no_data_available")}</p>;
+    if (!analytics) return <p>{t.dash_no_data_available}</p>;
   //=======================================================================================================
   //Value for analytics
   const totalUsers = analytics.totalUsers ;
@@ -115,7 +115,7 @@ const UsersPage = () => {
     analytics.verifiedStats?.find(v => v._id === false)?.count || "null",
   ];
 
-  const verifiedLabels = [t("dash_Verified"), t("dash_Unverified")];
+  const verifiedLabels = [t.dash_Verified, t.dash_Unverified];
 
   const birthCountries = analytics.birthCountryDistribution?.map(c => c._id) || "null";
   const birthCounts = analytics.birthCountryDistribution?.map(c => c.count) || "null";
@@ -129,15 +129,15 @@ const UsersPage = () => {
         show={toast.show}message={toast.message}type={toast.type}onClose={() => setToast({ ...toast, show: false })}/>)}
 
       <div className="user-dashboard">
-        <h1 className="page-title-user">{t("dash_User_Analytics_Dashboard")}</h1>
+        <h1 className="page-title-user">{t.dash_User_Analytics_Dashboard}</h1>
         {/* First Section */}
         <div className="stats-cards-user">
           <div className="card-user">
-            <h3>{t("dash_Total_Users")}</h3>
+            <h3>{t.dash_Total_Users}</h3>
             <p>{totalUsers}</p>
           </div>
           <div className="card-user">
-            <h3> {t("dash_Active_accounts_in_the_last_30_days")}</h3>
+            <h3> {t.dash_Active_accounts_in_the_last_30_days}</h3>
             <p>{activeUsers30d}</p>
           </div>
         </div>
@@ -145,7 +145,7 @@ const UsersPage = () => {
         {/* Second Section */}
         <div className="charts-grid-user">
           <div className="chart-box-user">
-            <h3> {t("dash_Role_Distribution")}</h3>
+            <h3> {t.dash_Role_Distribution}</h3>
             <Pie data={{
               labels: roleLabels,
               datasets: [{ data: roleCounts, backgroundColor: ["#007bff", "#ffc107", "#dc3545"] }],
@@ -153,7 +153,7 @@ const UsersPage = () => {
           </div>
 
           <div className="chart-box-user">
-            <h3> {t("dash_Gender_distribution")}</h3>
+            <h3> {t.dash_Gender_distribution}</h3>
             <Pie data={{
               labels: genderLabels,
               datasets: [{ data: genderCounts, backgroundColor: ["#36a2eb", "#ff6384", "#999999"] }],
@@ -161,13 +161,13 @@ const UsersPage = () => {
           </div>
 
           <div className="chart-box-user">
-            <h3>{t("dash_Account_verification")}</h3>
+            <h3>{t.dash_Account_verification}</h3>
             <Bar
               data={{
                 labels: verifiedLabels,
                 datasets: [
                   {
-                    label: t("dash_Number_of_users"),
+                    label: t.dash_Number_of_users,
                     data: verifiedCounts,
                     backgroundColor: ["#28a745", "#6c757d"],
                   },
@@ -177,20 +177,20 @@ const UsersPage = () => {
           </div>
 
           <div className="chart-box-user">
-            <h3> {t("dash_Countries_of_birth")}</h3>
+            <h3> {t.dash_Countries_of_birth}</h3>
             <Bar
               data={{
-                labels: birthCountries,datasets: [{ label:t("dash_Number_of_users"), data: birthCounts, backgroundColor: "#17a2b8" }],
+                labels: birthCountries,datasets: [{ label:t.dash_Number_of_users, data: birthCounts, backgroundColor: "#17a2b8" }],
               }}
             />
           </div>
 
           <div className="chart-box-user">
-            <h3>{t("dash_Countries_of_residence")}</h3>
+            <h3>{t.dash_Countries_of_residence}</h3>
             <Bar
               data={{
                 labels: residenceCountries,
-                datasets: [{ label: t("dash_Number_of_users"), data: residenceCounts, backgroundColor: "#6610f2" }],
+                datasets: [{ label: t.dash_Number_of_users, data: residenceCounts, backgroundColor: "#6610f2" }],
               }}
             />
           </div>
@@ -198,18 +198,18 @@ const UsersPage = () => {
 
         {/* Third Section */}
         <div className="users-table">
-          <h2> {t("dash_User_List")}</h2>
+          <h2> {t.dash_User_List}</h2>
           {loading ? (
-            <p>{t("dash_Loading_users")}</p>
+            <p>{t.dash_Loading_users}</p>
           ) : (
             <table>
               <thead>
                 <tr>
-                  <th>{t("dash_image")}</th>
-                  <th>{t("dash_name")}</th>
-                  <th>{t("dash_email")}</th>
-                  <th>{t("dash_role")}</th>
-                  <th>{t("dash_delete")}</th>
+                  <th>{t.dash_image}</th>
+                  <th>{t.dash_name}</th>
+                  <th>{t.dash_email}</th>
+                  <th>{t.dash_role}</th>
+                  <th>{t.dash_delete}</th>
                 </tr>
               </thead>
               <tbody>
@@ -238,7 +238,7 @@ const UsersPage = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" style={{ textAlign: "center" }}> {t("dash_not_fetch_user_data")}</td>
+                    <td colSpan="4" style={{ textAlign: "center" }}> {t.dash_not_fetch_user_data}</td>
                   </tr>
                 )}
               </tbody>

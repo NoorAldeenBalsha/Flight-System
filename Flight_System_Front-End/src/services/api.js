@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:5000/api";
 
 const API = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true, // مهم للـ refresh token (httpOnly cookie)
+  withCredentials: true,
 });
 
 /* =========================
@@ -30,10 +30,13 @@ API.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const token = localStorage.getItem("accessToken");
 
+    // 🔑 لا refresh إذا ما في accessToken
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      token
     ) {
       originalRequest._retry = true;
 
@@ -44,7 +47,6 @@ API.interceptors.response.use(
         );
 
         const newAccessToken = res.data.accessToken;
-
         localStorage.setItem("accessToken", newAccessToken);
 
         originalRequest.headers.Authorization =
@@ -52,8 +54,8 @@ API.interceptors.response.use(
 
         return API(originalRequest);
       } catch (refreshError) {
+
         localStorage.removeItem("accessToken");
-        window.location.replace("/auth");
         return Promise.reject(refreshError);
       }
     }

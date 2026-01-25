@@ -1,0 +1,358 @@
+const ru = {
+  sign_in: "Войти",
+  sign_up: "Регистрация",
+  login: "Вход",
+  logout: "Выход",
+  email: "Электронная почта",
+  password: "Пароль",
+  show: "Показать",
+  hide: "Скрыть",
+  full_name: "Полное имя",
+  select_gender: "Выберите пол",
+  male: "Мужской",
+  female: "Женский",
+  other: "Другое",
+  phone: "Телефон",
+  passport_number: "Номер паспорта",
+  forgot_password_title: "Забыли пароль?",
+  forgot_password_description:
+    "Введите ваш адрес электронной почты, и мы отправим вам ссылку для сброса пароля.",
+  email_label: "Адрес электронной почты",
+  email_placeholder: "например, email@domain.com",
+  reset_password: "Сбросить пароль",
+  verification_code: "Код подтверждения",
+  new_password: "Новый пароль",
+  new_here: "Впервые здесь?",
+  signup_prompt: "Тогда зарегистрируйтесь и начните бронирование!",
+  one_of_us: "Уже с нами?",
+  signin_prompt: "Тогда войдите и начните работу!",
+  error_fill_all: "Пожалуйста, заполните все поля",
+  error_invalid_email: "Неверный формат электронной почты",
+  error_wrong_credentials: "Неверный email или пароль",
+  error_network: "Нет соединения с сервером",
+  error_server: "Ошибка сервера, попробуйте позже",
+  success_signup: "Аккаунт успешно создан",
+  success_login: "Успешный вход",
+  success_reset_password: "Пароль успешно сброшен",
+  success_check_email: "Проверьте вашу почту для получения кода",
+  success: "Успешно",
+  fail: "Ошибка",
+  placeholder_code: "Введите полученный код",
+  placeholder_new_password: "Введите новый пароль",
+  placeholder_email: "например, email@domain.com",
+  please_verify_captcha: "пожалуйста, подтвердите, что вы не робот",
+
+  /* About us */
+  nav_about: "О нас",
+  nav_home: "Главная",
+  nav_contact: "Контакты",
+  hero_title: "О компании Syrian Flight",
+  hero_subtitle: "Ваше путешествие начинается с нами ✈️",
+  who_title: "Кто мы",
+  who_text:
+    "Syrian Flight — это современная платформа бронирования авиабилетов, предоставляющая удобный и безопасный способ планирования путешествий. Мы предлагаем простой доступ к рейсам, доступные цены и надежную поддержку клиентов.",
+  mission_title: "Наша миссия",
+  mission_text:
+    "Наша миссия — соединять путешественников с направлениями по всему миру, обеспечивая комфорт, эффективность и доверие.",
+  vision_title: "Наше видение",
+  vision_text:
+    "Стать ведущей онлайн-платформой для путешествий в регионе, предлагая инновационные решения, упрощающие путешествия.",
+  team_title: "Наша команда",
+  team_members_first_name: "Noor Aldeen Balsha",
+  team_members_first_role: "Backend-разработчик и Data Scientist",
+  team_members_second_name: "Kinan Alesh",
+  team_members_second_role: "Frontend-разработчик и Unity-разработчик",
+  footer_text: "Все права защищены.",
+  switch_lang: "العربية",
+
+  /* Contact */
+  contact_title: "Связаться с нами",
+  contact_name: "Имя",
+  contact_email: "Электронная почта",
+  contact_message: "Сообщение",
+  contact_send: "Отправить сообщение",
+
+  /* Registration Success */
+  RgistrationSuccess_success: "Успех!",
+  RgistrationSuccess_message:
+    "Аккаунт успешно создан! Пожалуйста, проверьте вашу почту для подтверждения.",
+  RgistrationSuccess_login: "Перейти к входу",
+
+  /* NavBar */
+  syrian_Flight: "Syrian Flight",
+  about_us: "О нас",
+  contact_Us: "Контакты",
+  home: "Главная",
+  flights: "Рейсы",
+  data_analysis: "Анализ данных",
+  ar: "Арабский",
+   en: 'Английский',
+    de: 'Немецкий',
+     zh: 'Китайский',
+      es: 'Испанский',
+       fr: 'Французский',
+        jp: 'Японский',
+         ru: 'Русский',
+          tr: 'Турецкий',
+
+  /* Profile */
+  bio: "О себе",
+  birth_Country: "Страна рождения",
+  residence_Country: "Страна проживания",
+  select_birth_Country: "Выберите страну рождения",
+  select_residence_Country: "Выберите страну проживания",
+  gender: "Пол",
+  edit: "Редактировать",
+  save: "Сохранить",
+  dateOfBirth: "Дата рождения",
+  Image_uploaded_successfully: "Изображение успешно загружено!",
+  Error_uploading_image: "Ошибка загрузки изображения",
+
+  /* Footer */
+  footer_description:
+    "Syrian Flight — ваш надежный партнер для комфортных путешествий по всему миру",
+  quick_links: "Быстрые ссылки",
+  follow_us: "Подписывайтесь на нас",
+  damascus_syria: "Дамаск, Сирия",
+  all_rights_reserved: "Все права защищены",
+
+  /* Index */
+index_hero_title: "Ваше путешествие начинается здесь",
+  index_hero_subtitle:
+    "Ваш надежный партнер для современных и удобных авиаперелетов.",
+  index_hero_button: "Подробнее",
+  index_about_title: "О нас",
+  index_about_description:
+    "В FlightSystem мы стремимся переосмыслить авиаперелеты, сочетая комфорт, инновации и безопасность.",
+  index_about_button: "Узнать больше",
+
+  solution_title: "Индивидуальные авиационные решения",
+  solution_subtitle:
+    "Мы предоставляем премиальные авиационные услуги с точностью, безопасностью и комфортом.",
+  solution_private_title: "Частные чартерные рейсы",
+  solution_private_desc:
+    "Эксклюзивные частные перелеты для отдыха и бизнеса — роскошь и гибкость.",
+  solution_business_title: "Бизнес-авиация",
+  solution_business_desc:
+    "Перелеты для руководителей и корпоративных команд с максимальной эффективностью.",
+  solution_cargo_title: "Грузовые авиаперевозки",
+  solution_cargo_desc:
+    "Быстрая и безопасная доставка ценных и срочных грузов.",
+  solution_services_title: "Службы поддержки рейсов",
+  solution_services_desc:
+    "Полная наземная и воздушная поддержка, включая разрешения и координацию 24/7.",
+
+  whyus_badge: "ПОЧЕМУ МЫ",
+  whyus_title: "Почему выбирают Syrian Flight?",
+  whyus_subtitle:
+    "Мы сочетаем региональный опыт и международные стандарты.",
+  whyus_global_title: "Локальный и глобальный охват",
+  whyus_global_desc:
+    "Мы работаем в ключевых аэропортах региона и за его пределами.",
+  whyus_ready_title: "Готовность 24/7",
+  whyus_ready_desc:
+    "Наша команда готова поддержать ваши рейсы в любое время.",
+  whyus_partnership_title: "Надежные партнерства",
+  whyus_partnership_desc:
+    "Прочные связи с авиационными властями обеспечивают бесперебойную работу.",
+  whyus_quality_title: "Качество и безопасность",
+  whyus_quality_desc:
+    "Мы соблюдаем высочайшие международные стандарты безопасности.",
+
+  testi_badge: "ОТЗЫВЫ КЛИЕНТОВ",
+  testi_title: "Что говорят наши клиенты",
+  testi_subtitl:
+    "Нам доверяют авиационные клиенты по всему миру.",
+  testi_client1_name: "Michael Roberts",
+  testi_client1_role: "Руководитель авиакомпании",
+  testi_client1_quote:
+    "Высочайшее качество сервиса и поддержки.",
+  testi_client2_name: "Layla Ahmad",
+  testi_client2_role: "Координатор рейсов",
+  testi_client2_quote:
+    "Профессионально, эффективно и надежно.",
+  testi_client3_name: "John Smith",
+  testi_client3_role: "Менеджер по грузоперевозкам",
+  testi_client3_quote:
+    "Отличная координация и обслуживание.",
+  /* Reset password */
+  reset_title: "Сброс пароля",
+  reset_subtitle:
+    "Пожалуйста, введите ваш email, код подтверждения и новый пароль.",
+  reset_emailLabel: "Электронная почта",
+  reset_emailPlaceholder: "example@email.com",
+  reset_codeLabel: "Код подтверждения",
+  reset_codePlaceholder: "Введите код, отправленный на вашу почту",
+  reset_newPasswordLabel: "Новый пароль",
+  reset_newPasswordPlaceholder: "********",
+  confirmPasswordLabel: "Подтвердите пароль",
+  reset_confirmPasswordPlaceholder: "********",
+  reset_submitButton: "Сбросить пароль",
+
+  /* Flights page */
+  flights_title: "Доступные рейсы",
+  flights_subtitle:
+    "Изучите лучшие маршруты и забронируйте ваше следующее путешествие.",
+  flights_create_button: "Создать рейс",
+  flights_no_available: "В данный момент рейсы недоступны.",
+  flights_departure: "Вылет",
+  flights_arrival: "Прибытие",
+  flights_aircraft: "Самолёт",
+  flights_currency: "USD",
+  flight_number: "Номер рейса",
+  book_now: "Забронировать",
+  from: "От",
+  to: "До",
+  status_scheduled: "Запланирован",
+  status_completed: "Завершён",
+  edit_flight: "Редактировать рейс",
+  flights_scheduled: "Запланирован",
+  flights_boarding: "Посадка",
+  flights_delayed: "Задержан",
+  flights_completed: "Завершён",
+  flights_cancelled: "Отменён",
+  flights_status: "Статус",
+  flights_flightType: "Тип рейса",
+  flights_gate: "Выход",
+  cancel: "Отмена",
+  flights_domestic: "Внутренний",
+  flights_international: "Международный",
+  edit_flight_title: "Редактировать рейс",
+  delete_flight: "Удалить рейс",
+  create_new_flight: "Создать новый рейс",
+  revenue: "Доход",
+  airlineCode: "Код авиакомпании",
+  originLocation: "Место отправления (шир., долг.)",
+  destinationLocation: "Место назначения (шир., долг.)",
+  saveFlight: "Сохранить рейс",
+  flights_update_success: "Рейс успешно обновлён",
+  flights_update_error: "Ошибка обновления рейса",
+  flights_create_success: "Рейс успешно создан",
+  flights_create_error: "Ошибка создания рейса",
+  flights_delete_success: "Рейс успешно удалён",
+  flights_delete_error: "Ошибка удаления рейса",
+  error_fields:
+    "Пожалуйста, заполните следующие поля перед созданием рейса:",
+  erorr_get_flight: "Произошла ошибка при получении рейсов",
+  flights_go_back_button: "Назад",
+  flights_Qamishli: "Камышлы",
+  flights_Deir_ez_Zor: "Дейр-эз-Зор",
+  flights_Damascus: "Дамаск",
+  flights_Latakia: "Латакия",
+  flights_Aleppo: "Алеппо",
+  filter: "Фильтр",
+  apply: "Применить",
+  reset: "Сбросить",
+
+  /* Seat selection */
+  select_Seat_title: "Выберите лучшее место",
+  select_seat_sub: "Забронируйте место, подходящее для вашей поездки",
+  select_Seat_Boarding: "Посадка",
+  select_Seat_Boarding_till: "Посадка до",
+  select_Seat_Seat: "Место",
+  select_Seat_Class: "Класс",
+  select_Seat_seatPosition: "Расположение места",
+  select_Seat_seatSide: "Сторона места",
+  select_Seat_status: "Статус",
+  select_Seat_price: "Цена",
+  select_Seat_Available: "Доступно",
+  select_Seat_Reserved: "Забронировано",
+  select_Seat_Selected: "Выбрано",
+  select_Seat_ticket_sub: "ПОСАДОЧНЫЙ ТАЛОН",
+  select_Seat_ticket_from: "От",
+  select_Seat_ticket_to: "До",
+  select_Seat_ticket_date: "Дата",
+  select_Seat_ticket_time: "Время",
+  select_Seat_ticket_Book_now: "Забронировать",
+  select_Seat_ticket_close: "Закрыть",
+  select_Seat_pending_success: "Место успешно забронировано.",
+  select_Seat_approveLink: "Ошибка подтверждения ссылки",
+  select_Seat_reseving_seat: "Ошибка бронирования места",
+
+  /* Payment success */
+  Payment_successful: "Платёж успешно выполнен! Билет подтверждён.",
+  Payment_not_completed: "Платёж не завершён. Пожалуйста, попробуйте снова.",
+  Error_capturing_payment: "Ошибка при обработке платежа",
+  successfully_purchased: "Билет успешно приобретён!",
+  thanks_for_choose:
+    "Спасибо за выбор нашей туристической компании. Желаем приятного и безопасного путешествия.",
+  Ticket_Information: "Информация о билете",
+  seat_number: "Номер места:",
+  ticket_id: "ID билета:",
+  status_paid: "Оплачен",
+  go_back_home: "Вернуться на главную страницу",
+loading_data: "Загрузка данных...",
+
+  /* Fail page */
+  fail_title: "Ошибка при покупке",
+  fail_sub: "К сожалению, покупка билета не удалась.",
+  fail_sub2:
+    "Пожалуйста, попробуйте позже или свяжитесь со службой поддержки.",
+
+  /* Dashboard */
+  dash_no_data_available: "Нет доступных данных",
+  dash_total_revenue: "Общий доход ($)",
+  dash_number_of_tickets_sold: "Количество проданных билетов",
+  dash_seat_number: "Номер места",
+  dash_number_tickets: "Количество билетов",
+  dash_sales_statistics: "Статистика продаж",
+  dash_total_tickets: "Всего билетов",
+  dash_average_price: "Средняя цена",
+  dash_monthly_revenues_and_sales: "Ежемесячные доходы и продажи",
+  dash_seating_categories_distribution:
+    "Распределение категорий мест",
+  dash_top_purchasing_users: "Пользователи с наибольшими покупками",
+  dash_trip_data_analysis_dashboard:
+    "Панель анализа данных поездок",
+  dash_total_flights: "Всего рейсов",
+  dash_archived_trips_from_the_last_30_days:
+    "Архивированные рейсы за последние 30 дней",
+  dash_flight_status_distribution:
+    "Распределение статусов рейсов",
+  dash_distribution_of_flight_cases:
+    "Распределение состояний рейсов",
+  dash_use_of_aircraft_types: "Использование типов самолётов",
+  dash_the_most_active_cities: "Самые активные города",
+  dash_the_most_accessible_cities: "Самые доступные города",
+  dash_monthly_trips_schedule: "Ежемесячное расписание рейсов",
+  dash_number_of_trips: "Количество рейсов",
+  dash_number_of_uses: "Количество использований",
+  dash_departing_flights: "Вылетающие рейсы",
+  dash_descending_flights: "Прилетающие рейсы",
+  dash_number_of_monthly_trips: "Количество рейсов в месяц",
+  dash_Verified: "Подтверждён",
+  dash_Unverified: "Не подтверждён",
+  dash_Total_Users: "Всего пользователей",
+  dash_Active_accounts_in_the_last_30_days:
+    "Активные аккаунты за последние 30 дней",
+  dash_Role_Distribution: "Распределение ролей",
+  dash_Gender_distribution: "Распределение по полу",
+  dash_Account_verification: "Подтверждение аккаунта",
+  dash_Number_of_users: "Количество пользователей:",
+  dash_Countries_of_birth: "Страны рождения",
+  dash_Countries_of_residence: "Страны проживания",
+  dash_User_List: "Список пользователей",
+  dash_Loading_users: "Загрузка пользователей...",
+  dash_image: "Изображение",
+  dash_name: "Имя",
+  dash_email: "Email",
+  dash_role: "Роль",
+  dash_delete: "Удалить",
+  dash_not_fetch_user_data: "Не удалось получить данные пользователя.",
+  dash_User_Analytics_Dashboard:
+    "Панель аналитики пользователей",
+  dash_Home_title: "Главная страница",
+  dash_Home_subtitle:
+    "Общий обзор пользователей, рейсов и билетов",
+  dash_ticket: "Билеты",
+  dash_users: "Пользователи",
+  dash_flight: "Рейсы",
+  dash_Control_Panel: "Панель управления",
+  dash_User_deleted_successfully:
+    "Пользователь успешно удалён",
+  dash_User_deleting_user: "Удаление пользователя",
+  dash_sure_deleting:
+    "Вы уверены, что хотите удалить этого пользователя?"
+};
+
+export default ru;

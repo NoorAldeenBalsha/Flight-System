@@ -62,27 +62,27 @@ const AdminDashboard = () => {
     return (
       <div className="admin-loading-container">
         <img src={LoadingGif} alt="Loading..." className="admin-loading-gif" />
-        <p>{t("loading_data")}</p>
+        <p>{t.loading_data}</p>
       </div>
     );
 
-  if (!userStats||!flightStats||!ticketStats) return <p>{t("dash_no_data_available")}</p>;
+  if (!userStats||!flightStats||!ticketStats) return <p>{t.dash_no_data_available}</p>;
   //=======================================================================================================
   return (
     <div className="dashboard-container">
       <header className="admin-header" ref={dropdownRef}>
         {/* First Section */}
         <div className="header-btn" onClick={() => setOpen((p) => !p)}>
-          <span> ☰{t("dash_Control_Panel")}</span>
+          <span> ☰{t.dash_Control_Panel}</span>
           <span className="arrow">{open ? "▲" : "▼"}</span>
         </div>
         {/* Second Section */}
         {open && (
           <div className="dropdown-menu">
-            <Link to="/admin" onClick={() => setOpen(false)}>{t("dash_Home_title")}</Link>
-            <Link to="/admin/users" onClick={() => setOpen(false)}>{t("dash_users")}</Link>
-            <Link to="/admin/flights" onClick={() => setOpen(false)}>{t("dash_flight")}</Link>
-            <Link to="/admin/tickets" onClick={() => setOpen(false)}>{t("dash_ticket")}</Link>
+            <Link to="/admin" onClick={() => setOpen(false)}>{t.dash_Home_title}</Link>
+            <Link to="/admin/users" onClick={() => setOpen(false)}>{t.dash_users}</Link>
+            <Link to="/admin/flights" onClick={() => setOpen(false)}>{t.dash_flight}</Link>
+            <Link to="/admin/tickets" onClick={() => setOpen(false)}>{t.dash_ticket}</Link>
           </div>
         )}
       </header>

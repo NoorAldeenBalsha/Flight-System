@@ -11,7 +11,7 @@ import API from "../services/api";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const { lang, setLang, t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
   const token = localStorage.getItem("accessToken");
@@ -125,9 +125,9 @@ const Profile = () => {
           }
         );
       }
-      setToast({ show: true, message:t("Image_uploaded_successfully") , type: "success" });
+      setToast({ show: true, message:t.Image_uploaded_successfully , type: "success" });
     } catch (error) {
-      setToast({ show: true, message:t("dash_error_deleting_user") , type: "error" });
+      setToast({ show: true, message:t.dash_error_deleting_user , type: "error" });
       console.error(" Error uploading image:", error.response?.data || error);
     } finally {
       setUploading(false);
@@ -141,7 +141,7 @@ const Profile = () => {
   //=======================================================================================================
   if (!user) return   <div className="loading-container">
       <img src={loadingGif} alt="Loading..." className="loading-gif" />
-      <p> {t("loading_data")}</p>
+      <p> {t.loading_data}</p>
     </div>
   //=======================================================================================================
   return (
@@ -207,11 +207,11 @@ const Profile = () => {
             {/* Edit mode for change information  */}
             {editMode ? (
               <>
-                <label>{t("full_name") || "Full Name"}</label>
+                <label>{t.full_name}</label>
                 <input type="text" name="fullName" value={formData.fullName || ""} onChange={handleChange} />
-                <label>{t("email") || "Email"}</label>
+                <label>{t.email }</label>
                 <input type="email" name="email" value={formData.email || ""} onChange={handleChange} />
-                <label>{t("phone") || "Phone"}</label>
+                <label>{t.phone }</label>
                 <PhoneInput
                   country={"sy"}
                   value={formData.phone}
@@ -222,12 +222,12 @@ const Profile = () => {
                   containerClass={lang === "ar" ? "phone-rtl" : ""}
                   inputStyle={{ width: "100%"}}
                 />
-                <label>{t("dateOfBirth") || "Date of Birth"}</label>
+                <label>{t.dateOfBirth}</label>
                <input type="date" name="dateOfBirth" value={formData.dateOfBirth || ""} onChange={handleChange} />
-                <label>{t("birth_Country") || "Birth Country"}</label>
+                <label>{t.birth_Country}</label>
                 <select name="birthCountry" value={formData.birthCountry || ""} onChange={handleChange}>
                 <option value="other">
-                  {t("select_birth_Country") || "Select Birth Country"}
+                  {t.select_birth_Country}
                 </option>
                 {countryOptions.map(([code, name]) => (
                   <option key={code} value={name}>
@@ -235,10 +235,10 @@ const Profile = () => {
                   </option>
                 ))}
                 </select>
-                <label>{t("residence_Country") || "Residence Country"}</label>
+                <label>{t.residence_Country}</label>
                 <select name="residenceCountry" value={formData.residenceCountry || ""} onChange={handleChange}>
                 <option value="other">
-                  {t("select_residence_Country") || "Select Residence Country"}
+                  {t.select_residence_Country}
                 </option>
                 {countryOptions.map(([e, name]) => (
                   <option key={e} value={name}>
@@ -246,26 +246,26 @@ const Profile = () => {
                   </option>
                 ))}
               </select>
-                <label>{t("select_gender") || "Select Gender"}</label>
+                <label>{t.select_gender}</label>
                 <select name="gender" value={formData.gender || "other"} onChange={handleChange}>
-                  <option value="other">{t("other") || "Other"}</option>
-                  <option value="male">{t("male") || "Male"}</option>
-                  <option value="female">{t("female") || "Female"}</option>
+                  <option value="other">{t.other}</option>
+                  <option value="male">{t.male}</option>
+                  <option value="female">{t.female}</option>
                 </select>
-                <label>{t("passport_number") || "Passport Number"}</label>
+                <label>{t.passport_number}</label>
                 <input type="text" name="passportNumber" value={formData.passportNumber || ""} onChange={handleChange} />
-                <label>{t("bio") || "Bio"}</label>
+                <label>{t.bio}</label>
                 <textarea name="bio" value={formData.bio || ""} onChange={handleChange} />
               </>
             ) : (
               <>
-                <p><strong>{t("email") || "Email"}:</strong> {user.email || "N/A"}</p>
-                <p><strong>{t("phone") || "Phone"}:</strong> {user.phone || "N/A"}</p>
-                <p><strong>{t("dateOfBirth") || "Date of birth"}:</strong> {new Date(user.dateOfBirth).toLocaleDateString() || "N/A"}</p>
-                <p><strong>{t("birth_Country") || "Birth Country"}:</strong> {user.birthCountry || "N/A"}</p>
-                <p><strong>{t("residence_Country") || "Residence Country"}:</strong> {user.residenceCountry || "N/A"}</p>
-                <p><strong>{t("gender") || "Gender"}:</strong> {user.gender || "N/A"}</p>
-                <p><strong>{t("passport_number") || "Passport Number"}:</strong> {user.passportNumber || "N/A"}</p>
+                <p><strong>{t.email}:</strong> {user.email || "N/A"}</p>
+                <p><strong>{t.phone}:</strong> {user.phone || "N/A"}</p>
+                <p><strong>{t.dateOfBirth}:</strong> {new Date(user.dateOfBirth).toLocaleDateString() || "N/A"}</p>
+                <p><strong>{t.birth_Country}:</strong> {user.birthCountry || "N/A"}</p>
+                <p><strong>{t.residence_Country}:</strong> {user.residenceCountry || "N/A"}</p>
+                <p><strong>{t.gender}:</strong> {user.gender || "N/A"}</p>
+                <p><strong>{t.passport_number}:</strong> {user.passportNumber || "N/A"}</p>
               </>
             )}
             </div>
@@ -274,11 +274,11 @@ const Profile = () => {
           <div className="profile-actions">
             {/*Buttons Edit mode*/}
             {editMode ? (
-              <button className="save-btn-profile" onClick={handleSave}> {t("save") || "Save"}</button>
+              <button className="save-btn-profile" onClick={handleSave}> {t.save}</button>
             ) : (
-              <button className="edit-btn-profile" onClick={() => setEditMode(true)}> {t("edit") || "Edit"}</button>
+              <button className="edit-btn-profile" onClick={() => setEditMode(true)}> {t.edit}</button>
             )}
-            <button className="password-btn" onClick={() => (window.location.href = "/forget")}> {t("reset_password") || " Reset Password"}</button>
+            <button className="password-btn" onClick={() => (window.location.href = "/forget")}> {t.reset_password}</button>
           </div>
         </div>
       </div>

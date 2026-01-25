@@ -42,13 +42,13 @@ function PaymentSuccess() {
             );
 
             if (res.data.status === "COMPLETED") {
-            setToast({ show: true, message:t("Payment_successful") , type: "success" });
+            setToast({ show: true, message:t.Payment_successful , type: "success" });
             } else {
-            setToast({ show: true, message:t("Payment_not_completed") , type: "error" });
+            setToast({ show: true, message:t.Payment_not_completed , type: "error" });
             }
         } catch (err) {
-            console.error("💥 Capture error:", err);
-            setToast({ show: true, message:t("select_Seat_approveLink") , type: "error" });
+            console.error("Capture error:", err);
+            setToast({ show: true, message:t.select_Seat_approveLink, type: "error" });
         }
         };
 
@@ -92,7 +92,7 @@ function PaymentSuccess() {
         <div className="loading-container">
         <img src={LoadingGif} alt="Loading..." className="loading-gif" />
         <p>
-        {t("loading_data")}
+        {t.loading_data}
         </p>
         </div>
     )
@@ -108,34 +108,34 @@ function PaymentSuccess() {
     <div className="success-container">
       
   <img src={icon} className="success-icon"></img>
-      <h1 className="success-title">{t("successfully_purchased")}</h1>
-      <p className="success-message">{t("thanks_for_choose")}</p>
+      <h1 className="success-title">{t.successfully_purchased}</h1>
+      <p className="success-message">{t.thanks_for_choose}</p>
 
       <div className="ticket-info">
-        <h2>{t("Ticket_Information")}</h2>
+        <h2>{t.Ticket_Information}</h2>
         <div className="info-row">
-          <span>{t("ticket_id")}</span>
+          <span>{t.ticket_id}</span>
           <span>#{ticketId}</span>
         </div>
         <div className="info-row">
-          <span> {t("full_name")}</span>
+          <span> {t.full_name}</span>
           <span>{user.fullName}</span>
         </div>
         <div className="info-row">
-          <span>{t("seat_number")}</span>
+          <span>{t.seat_number}</span>
           <span>{ticket.seatNumber}</span>
         </div>
         <div className="info-row">
-          <span>{t("select_Seat_price")}</span>
+          <span>{t.select_Seat_price}</span>
           <span>{ticket.price} USD</span>
         </div>
         <div className="info-row">
-          <span>{t("flights_status")}</span>
-          <span className="status-paid">{t("status_paid")}</span>
+          <span>{t.flights_status}</span>
+          <span className="status-paid">{t.status_paid}</span>
         </div>
       </div>
  <button className="home-btn" onClick={()=> history("/")}>
-        {t("go_back_home")}
+        {t.go_back_home}
       </button>
     </div>
   </div>

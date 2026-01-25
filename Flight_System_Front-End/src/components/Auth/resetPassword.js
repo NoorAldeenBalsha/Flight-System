@@ -76,7 +76,7 @@ const ResetPassword = () => {
         </div>
 
         <div className="reset-form-box">
-          <h2>{t("reset_title")}</h2>
+          <h2>{t.reset_title}</h2>
            {/*  Global Toast */}
                 {toast.show && (
                   <Toast
@@ -86,37 +86,37 @@ const ResetPassword = () => {
                     onClose={() => setToast({ ...toast, show: false })}
                   />
                 )}
-          <p className="subtitle">{t("reset_subtitle")}</p>
+          <p className="subtitle">{t.reset_subtitle}</p>
 
           <form onSubmit={handleSubmit}>
-            <label>{t("reset_emailLabel")}</label>
+            <label>{t.reset_emailLabel}</label>
             <input
               type="email"
               name="email"
-              placeholder={t("reset_emailPlaceholder")}
+              placeholder={t.reset_emailPlaceholder}
               onChange={handleChange}
               required
             />
 
-            <label>{t("reset_codeLabel")}</label>
+            <label>{t.reset_codeLabel}</label>
             <input
               type="text"
               name="resetCode"
-              placeholder={t("reset_codePlaceholder")}
+              placeholder={t.reset_codePlaceholder}
               onChange={handleChange}
               required
             />
 
-            <label>{t("reset_newPasswordLabel")}</label>
+            <label>{t.reset_newPasswordLabel}</label>
             <input
               type="password"
               name="newPassword"
-              placeholder={t("reset_newPasswordPlaceholder")}
+              placeholder={t.reset_newPasswordPlaceholder}
               onChange={handleChange}
               required
             />
             <button type="submit" className="submit-btn">
-              {t("reset_submitButton")}
+              {t.reset_submitButton}
             </button>
           </form>
         </div>

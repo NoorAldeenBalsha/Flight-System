@@ -22,7 +22,7 @@ const Forget = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!mail) {setToast({show: true,message: t("error_fill_all"),type: "error",});
+    if (!mail) {setToast({show: true,message: t.error_fill_all,type: "error",});
       return;
     }
 
@@ -37,7 +37,7 @@ const Forget = () => {
       };
 
       if (!captchaToken) {
-      setToast({ show: true, message: t("please_verify_captcha"), type: "error" });
+      setToast({ show: true, message: t.please_verify_captcha, type: "error" });
       return;
       }
       const res = await API.post(
@@ -48,7 +48,7 @@ const Forget = () => {
 
       setToast({
         show: true,
-        message: res.data?.message || t("success_check_email"),
+        message: res.data?.message || t.success_check_email,
         type: "success",
       });
 
@@ -60,7 +60,7 @@ const Forget = () => {
       const data = err.response?.data;
       setToast({
         show: true,
-        message: data?.errors?.[0]?.message || data?.message || t("error_server"),
+        message: data?.errors?.[0]?.message || data?.message || t.error_server,
         type: "error",
       });
     } finally {
@@ -77,27 +77,27 @@ const Forget = () => {
       )}
 
       <h4 style={{  marginTop: "1%",  fontFamily: "Mulish",  textAlign: "center", }}>
-        {t("forgot_password_title")}
+        {t.forgot_password_title}
       </h4>
 
       <div className="forget">
         <p>
           <LockIcon style={{ fontSize: "1.2rem", color: "grey" }} />
           <span style={{ fontFamily: "Poppins", fontSize: "0.95rem" }}>
-            {t("forgot_password_description")}
+            {t.forgot_password_description}
           </span>
         </p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label style={{  fontFamily: "Poppins",  fontWeight: "550", }}>
-              {t("email_label")} <MailOutlineIcon />
+              {t.email_label} <MailOutlineIcon />
             </label>
             <input
               type="email"
               className="form-control"
               style={{ width: "125%" }}
-              placeholder={t("email_placeholder")}
+              placeholder={t.email_placeholder}
               value={mail}
               onChange={handleChange}
             />
@@ -117,7 +117,7 @@ const Forget = () => {
             }}
             disabled={isLoading}
           >
-            {isLoading ? t("loading") : t("reset_password")}
+            {isLoading ? t.loading : t.reset_password}
           </button>
         </form>
       </div>

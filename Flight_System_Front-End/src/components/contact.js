@@ -14,22 +14,22 @@ const ContactUs = () => {
       <div className="contact-box-contact">
         {/* ==== Left Side: Form ==== */}
         <div className="contact-form-contact">
-          <h2>{t("contact_title")}</h2>
+          <h2>{t.contact_title}</h2>
           <form>
             <div className="input-group-contact">
               <i className="fas fa-user"></i>
-              <input type="text" placeholder={t("contact_name")} required />
+              <input type="text" placeholder={t.contact_name} required />
             </div>
             <div className="input-group-contact">
               <i className="fas fa-envelope"></i>
-              <input type="email" placeholder={t("contact_email")} required />
+              <input type="email" placeholder={t.contact_email} required />
             </div>
             <div className="input-group-contact textarea">
               <i className="fas fa-comment"></i>
-              <textarea placeholder={t("contact_message")} required></textarea>
+              <textarea placeholder={t.contact_message} required></textarea>
             </div>
             <button type="submit" className="send-btn-contact">
-              {t("contact_send")}
+              {t.contact_send}
             </button>
           </form>
         </div>

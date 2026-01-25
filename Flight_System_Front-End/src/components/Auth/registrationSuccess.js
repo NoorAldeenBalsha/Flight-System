@@ -4,7 +4,7 @@ import "../../css/rgistrationSuccess.css"
 import { useLanguage } from "../../context/LanguageContext";
 
 const RgistrationSuccess = ({ component: Component, ...rest }) => {
-  const { t, lang } = useLanguage(); 
+  const { t } = useLanguage(); 
   const history = useNavigate();
   const goToLogin = () => {
     history.push("/auth"); 
@@ -13,10 +13,10 @@ const RgistrationSuccess = ({ component: Component, ...rest }) => {
   return (
     <div className="registration-success-container">
       <div className="success-card">
-        <h2> {t("RgistrationSuccess_success")}</h2>
-        <p>{t("RgistrationSuccess_message")}</p>
+        <h2> {t.RgistrationSuccess_success}</h2>
+        <p>{t.RgistrationSuccess_message}</p>
         <button className="btn" onClick={goToLogin}>
-         {t("RgistrationSuccess_login")}
+         {t.RgistrationSuccess_login}
         </button>
       </div>
     </div>
