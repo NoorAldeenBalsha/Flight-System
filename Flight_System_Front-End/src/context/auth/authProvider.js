@@ -22,6 +22,11 @@ export default function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("theme");
+    localStorage.removeItem("selectedFlightId");
+    localStorage.removeItem("_grecaptcha");
     setUser(null);
     setIsAuthenticated(false);
   };

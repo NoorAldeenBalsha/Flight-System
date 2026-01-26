@@ -12,6 +12,7 @@ import { UserRole } from 'utilitis/enums';
 import { RequestWithCookies } from 'utilitis/interface';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import axios from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
@@ -19,6 +20,7 @@ export class UserService {
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
     private readonly authProvider: AuthProvider,
+    private readonly configService: ConfigService,
   ) {}
   //============================================================================
   //This for language of role
@@ -152,13 +154,17 @@ export class UserService {
   //============================================================================
   // Log out the current user
   public async logout(response: Response, req: Request, lang: 'en' | 'ar' = 'en') {
+    const isProduction = this.configService.get<string>('NODE_ENV') === 'production';
+
     response.clearCookie('refresh_token', {
     httpOnly: true,
-      sameSite: 'none',
-      secure:true,
+      sameSite: isProduction ? 'strict' : 'lax',
+      secure:isProduction,
       path: '/',
     });
-
+    await this.userModel.findByIdAndUpdate(req.body.user._id,{
+      refreshToken:null,
+    });
     const message =
     lang === 'ar'
       ? 'تم تسجيل الخروج بنجاح'

@@ -45,9 +45,19 @@ export default function Navbar1() {
   const { logout, isAuthenticated} = authContext;
   //=======================================================================================================
   // Logout an go to Auth page
-  const handleLogout = () => {
-    logout();
+   const handleLogout = async () => {
+  try {
+    await API.post(
+      "/user/logout",
+      {  user },
+      { withCredentials: true }
+    );
+  } catch (error) {
+  } finally {
+   logout();
     window.location.href = "/auth";
+  }
+    
   };
   //=======================================================================================================
   // Get current user  

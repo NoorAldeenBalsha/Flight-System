@@ -63,6 +63,8 @@ export class User {
   @Prop({ required: false })
   coverPicture?: string;
   //============================================================================ 
+  @Prop({ type: String,required: false,default: null })
+  refreshToken?: string | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

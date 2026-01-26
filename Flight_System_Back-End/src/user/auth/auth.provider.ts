@@ -192,13 +192,15 @@ export class AuthProvider{
       id: userFromDB._id,
       userType: userFromDB.role,
     });
-
+      await this.userModul.findByIdAndUpdate(userFromDB._id,{
+        refreshToken:RefreshToken,
+      });
       const isProduction = this.configService.get<string>('NODE_ENV') === 'production';
 
       response.cookie('refresh_token', RefreshToken, {
         httpOnly: true,
         sameSite: isProduction ? 'strict' : 'lax',
-        secure: isProduction, // 🔥 بالـ localhost = false, بالسيرفر = true
+        secure: isProduction, 
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
     const userLoginData = await this.userService.getCurrentUser(
