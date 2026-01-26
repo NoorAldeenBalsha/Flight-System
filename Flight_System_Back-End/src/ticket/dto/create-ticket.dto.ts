@@ -50,8 +50,5 @@ export class CreateTicketDto {
   @IsOptional()
   status?: 'available' | 'pending' | 'sold';
 
- /*@IsString()
-  @IsOptional()
-  bookingReference?: string;*/
   
 }

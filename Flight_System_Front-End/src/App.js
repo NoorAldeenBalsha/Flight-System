@@ -46,7 +46,7 @@ export default function App() {
     <>
       {isAuthPage ? (
         <div>
-          <div className={lang === "ar" ? "ltr" : "rtl"}>
+          <div className={lang === "en" ? "ltr" : "rtl"}>
             <Navbar display={display}  changeDisplay={changeDisplay}/>
             </div>
           <Routes>

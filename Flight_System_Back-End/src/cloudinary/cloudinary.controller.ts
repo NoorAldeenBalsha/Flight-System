@@ -1,10 +1,8 @@
-import {Controller,Post,Delete,UploadedFiles, Body, Param,BadRequestException,Logger,Headers,Query, Inject, UseGuards,} from '@nestjs/common';
+import {Controller,Post,Delete,UploadedFiles, Body, Param,BadRequestException,Logger,Headers,Query, UseGuards,} from '@nestjs/common';
 import {ApiConsumes,ApiBody,ApiOperation,ApiParam,ApiResponse,ApiTags, ApiBearerAuth,} from '@nestjs/swagger';
 import { CloudinaryService } from './cloudinary.service';
 import { UploadChunkDto } from './dto/upload-chunk.dto';
 import { AuthGuard } from 'src/user/guard/auth.guard';
-import { CurrentUser } from 'src/user/decorator/current-user.decorator';
-import type { JWTPayloadType } from 'utilitis/types';
 
 @ApiTags('Cloudinary Upload')
 @Controller('api/upload')
@@ -23,8 +21,7 @@ export class CloudinaryController {
   @ApiBody({ type: UploadChunkDto })
   @ApiResponse({status: 201,description: 'Chunk uploaded successfully or file upload completed.',})
   @ApiResponse({status: 400,description: 'Bad request: no file uploaded or invalid input.',})
-  async uploadChunk(@UploadedFiles() files: Express.Multer.File[],@CurrentUser() user: JWTPayloadType,
-    @Body() body: UploadChunkDto,@Headers('lang') acceptLanguage?: string,) {
+  async uploadChunk(@UploadedFiles() files: Express.Multer.File[],@Body() body: UploadChunkDto,@Headers('lang') acceptLanguage?: string,) {
     const lang = acceptLanguage === 'ar' ? 'ar' : 'en';
 
     if (!files || files.length === 0) {
@@ -53,7 +50,7 @@ export class CloudinaryController {
   @ApiParam({name: 'uploadId',type: 'string',description: 'Upload session ID',})
   @ApiResponse({status: 200,description: 'Upload session cancelled successfully',})
   @ApiResponse({ status: 400, description: 'Upload session not found' })
-  async cancelUpload(@Param('uploadId') uploadId: string,@CurrentUser() user: JWTPayloadType,@Headers('accept-language') acceptLanguage?: string,) {
+  async cancelUpload(@Param('uploadId') uploadId: string,@Headers('accept-language') acceptLanguage?: string,) {
     const lang = acceptLanguage === 'ar' ? 'ar' : 'en';
     const result = await this.cloudinaryService.cancelUpload(uploadId);
 
@@ -88,7 +85,6 @@ export class CloudinaryController {
   @ApiResponse({ status: 500, description: 'Server error' })
   async deleteFileFromCloudinary(
     @Param('publicId') publicId: string,
-    @CurrentUser() user: JWTPayloadType,
     @Query('resourceType') resourceType?: 'image' | 'video' | 'raw',
     @Headers('accept-language') acceptLanguage?: string,
   ): Promise<{ message: string; publicId: string }> {

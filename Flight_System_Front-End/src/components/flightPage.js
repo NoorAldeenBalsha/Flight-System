@@ -398,7 +398,7 @@ const FlightsPage = () => {
                 <div className="flight-number">
                   <h3>{flight.flightNumber}</h3>
                   <span className={`status ${flight.status}`}>
-                    {t.flights_`${flight.status}`}
+                    {t[`flights_${flight.status}`]}
                   </span>
                 </div>
                 <p className="airline">
@@ -429,9 +429,6 @@ const FlightsPage = () => {
                 </div>
                 <div>
                   <strong>{t.flights_gate}:</strong> <h7>{flight.gate}</h7>
-                </div>
-                <div>
-                  <strong>{t.revenue}:</strong> <h7>${flight.revenue}</h7>
                 </div>
               </div>
 
@@ -623,17 +620,6 @@ const FlightsPage = () => {
                   <option value="completed">{t.flights_completed}</option>
                   <option value="cancelled">{t.flights_cancelled}</option>
                 </select>
-          </div>
-          {/*revenue*/}
-          <div className="form-group">
-            <label>{t.revenue}</label>
-            <input
-              type="number"
-              value={newFlight.revenue}
-              onChange={(e) =>
-                setNewFlight({ ...newFlight, revenue: e.target.value })
-              }
-            />
           </div>
           {/*Airline Code*/}
           <div className="form-group">

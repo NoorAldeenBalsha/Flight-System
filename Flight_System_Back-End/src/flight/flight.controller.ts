@@ -1,4 +1,4 @@
-import {Controller,Get,Post,Patch,Delete,Param,Body,Query,UseGuards,BadRequestException,Logger, Req,} from '@nestjs/common';
+import {Controller,Get,Post,Patch,Delete,Param,Body,Query,UseGuards, Req,} from '@nestjs/common';
 import { ApiTags,ApiOperation, ApiBearerAuth,ApiResponse,ApiQuery,ApiParam,} from '@nestjs/swagger';
 import { FlightService } from './flight.service';
 import { CreateFlightDto } from './dto/create-flight.dto';
@@ -25,9 +25,7 @@ export class FlightController {
   @ApiOperation({ summary: 'Only admin can create new trip' })
   @ApiResponse({ status: 201, description: 'Trip created successfully' })
   @ApiResponse({ status: 400, description: 'Failed to enter trip data' })
-  async create(
-    @Body() createFlightDto: CreateFlightDto,
-    @Req() req: any,) {
+  async create(@Body() createFlightDto: CreateFlightDto,@Req() req: any,) {
       const lang = req.lang || 'en';
       return await this.flightService.create(createFlightDto,lang);
   }
@@ -66,9 +64,7 @@ export class FlightController {
   @ApiParam({ name: 'id', required: true, description: 'Trip ID' })
   @ApiResponse({ status: 200, description:'Flight data was successfully retrieved' })
   @ApiResponse({ status: 404, description:'The trip does not exist' })
-  async findOne(
-    @Param('id') id: string,
-    @Req() req: any,) {
+  async findOne(@Param('id') id: string, @Req() req: any,) {
       const lang = req.lang || 'en';
       return this.flightService.findOne(id,lang);
   }
@@ -82,10 +78,7 @@ export class FlightController {
   @ApiParam({ name: 'id', description:'Trip ID to update' })
   @ApiResponse({ status: 200, description: 'The flight has been updated successfully' })
   @ApiResponse({ status: 404, description: 'The trip does not exist' })
-  async update(
-    @Param('id') id: string, 
-    @Body() updateFlightDto: UpdateFlightDto,
-    @Req() req: any,) {
+  async update(@Param('id') id: string, @Body() updateFlightDto: UpdateFlightDto,@Req() req: any,) {
       const lang = req.lang || 'en';
       return this.flightService.update(id, updateFlightDto,lang);
   }
@@ -99,9 +92,7 @@ export class FlightController {
   @ApiParam({ name: 'id', description: 'The ID of the trip to be deleted' })
   @ApiResponse({ status: 200, description: 'The trip has been successfully deleted.' })
   @ApiResponse({ status: 404, description: 'The trip does not exist' })
-  async remove(
-    @Param('id') id: string,
-    @Req() req: any,) {
+  async remove(@Param('id') id: string,@Req() req: any,) {
       const lang = req.lang || 'en';
       return this.flightService.remove(id,lang);
   }
