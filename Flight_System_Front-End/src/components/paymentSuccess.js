@@ -18,7 +18,7 @@ function PaymentSuccess() {
     const orderId = searchParams.get("token");
     const userId = searchParams.get("userId");
     const ticketId = searchParams.get("ticketId");
-    const token = localStorage.getItem("accessToken");
+    const token = cookieStore.get("refresh_token");
     const [toast, setToast] = useState({ show: false, message: "", type: "success" });
     //=======================================================================================================
     useEffect(() => {

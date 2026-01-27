@@ -14,7 +14,7 @@ const Profile = () => {
   const { lang, t } = useLanguage();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
-  const token = localStorage.getItem("accessToken");
+  const token = cookieStore.get("refresh_token");
   const [uploading, setUploading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const CHUNK_SIZE = 1024 * 1024; 
@@ -70,7 +70,6 @@ const Profile = () => {
   //=======================================================================================================
   // Handle image upload (profile or cover picture)
   const handleFileChange = async (e, type) => {
-    const token = localStorage.getItem("accessToken");
     const file = e.target.files[0];
     if (!file) return;
 

@@ -32,7 +32,7 @@ const TicketStats = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userNames, setUserNames] = useState({}); 
-  const token = localStorage.getItem("accessToken");
+  const token = cookieStore.get("refresh_token");
   const { t } = useLanguage();
   //=======================================================================================================
   // Function to fetch data from the server

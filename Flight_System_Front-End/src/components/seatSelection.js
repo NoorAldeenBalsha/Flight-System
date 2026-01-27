@@ -11,7 +11,7 @@ const SeatSelection = () => {
   const [selectedSeat, setSelectedSeat] = useState(null);
   const loacation=useLocation();
   const flight =loacation.state
-  const token = localStorage.getItem("accessToken");
+  const token = cookieStore.get("refresh_token");
   const [user, setUser] = useState(null);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   //=======================================================================================================

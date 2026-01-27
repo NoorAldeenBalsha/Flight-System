@@ -131,9 +131,8 @@ try {
       { ...signInData},
       config
     );
-    const {accessToken, refreshToken,userData}=res.data
+    const {accessToken,userData}=res.data
     localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
     localStorage.setItem("user", JSON.stringify(userData));
     
     setTimeout(() => {

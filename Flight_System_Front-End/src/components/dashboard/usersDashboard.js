@@ -36,7 +36,7 @@ const UsersPage = () => {
   const [analytics, setAnalytics] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("accessToken");
+  const token = cookieStore.get("refresh_token");
   const { t } = useLanguage();
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";

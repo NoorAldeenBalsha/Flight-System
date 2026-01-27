@@ -26,7 +26,7 @@ export default function Navbar1() {
   const profileRef = useRef(null);
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({});
-  const token = localStorage.getItem("accessToken");
+  const token = cookieStore.get("refresh_token");
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
   const LANG_FLAGS = {
     en: EN,

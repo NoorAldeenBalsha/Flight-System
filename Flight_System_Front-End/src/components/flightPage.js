@@ -14,7 +14,7 @@ const FlightsPage = () => {
   const [flights, setFlights] = useState([]);
   const [editingFlight, setEditingFlight] = useState();
   const [showModal, setShowModal] = useState(false);
-  const token = localStorage.getItem("accessToken");
+  const token = cookieStore.get("refresh_token");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const [newFlight, setNewFlight] = useState({
