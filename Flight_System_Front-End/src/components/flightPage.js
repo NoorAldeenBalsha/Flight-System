@@ -433,7 +433,9 @@ const FlightsPage = () => {
               </div>
 
               <div className="flight-actions">
-                <button className="book-btn" onClick={() => handleBookClick(flight)}>
+                {flight.status!=="completed"&&(
+                  <>
+                  <button className="book-btn" onClick={() => handleBookClick(flight)}>
                   {t.book_now}
                 </button>
 
@@ -445,6 +447,8 @@ const FlightsPage = () => {
                     <button className="delete-btn" onClick={() => handleDelete(flight._id)}>
                       {t.delete_flight}
                     </button>
+                  </>
+                )}
                   </>
                 )}
               </div>
