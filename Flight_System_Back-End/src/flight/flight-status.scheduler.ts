@@ -9,22 +9,38 @@ export class FlightStatusScheduler {
   constructor(private readonly flightService: FlightService) {}
 
   // Checks completed trips every minute
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  async checkCompletedFlights() {
-    try {
-      const flightsData = await this.flightService.findAll(); 
-      const flights = flightsData.data;
-      const now = new Date();
+  @Cron(CronExpression.EVERY_SECOND)
+async checkFlightStatuses() {
+  try {
+    const flightsData = await this.flightService.findAll();
+    const flights = flightsData.data;
+    const now = new Date();
 
-      for (const flight of flights) {
-        const arrival = new Date(flight.arrivalTime);
-       // Verify if the trip has ended in terms of time and has not been marked as completed yet
-        if (now >= arrival && flight.status !== 'completed') {
-          await this.flightService.updateFlightStatus(flight._id, 'completed');
-        }
+    for (const flight of flights) {
+      const departure = new Date(flight.departureTime);
+      const arrival = new Date(flight.arrivalTime);
+
+      if (
+        now >= departure &&
+        now < arrival &&
+        flight.status !== 'took_off' 
+      ) {
+        await this.flightService.updateFlightStatus(
+          flight._id,
+          'took_off',
+        );
+        continue;
       }
-    } catch (error) {
-      console.log('Error checking completed flights', error.stack);
+
+      if (now >= arrival && flight.status !== 'completed') {
+        await this.flightService.updateFlightStatus(
+          flight._id,
+          'completed',
+        );
+      }
     }
+  } catch (error) {
+    console.log('Error checking flight statuses', error.stack);
   }
+}
 }

@@ -135,32 +135,65 @@ export class FlightService {
 
   return {data: formattedFlights,total, page,totalPages: Math.ceil(total / limit),};
   }
+  //============================================================================
+  // Fetch all trips with support for filtering, searching, and pagination {PUBLIC}
+  async findPublicFlights(filters?:{origin?:string;destination?:string;flightType?:string;status?:string;fromDate?:string;toDate?:string;page?:number;limit?:number;
+}): Promise<{ServerTime:string,Flights: (Flight & { _id: string })[]; total: number; page: number;totalPages: number;}> {
+  const query: any = {};
+  // ===== server Time=====
+  const serverTime=new Date().toISOString();
+  // ===== Felter AR or EN for destination=====
+  if (filters?.destination) {
+    query.$or = [
+      { 'destination.en': { $regex: filters.destination, $options: 'i' } },
+      { 'destination.ar': { $regex: filters.destination, $options: 'i' } },
+    ];
+  }
+  // ===== Felter AR or EN for origin=====
+  if (filters?.origin) {
+    query.$or = query.$or || [];
+    query.$or.push(
+      { 'origin.en': { $regex: filters.origin, $options: 'i' } },
+      { 'origin.ar': { $regex: filters.origin, $options: 'i' } }
+    );
+  }
+  // ===== Felter by status=====
+    if (filters?.status) {
+    query.status = filters.status;
+  }
+  // ===== ...Filter by date (from-to)=====
+  if (filters?.fromDate || filters?.toDate) {
+    query.departureTime = {};
+    if (filters.fromDate) {
+      query.departureTime.$gte = new Date(filters.fromDate);
+    }
+    if (filters.toDate) {
+      query.departureTime.$lte = new Date(filters.toDate);
+    }
+  }
+  // Browsing settings
+  const page = filters?.page && filters.page > 0 ? filters.page : 1;
+  const limit = filters?.limit && filters.limit > 0 ? filters.limit : 10;
+  const skip = (page - 1) * limit;
+ 
+  const [flights, total] = await Promise.all([
+    this.flightModel
+      .find(query)
+      .sort({ departureTime: 1 })
+      .skip(skip)
+      .limit(limit)
+      .lean() 
+      .exec(),
+    this.flightModel.countDocuments(query),
+  ]);
 
-  async findPublicFlights(filters?: {
-  origin?: string;
-  destination?: string;
-  status?: string;
-  fromDate?: string;
-  toDate?: string;
-  page?: number;
-  limit?: number;
-}): Promise<{
-  data: (Flight & { _id: string })[];
-  total: number;
-  page: number;
-  totalPages: number;
-}> {
+  const formattedFlights = flights.map((f) => ({
+    ...f,
+    _id: f._id.toString(),
+  }));
 
-  // Force public-safe defaults
-  const publicFilters = {
-    ...filters,
-    status: filters?.status ?? 'scheduled',
-    flightType: 'public',
-  };
-
-  return this.findAll(publicFilters);
-}
-
+  return {ServerTime:serverTime,Flights: formattedFlights,total, page,totalPages: Math.ceil(total / limit)};
+  }
   //============================================================================
   // Fetch a single trip by ID
   async findOne(id: string, lang: 'en' | 'ar' = 'en'): Promise<Flight> {

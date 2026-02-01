@@ -50,8 +50,8 @@ export class CreateFlightDto {
   @Type(() => Date)
   arrivalTime: Date;
 
-  @ApiProperty({ enum: ['scheduled', 'boarding','delayed', 'completed', 'cancelled'], default: 'scheduled' })
-  @IsEnum(['scheduled', 'boarding','delayed', 'completed', 'cancelled'])
+  @ApiProperty({ enum: ['scheduled', 'boarding','delayed', 'completed', 'cancelled','took_off'], default: 'scheduled' })
+  @IsEnum(['scheduled', 'boarding','delayed', 'completed', 'cancelled','took_off'])
   @IsOptional()
   status?: string;
 

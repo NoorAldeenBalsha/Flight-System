@@ -135,6 +135,7 @@ body{
 
 /* status color variants */
 .status.scheduled{ background: rgba(15,98,254,0.12); color: var(--primary) }
+.status.took_off{ background: rgba(15,98,254,0.12); color: var(--primary) }
 .status.boarding{ background: rgba(0,191,166,0.12); color: var(--accent) }
 .status.delayed{ background: rgba(255,193,7,0.12); color: #b47a00 }
 .status.completed{ background: rgba(76,175,80,0.12); color: var(--success) }

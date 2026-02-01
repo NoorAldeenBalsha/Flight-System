@@ -205,6 +205,8 @@ const fr = {
     flights_scheduled: "Programmé",
     flights_boarding: "Embarquement",
     flights_delayed: "Retardé",
+    status_took_off: "Décollé",
+    flights_took_off:"Décollé",
     flights_completed: "Terminé",
     flights_cancelled: "Annulé",
     flights_status: "Statut",

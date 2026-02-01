@@ -29,7 +29,7 @@ export class Flight {
   arrivalTime: Date;
 
   @Prop({
-    enum: ['scheduled', 'boarding', 'delayed', 'completed', 'cancelled'],
+    enum: ['scheduled', 'boarding', 'delayed', 'completed', 'cancelled','took_off'],
     default: 'scheduled',
   })
   status: string;

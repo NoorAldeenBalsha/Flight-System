@@ -210,6 +210,8 @@ index_hero_title: "Ваше путешествие начинается здес
   flights_boarding: "Посадка",
   flights_delayed: "Задержан",
   flights_completed: "Завершён",
+  status_took_off: "Взлетел",
+flights_took_off:"Взлетел",
   flights_cancelled: "Отменён",
   flights_status: "Статус",
   flights_flightType: "Тип рейса",

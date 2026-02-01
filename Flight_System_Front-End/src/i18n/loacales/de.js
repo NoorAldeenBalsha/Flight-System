@@ -205,6 +205,8 @@ const de={
   flights_scheduled: "Geplant",
   flights_boarding: "Boarding",
   flights_delayed: "Verspätet",
+  status_took_off:"Abgehoben",
+  flights_took_off:"Abgehoben",
   flights_completed: "Abgeschlossen",
   flights_cancelled: "Storniert",
   flights_status: "Status",
