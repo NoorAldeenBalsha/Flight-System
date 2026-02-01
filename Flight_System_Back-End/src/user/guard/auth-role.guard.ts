@@ -26,7 +26,7 @@ export class AuthRolesGuard implements CanActivate {
                 const payload: JWTPayloadType = await this.jwtService.verifyAsync(token, {
                     secret: this.configService.get<string>('JWT_SECRET'),
                 });
-                // أو استخدم اللغة حسب الهيدر إذا متاح عندك:
+
                 const lang = request.headers['lang'] === 'ar' || request.headers['language'] === 'ar' ? 'ar' : 'en';
                 const user = await this.userService.getCurrentUser(payload.id, lang);
                 if (user && Array.isArray(roles) && roles.includes(user.role)) {

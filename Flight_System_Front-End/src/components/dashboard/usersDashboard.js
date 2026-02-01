@@ -31,12 +31,13 @@ import LoadingGif from "../../images/Rocket.gif";
 import icon from '../../images/close.png'
 import { useLanguage } from "../../context/LanguageContext";
 import Toast from "../toastAnimated";
+import API from "../../services/api";
 
 const UsersPage = () => {
   const [analytics, setAnalytics] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const token = cookieStore.get("refresh_token");
+  const token = localStorage.getItem("accessToken")
   const { t } = useLanguage();
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
@@ -87,6 +88,34 @@ const UsersPage = () => {
     console.error("Delete error:", error);
     setToast({ show: true, message:t.dash_error_deleting_user , type: "error" });
 
+  }
+};
+  const handleUpdateRole = async (userId, newRole) => {
+  try {
+    if (!userId) throw new Error("User ID not found!");
+
+    const cleanData = { role: newRole };
+
+    await API.patch(
+      `/user/update/${userId}`,
+      cleanData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // تحديث الحالة محلياً
+    setUsersList((prev) =>
+      prev.map((u) =>
+        u._id === userId ? { ...u, role: newRole } : u
+      )
+    );
+
+    setToast({ show: true, message:"User role updated successfully" , type: "success" });
+  } catch (err) {
+    setToast({ show: true, message:"User role cannot updated " , type: "error" });
   }
 };
   //=======================================================================================================
@@ -225,7 +254,17 @@ const UsersPage = () => {
                       </td>
                       <td>{user.fullName || "null"}</td>
                       <td>{user.email || "-"}</td>
-                      <td>{user.role || "-"}</td>
+                      <td>
+                      <select
+                        value={user.role}
+                        onChange={(e) => handleUpdateRole(user._id, e.target.value)}
+                        className="role-select"
+                      >
+                        <option value="admin">Admin</option>
+                        <option value="manager">Manager</option>
+                        <option value="user">User</option>
+                      </select>
+                    </td>
                       <td>
                         <img
                           src={icon }
