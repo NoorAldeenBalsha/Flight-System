@@ -66,7 +66,6 @@ const Auth = () => {
       return;
     }
 
-  setIsLoading(true);
 
 try {
     const config = {

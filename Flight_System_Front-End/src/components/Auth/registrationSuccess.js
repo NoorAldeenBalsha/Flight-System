@@ -5,9 +5,9 @@ import { useLanguage } from "../../context/LanguageContext";
 
 const RgistrationSuccess = ({ component: Component, ...rest }) => {
   const { t } = useLanguage(); 
-  const history = useNavigate();
+  const navigate = useNavigate();
   const goToLogin = () => {
-    history.push("/auth"); 
+    navigate("/auth"); 
   };
 
   return (
