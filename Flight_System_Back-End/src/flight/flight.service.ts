@@ -135,6 +135,32 @@ export class FlightService {
 
   return {data: formattedFlights,total, page,totalPages: Math.ceil(total / limit),};
   }
+
+  async findPublicFlights(filters?: {
+  origin?: string;
+  destination?: string;
+  status?: string;
+  fromDate?: string;
+  toDate?: string;
+  page?: number;
+  limit?: number;
+}): Promise<{
+  data: (Flight & { _id: string })[];
+  total: number;
+  page: number;
+  totalPages: number;
+}> {
+
+  // Force public-safe defaults
+  const publicFilters = {
+    ...filters,
+    status: filters?.status ?? 'scheduled',
+    flightType: 'public',
+  };
+
+  return this.findAll(publicFilters);
+}
+
   //============================================================================
   // Fetch a single trip by ID
   async findOne(id: string, lang: 'en' | 'ar' = 'en'): Promise<Flight> {
