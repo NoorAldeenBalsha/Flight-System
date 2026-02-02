@@ -321,5 +321,10 @@ dash_Control_Panel: "コントロールパネル",
 dash_User_deleted_successfully: "ユーザーを削除しました",
 dash_User_deleting_user: "ユーザーを削除中",
 dash_sure_deleting: "このユーザーを削除してもよろしいですか？",
+dash_admin:"管理者",
+    dash_manager:"マネージャー",
+    dash_user:"ユーザー",
+    dash_pilot:"パイロット",
+    dash_ground_staff:"地上職員",
 };
 export default jp;

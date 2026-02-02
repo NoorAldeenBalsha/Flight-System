@@ -328,6 +328,12 @@ dash_Control_Panel: "控制面板",
 dash_User_deleted_successfully: "用户删除成功",
 dash_User_deleting_user: "正在删除用户",
 dash_sure_deleting: "确定要删除此用户吗？",
+dash_admin:"管理员",
+    dash_manager:"经理",
+    dash_user:"用户",
+    dash_pilot:"飞行员",
+    dash_ground_staff:"地面工作人员",
+  
 };
 
 export default zh;

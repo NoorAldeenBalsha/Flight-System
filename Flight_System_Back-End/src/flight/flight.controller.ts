@@ -33,7 +33,7 @@ export class FlightController {
   // Fetch all trips with support for filtering, searching, and pagination
   @Get('list/getAllTrips')
   @UseGuards(AuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.CABIN_CREW, UserRole.USER)
+  @Roles(UserRole.ADMIN, UserRole.USER)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Get all flights with optional filters and pagination' })
   @ApiQuery({ name: 'origin', required: false, example: 'DOH', description: 'Filter by origin airport code' })
@@ -119,14 +119,13 @@ export class FlightController {
   async findPublicFlights(
     @Query('origin') origin?: string,
     @Query('destination') destination?: string,
-    @Query('status') status?: string,
     @Query('fromDate') fromDate?: string,
     @Query('toDate') toDate?: string,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
     
   ) {
-    return this.flightService.findPublicFlights({origin,destination,status,fromDate,toDate,page,limit});
+    return this.flightService.findPublicFlights({origin,destination,fromDate,toDate,page,limit});
 }
 
 }

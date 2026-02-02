@@ -324,5 +324,11 @@
     dash_User_deleted_successfully:"تم حذف المستخدم بنجاح",
     dash_error_deleting_user:"خطأ في حذف المستخدم",
     dash_sure_deleting:"هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
-    };
+    dash_admin:"المسؤول",
+    dash_manager:"المدير",
+    dash_user:"المستخدم",
+    dash_pilot:"الطيار",
+    dash_ground_staff:"موظفو المطار",
+       
+ }
     export default ar;

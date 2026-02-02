@@ -221,5 +221,10 @@ const fr = {
     revenue: "Revenu",
     airlineCode: "Code de la compagnie aérienne",
     originLocation: "Lieu d’origine (Lat, Lng)",
+    dash_admin:"administrateur",
+    dash_manager:"gestionnaire",
+    dash_user:"utilisateur",
+    dash_pilot:"pilote",
+    dash_ground_staff:"personnel au sol",
       };
 export default fr;

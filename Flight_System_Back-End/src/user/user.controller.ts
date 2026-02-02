@@ -248,6 +248,9 @@ export class UserController {
   //============================================================================
   // analytices data for users
   @Get('analytices/user')
+  @UseGuards(AuthGuard, AuthRolesGuard)
+  @Roles(UserRole.ADMIN) 
+  @ApiBearerAuth('JWT')
   @ApiOperation({summary: 'Comprehensive user analytics',  })
   @ApiResponse({status: 200,description: 'Successfully retrieved user analytics.',})
   async getUserAnalytices(){

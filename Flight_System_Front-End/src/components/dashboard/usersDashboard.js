@@ -37,7 +37,7 @@ const UsersPage = () => {
   const [analytics, setAnalytics] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("accessToken")
+  const token = localStorage.getItem("accessToken");
   const { t } = useLanguage();
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
@@ -46,7 +46,7 @@ const UsersPage = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user/analytices/user");
+        const res = await axios.get("http://localhost:5000/api/user/analytices/user", { headers: { Authorization: `Bearer ${token}` } });
         setAnalytics(res.data);
       } catch (err) {
         console.error("Error fetching analytics:", err);
@@ -258,11 +258,12 @@ const UsersPage = () => {
                       <select
                         value={user.role}
                         onChange={(e) => handleUpdateRole(user._id, e.target.value)}
-                        className="role-select"
+                        className="user-dropdown-menu"
                       >
-                        <option value="admin">Admin</option>
-                        <option value="manager">Manager</option>
-                        <option value="user">User</option>
+                        <option value="admin">{t.dash_admin}</option>
+                        <option value="manager">{t.dash_manager}</option>
+                        <option value="user">{t.dash_user}</option>
+                        <option value="pilot">{t.dash_pilot}</option>
                       </select>
                     </td>
                       <td>

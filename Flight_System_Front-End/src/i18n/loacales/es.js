@@ -353,5 +353,10 @@ dash_User_deleted_successfully: "Usuario eliminado con éxito",
 dash_User_deleting_user: "Eliminando usuario",
 dash_sure_deleting:
   "¿Estás seguro de que deseas eliminar este usuario?",
+  dash_admin:"administrador",
+    dash_manager:"gerente",
+    dash_user:"usuario",
+    dash_pilot:"piloto",
+    dash_ground_staff:"personal de tierra",
 }
 export default es;

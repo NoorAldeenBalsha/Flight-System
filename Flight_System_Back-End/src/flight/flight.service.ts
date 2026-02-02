@@ -137,9 +137,9 @@ export class FlightService {
   }
   //============================================================================
   // Fetch all trips with support for filtering, searching, and pagination {PUBLIC}
-  async findPublicFlights(filters?:{origin?:string;destination?:string;flightType?:string;status?:string;fromDate?:string;toDate?:string;page?:number;limit?:number;
-}): Promise<{ServerTime:string,Flights: (Flight & { _id: string })[]; total: number; page: number;totalPages: number;}> {
-  const query: any = {};
+  async findPublicFlights(filters?:{origin?:string;destination?:string;flightType?:string;fromDate?:string;toDate?:string;page?:number;limit?:number;
+}): Promise<{ServerTime:string,Flights: (Flight & { _id: string; })[]; total: number; page: number;totalPages: number;}> {
+  const query: any = {status:'took off'};
   // ===== server Time=====
   const serverTime=new Date().toISOString();
   // ===== Felter AR or EN for destination=====
@@ -156,10 +156,6 @@ export class FlightService {
       { 'origin.en': { $regex: filters.origin, $options: 'i' } },
       { 'origin.ar': { $regex: filters.origin, $options: 'i' } }
     );
-  }
-  // ===== Felter by status=====
-    if (filters?.status) {
-    query.status = filters.status;
   }
   // ===== ...Filter by date (from-to)=====
   if (filters?.fromDate || filters?.toDate) {

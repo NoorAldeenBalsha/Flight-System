@@ -322,6 +322,10 @@ const en= {
     dash_User_deleted_successfully:"User deleted successfully",
     dash_User_deleting_user:"User deleting user",
     dash_sure_deleting:"Are you sure you want to delete this user?",
-  
+  dash_admin:"admin",
+    dash_manager:"manager",
+    dash_user:"user",
+    dash_pilot:"pilot",
+    dash_ground_staff:"ground staff",
   };
 export default en;

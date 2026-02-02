@@ -343,6 +343,11 @@ const de={
   dash_User_deleted_successfully: "Benutzer erfolgreich gelöscht",
   dash_User_deleting_user: "Benutzer wird gelöscht",
   dash_sure_deleting: "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?",
+    dash_admin:"Administrator",
+    dash_manager:"Manager",
+    dash_user:"Benutzer",
+    dash_pilot:"Pilot",
+    dash_ground_staff:"Bodenpersonal",
 };
 
 export default de;

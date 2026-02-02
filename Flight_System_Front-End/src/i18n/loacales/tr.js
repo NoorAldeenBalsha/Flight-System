@@ -351,5 +351,11 @@ dash_Control_Panel:"Kontrol Paneli",
 dash_User_deleted_successfully:"Kullanıcı başarıyla silindi",
 dash_User_deleting_user:"Kullanıcı siliniyor",
 dash_sure_deleting:"Bu kullanıcıyı silmek istediğinizden emin misiniz?",
+dash_admin:"yönetici",
+    dash_manager:"müdür",
+    dash_user:"kullanıcı",
+    dash_pilot:"pilot",
+    dash_ground_staff:"yer personeli",
+
 }
 export default tr;
