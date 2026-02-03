@@ -12,7 +12,7 @@ export class PaymentController {
   //============================================================================
   @Post('paypal')
   @UseGuards(AuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.CABIN_CREW, UserRole.USER)
+  @Roles(UserRole.ADMIN, UserRole.USER)
   @ApiBearerAuth('JWT')
   createOrder( @Body() body: any,@Req() req: any,) {
     return this.paymentService.createPayPalOrder(req.user.id,body.ticketId);
