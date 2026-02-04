@@ -117,7 +117,7 @@ export class UserController {
     }
   } 
   //============================================================================
-  //  Callback  Google [Public]
+  //Callback  Google [Public]
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   @ApiOperation({ summary: 'Callback  Google' })
@@ -210,10 +210,10 @@ export class UserController {
     return this.userService.getAllUsers(+page, +limit, search, role, lang);
   }
   //============================================================================
-  //Update user data [Admin , Manager or current user]
+  //Update user data [Admin  or current user]
   @Patch('update/:id')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN,UserRole.MANAGER)
+  @Roles(UserRole.ADMIN)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Update user information (Admin only)' })
   @ApiResponse({ status: 200, description: 'User updated successfully' })
@@ -229,10 +229,10 @@ export class UserController {
     return this.userService.update(id, payload, updateUserDto, lang);
   }
   //============================================================================
-  //Delete user  [Admin ,Manager]
+  //Delete user  [Admin ]
   @Delete('delete/:id')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN,UserRole.MANAGER)
+  @Roles(UserRole.ADMIN)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Delete a user (Admin only)' })
   @ApiResponse({ status: 200, description: 'User deleted successfully' })
