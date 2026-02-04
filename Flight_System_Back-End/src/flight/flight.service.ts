@@ -211,7 +211,7 @@ constructor(
   // Fetch all trips with support for filtering, searching, and pagination {PUBLIC}
   async findPublicFlights(filters?:{origin?:string;destination?:string;flightType?:string;fromDate?:string;toDate?:string;page?:number;limit?:number;
 }): Promise<{ServerTime:string,Flights: (Flight & { _id: string; })[]; total: number; page: number;totalPages: number;}> {
-  const query: any = {status:'took off'};
+  const query: any = {status:'took_off'};
   // ===== server Time=====
   const serverTime=new Date().toISOString();
   // ===== Felter AR or EN for destination=====

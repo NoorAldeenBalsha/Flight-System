@@ -18,7 +18,7 @@ async checkFlightStatuses() {
     const flightsData = await this.flightService.findAll();
     const flights = flightsData.data;
     const now = new Date();
-
+    console.log("here")
     for (const flight of flights) {
       const departure = new Date(flight.departureTime);
       const arrival = new Date(flight.arrivalTime);
