@@ -10,16 +10,21 @@ import { UserRole } from 'utilitis/enums';
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
   //============================================================================
+  //[For all user ]
   @Post('paypal')
   @UseGuards(AuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.USER)
+  @Roles(UserRole.ADMIN, UserRole.USER,UserRole.MANAGER,UserRole.PILOT)
   @ApiBearerAuth('JWT')
   createOrder( @Body() body: any,@Req() req: any,) {
     return this.paymentService.createPayPalOrder(req.user.id,body.ticketId);
   }
   //============================================================================
+  //[for all user]
   @Post('paypal/capture')
-  captureOrder(@Body() body: any,@Req() req: any) {
+  @UseGuards(AuthGuard)
+  @Roles(UserRole.ADMIN, UserRole.USER,UserRole.MANAGER,UserRole.PILOT)
+  @ApiBearerAuth('JWT')
+  captureOrder(@Body() body: any) {
     const { orderId,ticketId,userId } = body;
     return this.paymentService.capturePayPalOrder(orderId,ticketId,userId);
   }

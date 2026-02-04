@@ -12,7 +12,7 @@ export class CloudinaryController {
 
   constructor(private readonly cloudinaryService: CloudinaryService,) {}
   //============================================================================
-  // Endpoint to handle chunked file uploads
+  // Endpoint to handle chunked file uploads [Public]
   @Post('chunk')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
@@ -42,7 +42,7 @@ export class CloudinaryController {
     );
   }
   //============================================================================
-  // Endpoint to cancel an ongoing chunked upload session
+  // Endpoint to cancel an ongoing chunked upload session [Public]
   @Delete('cancel/:uploadId')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
@@ -73,7 +73,7 @@ export class CloudinaryController {
     };
   }
   //============================================================================
-  // Endpoint to delete an uploaded file from Cloudinary by its public ID
+  // Endpoint to delete an uploaded file from Cloudinary by its public ID [Public]
   @Delete('file/:publicId')
   @ApiOperation({ summary: 'Delete an uploaded file from Cloudinary' })
   @UseGuards(AuthGuard)

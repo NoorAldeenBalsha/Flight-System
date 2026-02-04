@@ -69,7 +69,7 @@ export class UserController {
     return this.userService.getCurrentUser(userPayload.id, lang);
   }
   //============================================================================
-  //Get user by Id
+  //Get user by Id [Any logged-in user]
   @Get('/:id')
   @UseGuards(AuthGuard)
   @ApiBearerAuth('JWT')
@@ -83,7 +83,7 @@ export class UserController {
     return this.userService.getUserbyId(id, lang);
   }
   //============================================================================
-  //Login with google account
+  //Login with google account [Public]
   @Post('google-login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login with google account' })
@@ -117,7 +117,7 @@ export class UserController {
     }
   } 
   //============================================================================
-  //  Callback  Google
+  //  Callback  Google [Public]
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   @ApiOperation({ summary: 'Callback  Google' })
@@ -188,10 +188,10 @@ export class UserController {
     return this.userService.verifyEmail(id, verificationToken, lang);
   }
   //============================================================================
-  //Get list of all users with filters and pagination [Admin only]
+  //Get list of all users with filters and pagination [Admin ,Manager]
   @Get()
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Get all users with pagination and filters' })
   @ApiQuery({ name: 'page', required: false, type: Number })
@@ -210,9 +210,10 @@ export class UserController {
     return this.userService.getAllUsers(+page, +limit, search, role, lang);
   }
   //============================================================================
-  //Update user data [Admin or current user]
+  //Update user data [Admin , Manager or current user]
   @Patch('update/:id')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AuthRolesGuard)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Update user information (Admin only)' })
   @ApiResponse({ status: 200, description: 'User updated successfully' })
@@ -228,10 +229,10 @@ export class UserController {
     return this.userService.update(id, payload, updateUserDto, lang);
   }
   //============================================================================
-  //Delete user  [Admin only]
+  //Delete user  [Admin ,Manager]
   @Delete('delete/:id')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN) 
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Delete a user (Admin only)' })
   @ApiResponse({ status: 200, description: 'User deleted successfully' })
@@ -246,10 +247,10 @@ export class UserController {
     return this.userService.deleteUser(id, payload, lang);
   }
   //============================================================================
-  // analytices data for users
+  // analytices data for users [Public]
   @Get('analytices/user')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN) 
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
   @ApiBearerAuth('JWT')
   @ApiOperation({summary: 'Comprehensive user analytics',  })
   @ApiResponse({status: 200,description: 'Successfully retrieved user analytics.',})

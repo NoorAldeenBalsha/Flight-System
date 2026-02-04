@@ -17,10 +17,10 @@ export class FlightController {
     private readonly flightAnalyticsService: FlightAnalyticsService,
   ) {}
   //============================================================================
-  // Create a new trip [ Admin only ]
+  // Create a new trip [ Admin ,Manager,Pilot ]
   @Post('create')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER,UserRole.PILOT)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Only admin can create new trip' })
   @ApiResponse({ status: 201, description: 'Trip created successfully' })
@@ -30,10 +30,10 @@ export class FlightController {
       return await this.flightService.create(createFlightDto,lang);
   }
   //============================================================================
-  // Fetch all trips with support for filtering, searching, and pagination
+  // Fetch all trips with support for filtering, searching, and pagination [All user website]
   @Get('list/getAllTrips')
   @UseGuards(AuthGuard)
-  @Roles(UserRole.ADMIN, UserRole.USER)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER,UserRole.PILOT,UserRole.USER)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Get all flights with optional filters and pagination' })
   @ApiQuery({ name: 'origin', required: false, example: 'DOH', description: 'Filter by origin airport code' })
@@ -55,10 +55,10 @@ export class FlightController {
     return this.flightService.findAll({origin,destination,status,fromDate,toDate,page,limit,});
   }
   //============================================================================
-  // Fetch a single trip by ID
+  // Fetch a single trip by ID [Admin,Manager,Pilot]
   @Get(':id')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER,UserRole.PILOT)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary:' Fetch details of a specific trip by ID'})
   @ApiParam({ name: 'id', required: true, description: 'Trip ID' })
@@ -69,10 +69,10 @@ export class FlightController {
       return this.flightService.findOne(id,lang);
   }
   //============================================================================
-  // Update specific trip data
+  // Update specific trip data [Admin,Manager]
   @Patch(':id')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Update specific trip data (ADMIN only)' })
   @ApiParam({ name: 'id', description:'Trip ID to update' })
@@ -83,10 +83,10 @@ export class FlightController {
       return this.flightService.update(id, updateFlightDto,lang);
   }
   //============================================================================
-  // Delete a specific trip
+  // Delete a specific trip[Admin,Manager]
   @Delete(':id')
   @UseGuards(AuthGuard, AuthRolesGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
   @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Delete Trip (ADMIN only)' })
   @ApiParam({ name: 'id', description: 'The ID of the trip to be deleted' })
@@ -97,15 +97,18 @@ export class FlightController {
       return this.flightService.remove(id,lang);
   }
   //============================================================================
-   // analytices data for flights
+   // analytices data for flights[Admin,Manager]
   @Get('analytics/flights')
+  @UseGuards(AuthGuard, AuthRolesGuard)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
+  @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Get comprehensive flight performance & operational analytics' })
   @ApiResponse({ status: 200,description: 'Flight analytics payload',})
   async getFlightAnalytics() {
     return this.flightAnalyticsService.getFlightAnalytics();
   }
   //============================================================================
-  // Fetch all public trips with support for filtering, searching, and pagination
+  // Fetch all public trips with support for filtering, searching, and pagination [public]
   @Get('public/list/getAllTrips')
   @ApiOperation({ summary: 'Get all public flights with filters and pagination' })
   @ApiQuery({ name: 'origin', required: false })

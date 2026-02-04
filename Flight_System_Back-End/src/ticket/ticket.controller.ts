@@ -1,9 +1,12 @@
-import { Controller, Get, Param, NotFoundException, Req, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException, Req, Post, Body, UseGuards } from '@nestjs/common';
 import { TicketService } from './ticket.service';
 import { Ticket } from './schema/ticket.schema';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { AnalyticsTicketService } from './analytice/ticket-analytice.service';
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/user/decorator/user-role.decorator';
+import { UserRole } from 'utilitis/enums';
 
 @ApiTags('Tickets')
 @Controller('api/tickets')
@@ -13,8 +16,11 @@ export class TicketController {
     private readonly analyticsTicketService: AnalyticsTicketService,
   ) {}
   //============================================================================
-  // Get all ticket
+  // Get all ticket [For all user]
   @Get('flight/:id')
+  @UseGuards(AuthGuard)
+  @Roles(UserRole.ADMIN, UserRole.USER,UserRole.MANAGER,UserRole.PILOT)
+  @ApiBearerAuth('JWT')
   @ApiOperation({ summary:' Get all ticket '})
   @ApiParam({ name: 'id', required: true, description: 'Ticket ID' })
   @ApiResponse({ status: 200, description:'Tickets data was successfully retrieved' })
@@ -31,8 +37,11 @@ export class TicketController {
     }
   }
   //============================================================================
-  // Fetch details of a specific ticket by ID
+  // Fetch details of a specific ticket by ID [For all user]
   @Get(':id')
+  @UseGuards(AuthGuard)
+  @Roles(UserRole.ADMIN, UserRole.USER,UserRole.MANAGER,UserRole.PILOT)
+  @ApiBearerAuth('JWT')
   @ApiOperation({ summary:' Fetch details of a specific ticket by ID'})
   @ApiParam({ name: 'id', required: true, description: 'Ticket ID' })
   @ApiResponse({ status: 200, description:'Ticket data was successfully retrieved' })
@@ -44,16 +53,22 @@ export class TicketController {
     return await this.ticketService.getTicketById(id,lang);
   }
   //============================================================================
-  // This one for create panding ticket
+  // This one for create panding ticket [For all user]
   @Post('book')
+  @UseGuards(AuthGuard)
+  @Roles(UserRole.ADMIN, UserRole.USER,UserRole.MANAGER,UserRole.PILOT)
+  @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Reserve a ticket temporarily before payment' })
   async bookTicket(@Body() dto: CreateBookingDto,@Req() req: any,) {
     const lang = req.lang || 'en';
     return this.ticketService.createPendingTicket(dto);
   }
   //============================================================================
-  // analytices data for tickets
+  // analytices data for tickets [Admin , Manager]
   @Get('analytics/tickets')
+  @UseGuards(AuthGuard)
+  @Roles(UserRole.ADMIN,UserRole.MANAGER)
+  @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Get detailed ticket sales and financial analytics' })
   @ApiResponse({status: 200,description: 'Returns a complete ticket analytics summary',})
   async getTicketAnalytics() {
