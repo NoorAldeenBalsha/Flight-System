@@ -1,6 +1,5 @@
 import React from "react";
 import {createRoot }from "react-dom/client"
-import App from "./App";
 import AuthState from "./context/auth/authState";
 import LoadingState from "./context/loading/loadingState";
 import GlobalToastProvider from "./components/GlobalToast";
@@ -13,6 +12,7 @@ import "./styles/theme.css"
 import ThemeProvider from "./context/theme/themeContext";
 import "./styles/theme.css"
 import ScrollToTop from "./components/scrollToTop";
+import App from "./app";
 
 window.process=process;
 

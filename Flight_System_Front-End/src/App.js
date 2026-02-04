@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./mobile.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar";
 import Auth from "./components/auth/auth";
 import Fail from "./components/fail";
 import ResetPassword from "./components/auth/resetPassword";
