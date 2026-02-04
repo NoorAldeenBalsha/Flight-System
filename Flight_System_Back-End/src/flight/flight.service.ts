@@ -1,10 +1,10 @@
 import {Injectable,NotFoundException,BadRequestException,} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Flight, FlightDocument } from './schema/flight.schema';
+import { AirportName, Flight, FlightDocument } from './schema/flight.schema';
 import { CreateFlightDto } from './dto/create-flight.dto';
-import { TranslationService } from '../translation/translation.service';
 import { TicketService } from 'src/ticket/ticket.service';
+import { AIRPORTS } from 'src/common/constants/airports';
 
 @Injectable()
 export class FlightService {
@@ -12,65 +12,62 @@ export class FlightService {
   constructor(
     @InjectModel(Flight.name)
     private readonly flightModel: Model<FlightDocument>,
-    private readonly translationService: TranslationService,
     private readonly ticketService: TicketService,
   ) {}
   //============================================================================
   // Create a new trip
   async create(createFlightDto: CreateFlightDto, lang: 'en' | 'ar' = 'en'): Promise<Flight> {
-    //  translation of the origin
-    let originEn = createFlightDto.origin.en;
-    let originAr = createFlightDto.origin.ar;
 
-    if (originEn && !originAr) {
-      // The user entered English only
-      originAr = await this.translationService.translateText(originEn, 'ar');
-    } else if (!originEn && originAr) {
-      // The user entered Arabic only
-      originEn = await this.translationService.translateText(originAr, 'en');
+    const originFull = AIRPORTS.find(airport =>
+      Object.values(airport).some(
+        value =>
+          typeof value === 'string' &&
+          value.toLowerCase() === (createFlightDto.origin.en?.toLowerCase() || createFlightDto.origin.ar?.toLowerCase())
+      )
+    );
+    if (!originFull) throw new BadRequestException('Invalid origin airport');
+
+    const destinationFull = AIRPORTS.find(airport =>
+      Object.values(airport).some(
+        value =>
+          typeof value === 'string' &&
+          value.toLowerCase() === (createFlightDto.destination.en?.toLowerCase() || createFlightDto.destination.ar?.toLowerCase())
+      )
+    );
+    if (!destinationFull) throw new BadRequestException('Invalid destination airport');
+
+    if (JSON.stringify(originFull) === JSON.stringify(destinationFull)) {
+      throw new BadRequestException('Origin and destination cannot be the same');
     }
 
-    //  translation of the destination
-    let destinationEn = createFlightDto.destination.en;
-    let destinationAr = createFlightDto.destination.ar;
-
-    if (destinationEn && !destinationAr) {
-      destinationAr = await this.translationService.translateText(destinationEn, 'ar');
-    } else if (!destinationEn && destinationAr) {
-      destinationEn = await this.translationService.translateText(destinationAr, 'en');
-    }
-
-    // Create Flight
     const flight = new this.flightModel({
       ...createFlightDto,
-      origin: { en: originEn, ar: originAr },
-      destination: { en: destinationEn, ar: destinationAr },
+      origin: originFull,
+      destination: destinationFull,
       departureTime: new Date(createFlightDto.departureTime),
       arrivalTime: new Date(createFlightDto.arrivalTime),
     });
 
     const newFlight = await flight.save();
 
-    // Check the id
+
     const flightId = (newFlight as any)?._id?.toString?.() ?? (newFlight as any).id ?? null;
-    if (!flightId) 
+    if (!flightId)
       throw new BadRequestException({
-          message: lang === 'ar'
-            ? 'فشل في إنشاء الرحلة: المعرف _id مفقود بعد الحفظ'
-            : 'Failed to create flight: missing _id after save',
-        });
+        message: lang === 'ar'
+          ? 'فشل في إنشاء الرحلة: المعرف _id مفقود بعد الحفظ'
+          : 'Failed to create flight: missing _id after save',
+      });
 
-    //  Verify the aircraft type
-    if (!newFlight.aircraftType) {
+    if (!newFlight.aircraftType)
       throw new BadRequestException({
-          message: lang === 'ar'
-            ? 'يتعذر إنشاء التذاكر: نوع الطائرة مفقود'
-            : 'Cannot generate tickets: aircraftType is missing',
-        });
-    }
+        message: lang === 'ar'
+          ? 'يتعذر إنشاء التذاكر: نوع الطائرة مفقود'
+          : 'Cannot generate tickets: aircraftType is missing',
+      });
 
-    // Automatically create tickets after creating the trip
-    await this.ticketService.generateTicketsForFlight(flightId, newFlight.aircraftType,lang);
+
+    await this.ticketService.generateTicketsForFlight(flightId, newFlight.aircraftType, lang);
 
     return newFlight;
   }
@@ -205,73 +202,77 @@ export class FlightService {
   }
   //============================================================================
   // Update specific trip data
-  async update(id: string,updateData: Partial<CreateFlightDto>,lang: 'en' | 'ar' = 'en'): Promise<Flight> {
-  const flight = await this.flightModel.findById(id);
-  if (!flight)
-    throw new NotFoundException({
-      message:
-        lang === 'ar'
-          ? `لم يتم العثور على الرحلة التي تحمل المعرف ${id}.`
-          : `Flight with ID ${id} not found.`,
+  async update( id: string, updateData: Partial<CreateFlightDto>,lang: 'en' | 'ar' = 'en'): Promise<Flight> {
+    const flight = await this.flightModel.findById(id);
+    if (!flight)
+      throw new NotFoundException({
+        message:
+          lang === 'ar'
+            ?` لم يتم العثور على الرحلة التي تحمل المعرف ${id}.`
+            : `Flight with ID ${id} not found.`,
+      });
+
+    // ===== ORIGIN MATCHING =====
+    if (updateData.origin) {
+      const originFull = AIRPORTS.find(airport =>
+        Object.values(airport).some(
+          value =>
+            typeof value === 'string' &&
+            value.toLowerCase() ===
+              (updateData.origin?.en?.toLowerCase() ||
+                updateData.origin?.ar?.toLowerCase() ||
+                flight.origin.en.toLowerCase() ||
+                flight.origin.ar.toLowerCase())
+        )
+      );
+
+      if (!originFull) throw new BadRequestException('Invalid origin airport');
+      flight.origin = this.normalizeAirport(originFull);
+    }
+    
+    // ===== DESTINATION MATCHING =====
+    if (updateData.destination) {
+      const destinationFull = AIRPORTS.find(airport =>
+        Object.values(airport).some(
+          value =>
+            typeof value === 'string' &&
+            value.toLowerCase() ===
+              (updateData.destination?.en?.toLowerCase() ||
+                updateData.destination?.ar?.toLowerCase() ||
+                flight.destination.en.toLowerCase() ||
+                flight.destination.ar.toLowerCase())
+        )
+      );
+
+      if (!destinationFull) throw new BadRequestException('Invalid destination airport');
+
+      // ===== Prevent same origin and destination =====
+      if (JSON.stringify(flight.origin) === JSON.stringify(flight.destination)) {
+        throw new BadRequestException('Origin and destination cannot be the same');
+      }
+      
+      flight.destination = this.normalizeAirport(destinationFull);
+    }
+
+    // ===== SIMPLE FIELDS UPDATE (exclude origin, destination) =====
+    const fieldsToUpdate = [
+      'flightNumber',
+      'departureTime',
+      'arrivalTime',
+      'status',
+      'gate',
+      'aircraftType',
+      'airlineCode',
+    ];
+
+    fieldsToUpdate.forEach(field => {
+      if (updateData[field] !== undefined) {
+        flight[field] = updateData[field];
+      }
     });
 
-  // ORIGIN TRANSLATION 
-  if (updateData.origin) {
-    let originEn = updateData.origin.en ?? flight.origin.en;
-    let originAr = updateData.origin.ar ?? flight.origin.ar;
-
-    if (updateData.origin.en && !updateData.origin.ar) {
-      originAr = await this.translationService.translateText(originEn, 'ar');
-    }
-
-    if (!updateData.origin.en && updateData.origin.ar) {
-      originEn = await this.translationService.translateText(originAr, 'en');
-    }
-
-    flight.origin = { en: originEn, ar: originAr };
+    return flight.save();
   }
-
-  //  DESTINATION TRANSLATION 
-  if (updateData.destination) {
-    let destinationEn = updateData.destination.en ?? flight.destination.en;
-    let destinationAr = updateData.destination.ar ?? flight.destination.ar;
-
-    if (updateData.destination.en && !updateData.destination.ar) {
-      destinationAr = await this.translationService.translateText(
-        destinationEn,
-        'ar'
-      );
-    }
-
-    if (!updateData.destination.en && updateData.destination.ar) {
-      destinationEn = await this.translationService.translateText(
-        destinationAr,
-        'en'
-      );
-    }
-
-    flight.destination = { en: destinationEn, ar: destinationAr };
-  }
-
-  // SIMPLE FIELDS UPDATE (exclude origin, destination) 
-  const fieldsToUpdate = [
-    'flightNumber',
-    'departureTime',
-    'arrivalTime',
-    'status',
-    'gate',
-    'aircraftType',
-    'airlineCode',
-  ];
-
-  fieldsToUpdate.forEach((field) => {
-    if (updateData[field] !== undefined) {
-      flight[field] = updateData[field];
-    }
-  });
-
-  return flight.save();
-}
   //============================================================================
   // Delete a specific trip
   async remove(id: string, lang: 'en' | 'ar' = 'en'): Promise<{ message: string }> {
@@ -309,4 +310,18 @@ export class FlightService {
   return updated;
   }
   //============================================================================
+  // Helper to ensure all languages exist
+  private normalizeAirport(airport: Partial<AirportName>): AirportName {
+    return {
+      en: airport.en || '',
+      ar: airport.ar || '',
+      de: airport.de || '',
+      es: airport.es || '',
+      fr: airport.fr || '',
+      jp: airport.jp || '', 
+      ru: airport.ru || '',
+      tr: airport.tr || '',
+      zh: airport.zh || '',
+    };
+  }
 }

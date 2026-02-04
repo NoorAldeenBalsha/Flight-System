@@ -12,15 +12,15 @@ export enum UserGender{
 }
 
 export enum PrimaryLanguage {
-    ENGLISH = 'English',
-    SPANISH = 'Spanish',
-    FRENCH = 'French',
-    GERMAN = 'German',
-    CHINESE = 'Chinese',
-    JAPANESE = 'Japanese',
-    ARABIC = 'Arabic',
-    RUSSIAN = 'Russian',
-    PORTUGUESE = 'Portuguese',
-    ITALIAN = 'Italian',
+    en = 'English',
+    es = 'Spanish',
+    fr = 'French',
+    de = 'German',
+    zh = 'Chinese',
+    jp = 'Japanese',
+    ar = 'Arabic',
+    ru = 'Russian',
+    tr='turki',
+
 }
 

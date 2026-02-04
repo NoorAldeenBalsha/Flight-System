@@ -23,11 +23,11 @@ async checkFlightStatuses() {
       if (
         now >= departure &&
         now < arrival &&
-        flight.status !== 'took off' 
+        flight.status !== 'took_off' 
       ) {
         await this.flightService.updateFlightStatus(
           flight._id,
-          'took off',
+          'took_off',
         );
         continue;
       }

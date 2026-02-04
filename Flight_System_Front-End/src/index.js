@@ -6,7 +6,7 @@ import LoadingState from "./context/loading/loadingState";
 import GlobalToastProvider from "./components/GlobalToast";
 import { LanguageProvider } from "./context/LanguageContext";
 import process from "process";
-import { BrowserRouter as Router} from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AuthProvider from "./context/auth/authProvider";
 import "./styles/theme.css"
@@ -26,14 +26,14 @@ root.render(
         <AuthState>
           <LoadingState>
             <ThemeProvider>
-              <Router future={{ v7_relativeSplatPath:true,v7_startTransition:true}}>
+              <BrowserRouter future={{ v7_relativeSplatPath:true,v7_startTransition:true}}>
                 <GoogleOAuthProvider clientId="136188509800-5cs4tpi1pol2jfgna16g0rj7cb759abq.apps.googleusercontent.com">
                   <AuthProvider>
                     <ScrollToTop/>
                     <App />
                   </AuthProvider>
                 </GoogleOAuthProvider>
-              </Router>
+              </BrowserRouter>
             </ThemeProvider>
           </LoadingState>
         </AuthState>

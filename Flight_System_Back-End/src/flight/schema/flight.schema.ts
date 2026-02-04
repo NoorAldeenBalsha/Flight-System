@@ -2,13 +2,16 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export type FlightDocument = Flight & Document;
-
-export class TranslatedField {
-  @Prop({ required: true })
-  en: string;
-
-  @Prop({ required: true })
-  ar: string;
+export class AirportName{
+  en:string;
+  es:string;
+  ar:string;
+  tr:string;
+  jp:string;
+  ru:string;
+  zh:string;
+  fr:string;
+  de:string;
 }
 
 @Schema({ timestamps: true })
@@ -17,10 +20,10 @@ export class Flight {
   flightNumber: string; 
 
   @Prop({ type: Object, required: true })
-  origin: TranslatedField; 
+  origin: AirportName; 
 
   @Prop({ type: Object, required: true })
-  destination: TranslatedField; 
+  destination: AirportName; 
 
   @Prop({ required: true })
   departureTime: Date;

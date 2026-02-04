@@ -3,7 +3,6 @@ import "./mobile.css";
 import Navbar from "./components/Navbar";
 import Auth from "./components/auth/auth";
 import Fail from "./components/fail";
-import Forget from "./components/auth/Forget";
 import ResetPassword from "./components/auth/resetPassword";
 import NotFound from "./components/404";
 import Contact from "./components/contact";
@@ -21,6 +20,7 @@ import SeatSelectionPage from "./components/seatSelection";
 import PaymentSuccess from "./components/paymentSuccess";
 import AdminDashboard from "./components/dashboard/adminDashboard";
 import AdminRoute from "./adminRoute";
+import Forget from "./components/auth/forget";
 
 export default function App() {
   const [display, setDisplay] = useState(0);

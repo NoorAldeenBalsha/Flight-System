@@ -12,6 +12,42 @@ export class TranslatedFieldDto {
   @IsString()
   @IsOptional()
   ar?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  es?: string;
+  
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  de?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  fr?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  jp?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  zh?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  ru?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  tr?: string;
+
 }
 
 export class LocationDto {

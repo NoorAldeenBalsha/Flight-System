@@ -8,7 +8,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { FlightStatusScheduler } from './flight-status.scheduler';
 import { FlightArchive, FlightArchiveSchema } from './schema/flight-archive.schema';
 import { FlightArchiveScheduler } from './flight-archive.scheduler';
-import { TranslationModule } from '../translation/translation.module';
 import { TicketModule } from 'src/ticket/ticket.module';
 import { Ticket, TicketSchema } from 'src/ticket/schema/ticket.schema';
 import { ArchivedTicket, ArchivedTicketSchema } from 'src/ticket/schema/ticket-archive.schema';
@@ -30,8 +29,6 @@ import { FlightAutoCreateScheduler } from './flight-auto-create.scheduler';
     forwardRef(() => UserModule),
     forwardRef(() => TicketModule),
     ScheduleModule.forRoot(),
-    TranslationModule,
-
   ],
   controllers: [FlightController],
   providers: [FlightService,FlightStatusScheduler,FlightArchiveScheduler,FlightAnalyticsService,FlightAutoCreateScheduler],

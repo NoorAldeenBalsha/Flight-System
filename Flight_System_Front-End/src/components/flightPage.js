@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLanguage } from "../context/LanguageContext";
 import "../css/flightpage.css";
 import Toast from "./toastAnimated";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useSearchParams} from "react-router-dom";
 import API from "../services/api";
 import { apiFetch } from "../services/apiFetch.js";
 
@@ -14,7 +14,7 @@ const FlightsPage = () => {
   const [flights, setFlights] = useState([]);
   const [editingFlight, setEditingFlight] = useState();
   const [showModal, setShowModal] = useState(false);
-  const token = cookieStore.get("refresh_token");
+   const token = localStorage.getItem("accessToken");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const [newFlight, setNewFlight] = useState({
@@ -42,7 +42,9 @@ const FlightsPage = () => {
   { en: "Latakia International Airport", ar: "مطار اللاذقية الدولي" },
   { en: "Deir ez-Zor International Airport", ar: "مطار دير الزور الدولي" },
   { en: "Qamishli International Airport", ar: "مطار القامشلي الدولي" }
-];
+  ];
+const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
   //=======================================================================================================
   const handleBookClick = (flight) => {
     navigate("/seat-selection",{state:flight});
@@ -64,7 +66,9 @@ const FlightsPage = () => {
       };fetchUser();}, []);
   //=======================================================================================================
   // Get flights
-  useEffect(() => {fetchFlights();}, [lang]);
+  useEffect(() => {fetchFlights();
+    window.scrollTo({top:0,behavior:"smooth"})
+  }, [lang,page]);
   //=======================================================================================================
   // for open Modal and send _id 
   const handleEditFlight = (flight) => {
@@ -280,18 +284,17 @@ const FlightsPage = () => {
       if (filters.origin) params.append("origin", filters.origin);
       if (filters.destination) params.append("destination", filters.destination);
       if (filters.status) params.append("status", filters.status);
-      if (filters.fromDate) params.append("fromDate", filters.fromDate);
-      if (filters.toDate) params.append("toDate", filters.toDate);
 
-        const flightFetch =await apiFetch(`/flights/list/getAllTrips?${params.toString()}`,{
+        const flightFetch =await apiFetch(`/flights/list/getAllTrips?page=${page}&limit=10&${params.toString()}`,{
         headers: {
             Authorization: `Bearer ${token}`,
             lang: lang,
           },});
           const flight =await flightFetch.json()
-          console.log(flight)
+
 
       setFlights(flight.data);
+      setTotalPages(flight.totalPages);
     } catch (err) {
       console.error("Fetch flights error:", err);
     }
@@ -329,6 +332,7 @@ const FlightsPage = () => {
             setFilters({ ...filters, origin: e.target.value })
           }
         >
+
           <option value="">{t.from}</option>
 
           {airports.map((airport) => (
@@ -365,6 +369,7 @@ const FlightsPage = () => {
           <option value="delayed">{t.flights_delayed}</option>
           <option value="completed">{t.flights_completed}</option>
           <option value="cancelled">{t.flights_cancelled}</option>
+          <option value="took_off">{t.status_took_off}</option>
         </select>
 
         <div className="filter-actions">
@@ -391,6 +396,7 @@ const FlightsPage = () => {
     {/* ===== Flights List Section ===== */}
     {!showCreateForm && (
       <section className="flights-list">
+       
         {flights.length > 0 ? (
           flights.map((flight) => (
             <div className="flight-card" key={flight._id}>
@@ -456,9 +462,24 @@ const FlightsPage = () => {
           ))
         ) : (
           <p className="no-flights">{t.flights_no_available}</p>
+          
         )}
 
-        {user?.role === "admin" && (
+        
+        <div className="pagination-wrapper">
+        <button className="arrow-btn" disabled={page === 1} onClick={() => setPage(page - 1)}>
+          ←
+        </button>
+
+        <span className="page-indicator">
+          {page} / {totalPages}
+        </span>
+
+        <button className="arrow-btn" disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+          →
+        </button>
+      </div>
+      {user?.role === "admin" && (
           <div className="add-flight">
             <button className="create-flight-btn" onClick={() => setShowCreateForm(!showCreateForm)}>
               {t.flights_create_button}
@@ -466,6 +487,7 @@ const FlightsPage = () => {
           </div>
         )}
       </section>
+      
     )}
 
       {/* Form Edit Flight */}
@@ -487,6 +509,7 @@ const FlightsPage = () => {
               <select name="origin" 
               value={ editingFlight.origin } 
                 onChange={handleChange}>
+                  <option ></option>
                   <option value="Aleppo International Airport">{t.flights_Aleppo}</option>
                   <option value="Latakia International Airport">{t.flights_Latakia}</option>
                   <option value="Damascus International Airport">{t.flights_Damascus}</option>
@@ -498,6 +521,7 @@ const FlightsPage = () => {
               <select name="destination" 
               value={  editingFlight.destination} 
                 onChange={handleChange}>
+                  <option ></option>
                   <option value="Aleppo International Airport">{t.flights_Aleppo}</option>
                   <option value="Latakia International Airport">{t.flights_Latakia}</option>
                   <option value="Damascus International Airport">{t.flights_Damascus}</option>
@@ -523,6 +547,7 @@ const FlightsPage = () => {
               {/* status */}
               <label>{t.flights_status}</label>
               <select name="status" value={editingFlight.status } onChange={handleChange}>
+                <option></option>
                   <option value="scheduled">{t.flights_scheduled}</option>
                   <option value="boarding">{t.flights_boarding}</option>
                   <option value="delayed">{t.flights_delayed}</option>
@@ -573,6 +598,7 @@ const FlightsPage = () => {
             <label>{t.from}</label>
             <select  value={ typeof newFlight.origin === "object" ? newFlight.origin[lang] : newFlight.origin} 
             onChange={(e) =>setNewFlight({  ...newFlight,  origin: { en: e.target.value },  })}>
+              <option ></option>
                   <option value="Damascus International Airport">{t.flights_Damascus}</option>
                   <option value="Aleppo International Airport">{t.flights_Aleppo}</option>
                   <option value="Latakia International Airport">{t.flights_Latakia}</option>
@@ -584,6 +610,7 @@ const FlightsPage = () => {
           <div className="form-group">
             <label>{t.to}</label>
             <select value={newFlight.destination.en}  onChange={(e) =>setNewFlight({  ...newFlight,  destination: { en: e.target.value },  })}>
+                  <option ></option>
                   <option value="Aleppo International Airport">{t.flights_Aleppo}</option>
                   <option value="Latakia International Airport">{t.flights_Latakia}</option>
                   <option value="Damascus International Airport">{t.flights_Damascus}</option>
@@ -618,6 +645,7 @@ const FlightsPage = () => {
             <label>{t.flights_status}</label>
             <select name="status" value={newFlight.status } onChange={(e) =>
                 setNewFlight({ ...newFlight, status: e.target.value })}>
+                  <option></option>
                   <option value="scheduled">{t.flights_scheduled}</option>
                   <option value="boarding">{t.flights_boarding}</option>
                   <option value="delayed">{t.flights_delayed}</option>
@@ -641,6 +669,7 @@ const FlightsPage = () => {
             <label>{t.flights_aircraft}</label>
               <select name="aircraftType" value={newFlight.aircraftType }onChange={(e) =>
                 setNewFlight({ ...newFlight, aircraftType: e.target.value })}>
+                  <option></option>
                   <option value="boeing 777">Boeing 777</option>
                   <option value="airbus a320">Airbus a320</option>
                   <option value="boeing 737">Boeing 737</option>
