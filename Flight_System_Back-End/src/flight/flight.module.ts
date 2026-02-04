@@ -4,7 +4,6 @@ import { FlightService } from './flight.service';
 import { FlightController } from './flight.controller';
 import { Flight, FlightSchema } from './schema/flight.schema';
 import { UserModule } from 'src/user/user.module';
-import { ScheduleModule } from '@nestjs/schedule';
 import { FlightStatusScheduler } from './flight-status.scheduler';
 import { FlightArchive, FlightArchiveSchema } from './schema/flight-archive.schema';
 import { FlightArchiveScheduler } from './flight-archive.scheduler';
@@ -28,7 +27,6 @@ import { FlightAutoCreateScheduler } from './flight-auto-create.scheduler';
     // If there is a need to access user information
     forwardRef(() => UserModule),
     forwardRef(() => TicketModule),
-    ScheduleModule.forRoot(),
   ],
   controllers: [FlightController],
   providers: [FlightService,FlightStatusScheduler,FlightArchiveScheduler,FlightAnalyticsService,FlightAutoCreateScheduler],

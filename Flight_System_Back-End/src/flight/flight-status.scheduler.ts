@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { FlightService } from './flight.service';
 
 
 @Injectable()
+@Injectable()
 export class FlightStatusScheduler {
-
-  constructor(private readonly flightService: FlightService) {}
+  constructor(
+    @Inject(forwardRef(() => FlightService))
+    private readonly flightService: FlightService,
+  ) {}
 
   // Checks completed trips every minute
   @Cron(CronExpression.EVERY_SECOND)

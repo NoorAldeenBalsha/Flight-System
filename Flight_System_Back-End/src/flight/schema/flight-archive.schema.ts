@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export class AirportName{
-  en:string;
+ en:string;
   es:string;
   ar:string;
   tr:string;
@@ -11,6 +11,7 @@ export class AirportName{
   zh:string;
   fr:string;
   de:string;
+
 }
 
 @Schema({ timestamps: true })

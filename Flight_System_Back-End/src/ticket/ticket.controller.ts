@@ -4,9 +4,9 @@ import { Ticket } from './schema/ticket.schema';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { AnalyticsTicketService } from './analytice/ticket-analytice.service';
-import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/user/decorator/user-role.decorator';
 import { UserRole } from 'utilitis/enums';
+import { AuthGuard } from 'src/user/guard/auth.guard';
 
 @ApiTags('Tickets')
 @Controller('api/tickets')

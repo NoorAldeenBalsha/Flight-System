@@ -1,7 +1,7 @@
-import {Injectable,NotFoundException,BadRequestException,} from '@nestjs/common';
+import {Injectable,NotFoundException,BadRequestException, Inject, forwardRef,} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AirportName, Flight, FlightDocument } from './schema/flight.schema';
+import {  Flight, FlightDocument } from './schema/flight.schema';
 import { CreateFlightDto } from './dto/create-flight.dto';
 import { TicketService } from 'src/ticket/ticket.service';
 import { AIRPORTS } from 'src/common/constants/airports';
@@ -9,11 +9,13 @@ import { AIRPORTS } from 'src/common/constants/airports';
 @Injectable()
 export class FlightService {
 
-  constructor(
-    @InjectModel(Flight.name)
-    private readonly flightModel: Model<FlightDocument>,
-    private readonly ticketService: TicketService,
-  ) {}
+constructor(
+  @InjectModel(Flight.name)
+  private readonly flightModel: Model<FlightDocument>,
+
+  @Inject(forwardRef(() => TicketService))
+  private readonly ticketService: TicketService,
+) {}
   //============================================================================
   // Create a new trip
   async create(createFlightDto: CreateFlightDto, lang: 'en' | 'ar' = 'en'): Promise<Flight> {
@@ -71,6 +73,79 @@ export class FlightService {
 
     return newFlight;
   }
+  // Update specific trip data
+  async update( id: string, updateData: Partial<CreateFlightDto>,lang: 'en' | 'ar' = 'en'): Promise<Flight> {
+    const flight = await this.flightModel.findById(id);
+    if (!flight)
+      throw new NotFoundException({
+        message:
+          lang === 'ar'
+            ?` لم يتم العثور على الرحلة التي تحمل المعرف ${id}.`
+            : `Flight with ID ${id} not found.`,
+      });
+
+    // ===== ORIGIN MATCHING =====
+    if (updateData.origin) {
+      const originFull = AIRPORTS.find(airport =>
+        Object.values(airport).some(
+          value =>
+            typeof value === 'string' &&
+            value.toLowerCase() ===
+              (updateData.origin?.en?.toLowerCase() ||
+                updateData.origin?.ar?.toLowerCase() ||
+                flight.origin.en.toLowerCase() ||
+                flight.origin.ar.toLowerCase())
+        )
+      );
+
+      if (!originFull) throw new BadRequestException('Invalid origin airport');
+      flight.origin = this.normalizeAirport(originFull);
+    }
+    
+    // ===== DESTINATION MATCHING =====
+    if (updateData.destination) {
+      const destinationFull = AIRPORTS.find(airport =>
+        Object.values(airport).some(
+          value =>
+            typeof value === 'string' &&
+            value.toLowerCase() ===
+              (updateData.destination?.en?.toLowerCase() ||
+                updateData.destination?.ar?.toLowerCase() ||
+                flight.destination.en.toLowerCase() ||
+                flight.destination.ar.toLowerCase())
+        )
+      );
+
+      if (!destinationFull) throw new BadRequestException('Invalid destination airport');
+
+      // ===== Prevent same origin and destination =====
+      if (JSON.stringify(flight.origin) === JSON.stringify(flight.destination)) {
+        throw new BadRequestException('Origin and destination cannot be the same');
+      }
+      
+      flight.destination = this.normalizeAirport(destinationFull);
+    }
+
+    // ===== SIMPLE FIELDS UPDATE (exclude origin, destination) =====
+    const fieldsToUpdate = [
+      'flightNumber',
+      'departureTime',
+      'arrivalTime',
+      'status',
+      'gate',
+      'aircraftType',
+      'airlineCode',
+    ];
+
+    fieldsToUpdate.forEach(field => {
+      if (updateData[field] !== undefined) {
+        flight[field] = updateData[field];
+      }
+    });
+
+    return flight.save();
+  }
+  //============================================================================
   //============================================================================
   // Fetch all trips with support for filtering, searching, and pagination
   async findAll(filters?:{origin?:string;destination?:string;flightType?:string;status?:string;fromDate?:string;toDate?:string;page?:number;limit?:number; 
@@ -201,79 +276,7 @@ export class FlightService {
     return flight;
   }
   //============================================================================
-  // Update specific trip data
-  async update( id: string, updateData: Partial<CreateFlightDto>,lang: 'en' | 'ar' = 'en'): Promise<Flight> {
-    const flight = await this.flightModel.findById(id);
-    if (!flight)
-      throw new NotFoundException({
-        message:
-          lang === 'ar'
-            ?` لم يتم العثور على الرحلة التي تحمل المعرف ${id}.`
-            : `Flight with ID ${id} not found.`,
-      });
-
-    // ===== ORIGIN MATCHING =====
-    if (updateData.origin) {
-      const originFull = AIRPORTS.find(airport =>
-        Object.values(airport).some(
-          value =>
-            typeof value === 'string' &&
-            value.toLowerCase() ===
-              (updateData.origin?.en?.toLowerCase() ||
-                updateData.origin?.ar?.toLowerCase() ||
-                flight.origin.en.toLowerCase() ||
-                flight.origin.ar.toLowerCase())
-        )
-      );
-
-      if (!originFull) throw new BadRequestException('Invalid origin airport');
-      flight.origin = this.normalizeAirport(originFull);
-    }
-    
-    // ===== DESTINATION MATCHING =====
-    if (updateData.destination) {
-      const destinationFull = AIRPORTS.find(airport =>
-        Object.values(airport).some(
-          value =>
-            typeof value === 'string' &&
-            value.toLowerCase() ===
-              (updateData.destination?.en?.toLowerCase() ||
-                updateData.destination?.ar?.toLowerCase() ||
-                flight.destination.en.toLowerCase() ||
-                flight.destination.ar.toLowerCase())
-        )
-      );
-
-      if (!destinationFull) throw new BadRequestException('Invalid destination airport');
-
-      // ===== Prevent same origin and destination =====
-      if (JSON.stringify(flight.origin) === JSON.stringify(flight.destination)) {
-        throw new BadRequestException('Origin and destination cannot be the same');
-      }
-      
-      flight.destination = this.normalizeAirport(destinationFull);
-    }
-
-    // ===== SIMPLE FIELDS UPDATE (exclude origin, destination) =====
-    const fieldsToUpdate = [
-      'flightNumber',
-      'departureTime',
-      'arrivalTime',
-      'status',
-      'gate',
-      'aircraftType',
-      'airlineCode',
-    ];
-
-    fieldsToUpdate.forEach(field => {
-      if (updateData[field] !== undefined) {
-        flight[field] = updateData[field];
-      }
-    });
-
-    return flight.save();
-  }
-  //============================================================================
+  
   // Delete a specific trip
   async remove(id: string, lang: 'en' | 'ar' = 'en'): Promise<{ message: string }> {
     const deleted = await this.flightModel.findByIdAndDelete(id);
@@ -311,17 +314,17 @@ export class FlightService {
   }
   //============================================================================
   // Helper to ensure all languages exist
-  private normalizeAirport(airport: Partial<AirportName>): AirportName {
+  private normalizeAirport(airport: any) {
     return {
-      en: airport.en || '',
-      ar: airport.ar || '',
-      de: airport.de || '',
-      es: airport.es || '',
-      fr: airport.fr || '',
-      jp: airport.jp || '', 
-      ru: airport.ru || '',
-      tr: airport.tr || '',
-      zh: airport.zh || '',
+      en: airport.en ,
+      ar: airport.ar ,
+      de: airport.de ,
+      es: airport.es ,
+      fr: airport.fr,
+      jp: airport.jp , 
+      ru: airport.ru ,
+      tr: airport.tr ,
+      zh: airport.zh ,
     };
   }
 }

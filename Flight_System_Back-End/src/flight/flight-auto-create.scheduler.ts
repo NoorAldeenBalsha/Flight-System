@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { FlightService } from './flight.service';
 import { CreateFlightDto } from './dto/create-flight.dto';
@@ -7,6 +7,7 @@ import { CreateFlightDto } from './dto/create-flight.dto';
 @Injectable()
 export class FlightAutoCreateScheduler {
   constructor(
+    @Inject(forwardRef(() => FlightService))
     private readonly flightService: FlightService,
   ) {}
   // ===================================================

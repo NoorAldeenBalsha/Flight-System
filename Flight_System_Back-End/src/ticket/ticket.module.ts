@@ -5,8 +5,8 @@ import { Ticket, TicketSchema } from './schema/ticket.schema';
 import { TicketController } from './ticket.controller';
 import { FlightModule } from '../flight/flight.module';
 import { ArchivedTicket, ArchivedTicketSchema } from './schema/ticket-archive.schema';
-import { ScheduleModule } from '@nestjs/schedule';
 import { AnalyticsTicketService } from './analytice/ticket-analytice.service';
+import { UserModule } from 'src/user/user.module';
 
 
 @Module({
@@ -15,8 +15,8 @@ import { AnalyticsTicketService } from './analytice/ticket-analytice.service';
       { name: Ticket.name, schema: TicketSchema },
       { name: ArchivedTicket.name, schema: ArchivedTicketSchema },
     ]),
+    forwardRef(() => UserModule),
     forwardRef(() => FlightModule),
-    ScheduleModule.forRoot(),
   ],
   controllers: [TicketController],
   providers: [TicketService,AnalyticsTicketService],
