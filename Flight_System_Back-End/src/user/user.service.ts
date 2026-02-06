@@ -155,7 +155,6 @@ export class UserService {
   // Log out the current user
   public async logout(response: Response, req: Request, lang: 'en' | 'ar' = 'en') {
     const isProduction = this.configService.get<string>('NODE_ENV') === 'production';
-
     response.clearCookie('refresh_token', {
     httpOnly: true,
       sameSite: isProduction ? 'strict' : 'lax',

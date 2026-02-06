@@ -12,38 +12,55 @@ export class FlightStatusScheduler {
   ) {}
 
   // Checks completed trips every minute
-  @Cron(CronExpression.EVERY_SECOND)
+  @Cron(CronExpression.EVERY_SECOND, {
+  timeZone: 'Asia/Damascus',
+})
 async checkFlightStatuses() {
   try {
-    const flightsData = await this.flightService.findAll();
-    const flights = flightsData.data;
+    let page = 1;
+    const limit = 10;
+    let totalPages = 1;
+
     const now = new Date();
-    console.log("here")
-    for (const flight of flights) {
-      const departure = new Date(flight.departureTime);
-      const arrival = new Date(flight.arrivalTime);
 
-      if (
-        now >= departure &&
-        now < arrival &&
-        flight.status !== 'took_off' 
-      ) {
-        await this.flightService.updateFlightStatus(
-          flight._id,
-          'took_off',
-        );
-        continue;
+    do {
+      const flightsData = await this.flightService.findAll({
+        page,
+        limit,
+      });
+
+      const flights = flightsData.data;
+      totalPages = flightsData.totalPages;
+
+      for (const flight of flights) {
+        const departure = new Date(flight.departureTime);
+        const arrival = new Date(flight.arrivalTime);
+
+        let newStatus: string;
+
+        if (now < departure) {
+          newStatus = 'scheduled';
+        } else if (now >= departure && now < arrival) {
+          newStatus = 'took_off';
+        } else if (now >= arrival) {
+          newStatus = 'completed';
+        } else {
+          newStatus = 'cancelled';
+        }
+
+        if (flight.status !== newStatus) {
+          await this.flightService.updateFlightStatus(
+            flight._id,
+            newStatus,
+          );
+        }
       }
 
-      if (now >= arrival && flight.status !== 'completed') {
-        await this.flightService.updateFlightStatus(
-          flight._id,
-          'completed',
-        );
-      }
-    }
+      page++;
+    } while (page <= totalPages);
+
   } catch (error) {
-    console.log('Error checking flight statuses', error.stack);
+    console.error('Error checking flight statuses:', error.message);
   }
 }
 }

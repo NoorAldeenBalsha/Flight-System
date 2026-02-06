@@ -26,7 +26,7 @@ export default function Navbar1() {
   const profileRef = useRef(null);
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({});
-  const token = cookieStore.get("refresh_token");
+  const token = localStorage.getItem("accessToken");
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
   const LANG_FLAGS = {
     en: EN,
@@ -62,24 +62,32 @@ export default function Navbar1() {
   //=======================================================================================================
   // Get current user  
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-     
-        const res = await API.get(
-          "/user/current-user",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setUser(res.data);
-        setFormData({
-          ...res.data,
-          userId: res.data._id, 
-        });
-      } catch (err) {
-        console.error("Error fetching user:", err);
-      }
-    };
-    fetchUser();
-  }, []);
+  if (!isAuthenticated || !token) return;
+
+  const fetchUser = async () => {
+    try {
+      const res = await API.get(
+        "/user/current-user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUser(res.data);
+      setFormData({
+        ...res.data,
+        userId: res.data._id,
+      });
+    } catch (err) {
+      console.error("Failed to fetch user:", err);
+      setUser(null);
+    }
+  };
+
+  fetchUser();
+}, [isAuthenticated, token]);
   //=======================================================================================================
   // For close & open profile card  
   useEffect(() => {

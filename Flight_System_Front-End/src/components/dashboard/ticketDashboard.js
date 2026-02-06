@@ -32,14 +32,14 @@ const TicketStats = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userNames, setUserNames] = useState({}); 
-  const token = cookieStore.get("refresh_token");
+  const token = localStorage.getItem("accessToken");
   const { t } = useLanguage();
   //=======================================================================================================
   // Function to fetch data from the server
     useEffect(() => {  
       const fetchTicketStats = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/tickets/analytics/tickets"); 
+        const res = await fetch("http://localhost:5000/api/tickets/analytics/tickets" ,{ headers: { Authorization: `Bearer ${token}` } }); 
         if (!res.ok) throw new Error("Failed to fetch data ...");
         const data = await res.json();
         setStats(data);

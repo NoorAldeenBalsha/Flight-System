@@ -16,64 +16,89 @@ export class FlightArchiveScheduler {
     @InjectModel(ArchivedTicket.name) private archivedTicketModel: Model<ArchivedTicket>,
       ) {}
     // A hourly  scheduled task to clean up and archive trips completed 24 hours after they end   
-    @Cron(CronExpression.EVERY_HOUR)
-    async archiveCompletedFlights() {
-      const now = new Date();
-      const threshold = new Date(now.getTime() - 24 * 60 * 60 * 1000); 
+    @Cron(CronExpression.EVERY_MINUTE, {
+  timeZone: 'Asia/Damascus',
+})
+async archiveCompletedFlights() {
+  try {
+    const now = new Date();
+    const threshold = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
-      const flightsToArchive = await this.flightModel.find({
+    let page = 1;
+    const limit = 10;
+    let totalPages = 1;
+
+    do {
+      const flightsPage = await this.flightModel
+        .find({
+          status: 'completed',
+          arrivalTime: { $lte: threshold },
+        })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .exec();
+
+      const total = await this.flightModel.countDocuments({
         status: 'completed',
         arrivalTime: { $lte: threshold },
       });
 
-      for (const flight of flightsToArchive) {
+      totalPages = Math.ceil(total / limit);
 
+      for (const flight of flightsPage) {
         try {
-          const tickets = await this.ticketModel.find({ flight: flight._id.toString() })
+          // =======================
+          // Archive Tickets
+          // =======================
+          const tickets = await this.ticketModel.find({
+            flight: flight._id.toString(),
+          });
 
           for (const ticket of tickets) {
-
             if (ticket.status === 'sold') {
-              try {
-                const { _id, ...archivedTicketData } = ticket.toObject() as any;
-                (archivedTicketData as any).archivedAt = new Date();
+              const { _id, ...archivedTicketData } =
+                ticket.toObject() as any;
 
-                const archivedTicket = new this.archivedTicketModel(archivedTicketData);
-                await archivedTicket.save();
-                await this.ticketModel.findByIdAndDelete(ticket._id);
+              archivedTicketData.archivedAt = new Date();
 
-              } catch (err) {
-                console.error(`error archive ticket ${ticket._id}:`, err.message);
-              }
-            } else {
-              try {
-                await this.ticketModel.findByIdAndDelete(ticket._id);
-
-              } catch (err) {
-                console.error(`error delete ticket ${ticket._id}:`, err.message);
-              }
+              await new this.archivedTicketModel(
+                archivedTicketData,
+              ).save();
             }
-          }
-          try {
-            const { _id, ...archivedFlightData } = flight.toObject() as any;
-            (archivedFlightData as any).archivedAt = new Date();
 
-            const archivedFlight = new this.flightArchiveModel(archivedFlightData);
-            await archivedFlight.save();
-
-          } catch (err) {
-            console.error(`error save flight ${flight.flightNumber}:`, err.message);
+            await this.ticketModel.findByIdAndDelete(ticket._id);
           }
 
-          try {
-            await this.flightModel.findByIdAndDelete(flight._id);
-          } catch (err) {
-            console.error( err.message);
-          }
-        } catch (error) {
-          console.error( error);
+          // =======================
+          // Archive Flight
+          // =======================
+          const { _id, ...archivedFlightData } =
+            flight.toObject() as any;
+
+          archivedFlightData.archivedAt = new Date();
+
+          await new this.flightArchiveModel(
+            archivedFlightData,
+          ).save();
+
+          // =======================
+          // Remove Original Flight
+          // =======================
+          await this.flightModel.findByIdAndDelete(flight._id);
+
+        } catch (err) {
+          console.error(
+            `Archive error for flight ${flight.flightNumber}:`,
+            err.message,
+          );
         }
       }
 
-    }
+      page++;
+    } while (page <= totalPages);
+
+  } catch (error) {
+    console.error('Archive scheduler error:', error.message);
+  }
+}
 }

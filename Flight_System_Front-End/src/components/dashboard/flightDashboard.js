@@ -42,13 +42,14 @@ const FlightAnalytics = () => {
   const { t } = useLanguage();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("accessToken");
 
   //=======================================================================================================
   // Function to fetch data from the server
     useEffect(() => {
     const fetchFlightStats = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/flights/analytics/flights");
+        const res = await fetch("http://localhost:5000/api/flights/analytics/flights", { headers: { Authorization: `Bearer ${token}` } });
         if (!res.ok) throw new Error("Failed to fetch data ...");
         const data = await res.json();
         setStats(data);

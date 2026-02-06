@@ -14,7 +14,7 @@ const Profile = () => {
   const { lang, t } = useLanguage();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
-  const token = cookieStore.get("refresh_token");
+  const token = localStorage.getItem("accessToken");
   const [uploading, setUploading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
   const CHUNK_SIZE = 1024 * 1024; 
