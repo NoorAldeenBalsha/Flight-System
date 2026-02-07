@@ -1,9 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "./authContext";
+import API from "../../services/api";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  /* =========================
+     LOGOUT
+  ========================= */
+  const logout = async () => {
+  try {
+    await API.post("/user/logout");
+  } catch {}
+  localStorage.clear();
+  setUser(null);
+  setAccessToken(null);
+  setIsAuthenticated(false);
+};
 
   useEffect(() => {
    
@@ -14,26 +29,16 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
-  const login = (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
-    setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("theme");
-    localStorage.removeItem("selectedFlightId");
-    localStorage.removeItem("_grecaptcha");
-    setUser(null);
-    setIsAuthenticated(false);
-  };
-
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider  value={{
+        user,
+        setUser,
+        accessToken,
+        setAccessToken,
+        isAuthenticated,
+        logout,
+      }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};

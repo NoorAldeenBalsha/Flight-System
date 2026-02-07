@@ -8,55 +8,41 @@ const API = axios.create({
 });
 
 /* =========================
-   Request Interceptor
+   REQUEST
 ========================= */
-API.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 /* =========================
-   Response Interceptor
+   RESPONSE
 ========================= */
 API.interceptors.response.use(
-  (response) => response,
+  (res) => res,
   async (error) => {
     const originalRequest = error.config;
-    const token = localStorage.getItem("accessToken");
 
-    // 🔑 لا refresh إذا ما في accessToken
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry &&
-      token
+      !originalRequest._retry
     ) {
       originalRequest._retry = true;
 
       try {
-        const res = await axios.get(
-          `${API_BASE_URL}/user/refresh-token`,
-          { withCredentials: true }
-        );
+        const res = await API.get("/user/refresh-token");
 
-        const newAccessToken = res.data.accessToken;
-        localStorage.setItem("accessToken", newAccessToken);
-
+        localStorage.setItem("accessToken", res.data.accessToken);
         originalRequest.headers.Authorization =
-          `Bearer ${newAccessToken}`;
+          `Bearer ${res.data.accessToken}`;
 
         return API(originalRequest);
-      } catch (refreshError) {
-
+      } catch (err) {
         localStorage.removeItem("accessToken");
-        return Promise.reject(refreshError);
+        return Promise.reject(err);
       }
     }
 

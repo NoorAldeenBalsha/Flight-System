@@ -212,11 +212,8 @@ export class AuthProvider{
   //============================================================================
   //This one for refresh token
   public async refreshAccessToken(request: RequestWithCookies, response: Response) {
-    const lang =
-      request.headers['lang'] === 'ar' || request.headers['language'] === 'ar'
-        ? 'ar'
-        : 'en';
-      
+    const lang =request.headers['lang'] === 'ar' || request.headers['language'] === 'ar'  ? 'ar' : 'en';
+      console.log(request.cookies['refresh_token'])
     const refreshToken = request.cookies['refresh_token'];
 
     if (!refreshToken) {
@@ -243,11 +240,11 @@ export class AuthProvider{
 
       // 2. حفظ الـ refresh_token الجديد في الكوكيز
       response.cookie('refresh_token', newRefreshToken, {
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 أيام
-      });
+  httpOnly: true,
+  sameSite: 'lax',
+  secure: process.env.NODE_ENV === 'production',
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
 
       // 3. إحضار بيانات المستخدم
       const user = await this.userService.getCurrentUser(payload.id, lang);

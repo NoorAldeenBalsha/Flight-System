@@ -146,14 +146,16 @@ export class UserController {
   //============================================================================
   //Issue a new access token using the refresh token from cookies [Public]
   @Get('refresh-token')
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Refresh access token using refresh token cookie' })
   @ApiResponse({ status: 200, description: 'New access token generated successfully' })
   @ApiResponse({ status: 401, description: 'Invalid or missing refresh token' })
   async refreshAccessToken(
-    @Req() request: RequestWithCookies,
+    @Req() request:any,
     @Res({ passthrough: true }) response: Response
   ) {
+    console.log("i'm here");
+    console.log(request.cookies);
+
     return await this.userService.refreshAccessToken(request, response);
   }
   //============================================================================

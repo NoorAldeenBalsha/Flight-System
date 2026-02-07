@@ -161,9 +161,6 @@ export class UserService {
       secure:isProduction,
       path: '/',
     });
-    await this.userModel.findByIdAndUpdate(req.body.user._id,{
-      refreshToken:null,
-    });
     const message =
     lang === 'ar'
       ? 'تم تسجيل الخروج بنجاح'

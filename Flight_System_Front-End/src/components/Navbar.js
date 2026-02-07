@@ -28,6 +28,7 @@ export default function Navbar1() {
   const [formData, setFormData] = useState({});
   const token = localStorage.getItem("accessToken");
   const defaultImage ="https://cdn-icons-png.flaticon.com/512/847/847969.png";
+  const {logout}=useContext(AuthContext);
   const LANG_FLAGS = {
     en: EN,
     ar: AR,
@@ -42,23 +43,9 @@ export default function Navbar1() {
   //=======================================================================================================
   const authContext = useContext(AuthContext);
   if (!authContext) return null;
-  const { logout, isAuthenticated} = authContext;
+  const {  isAuthenticated} = authContext;
   //=======================================================================================================
   // Logout an go to Auth page
-   const handleLogout = async () => {
-  try {
-    await API.post(
-      "/user/logout",
-      {  user },
-      { withCredentials: true }
-    );
-  } catch (error) {
-  } finally {
-   logout();
-    window.location.href = "/auth";
-  }
-    
-  };
   //=======================================================================================================
   // Get current user  
   useEffect(() => {
@@ -176,9 +163,10 @@ export default function Navbar1() {
             {/* Logout */}
             <div className="navLogout">
               <Link to="/auth" style={{ color: "white", textDecoration: "none" }}>
-                <span className="bg_grey" onClick={handleLogout}>
-                  {t.logout} <ExitToAppIcon />
-                </span>
+              <button 
+                className="bg_grey" 
+                onClick={async () => {await logout();window.location.href="/auth"}}>
+                  {t.logout} <ExitToAppIcon /></button>
               </Link>
             </div>
           </>
