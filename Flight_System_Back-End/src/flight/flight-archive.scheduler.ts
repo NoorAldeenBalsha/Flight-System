@@ -15,7 +15,6 @@ export class FlightArchiveScheduler {
     @InjectModel(Ticket.name) private ticketModel: Model<Ticket>,
     @InjectModel(ArchivedTicket.name) private archivedTicketModel: Model<ArchivedTicket>,
       ) {}
-    // A hourly  scheduled task to clean up and archive trips completed 24 hours after they end   
     @Cron(CronExpression.EVERY_MINUTE, {
   timeZone: 'Asia/Damascus',
 })

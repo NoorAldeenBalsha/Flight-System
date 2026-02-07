@@ -29,9 +29,9 @@ export class FlightAutoCreateScheduler {
       { en: 'Qamishli International Airport', ar: 'مطار قامشلي الدولي' },
     ];
 
-    const aircrafts = ['boeing 777', 'airbus a320', 'boeing 737'];
+    const aircrafts = ['boeing 777', 'airbus 320', 'boeing 737'];
 
-    const { origin, destination } = this.getNextAirportPair(cities);
+    const { origin, destination } = this.getRandomAirportPair(cities);
 
     const departureTime = this.futureDate(2, 48);
     const durationMinutes = this.randomInt(60, 300);
@@ -54,15 +54,19 @@ export class FlightAutoCreateScheduler {
   }
   // ===================================================
   // Helper
-  private getNextAirportPair(cities: any[]) {
-    const origin = cities[this.airportIndex % cities.length];
-    const destination =
-      cities[(this.airportIndex + 1) % cities.length];
+  private getRandomAirportPair(cities: any[]) {
+  const originIndex = this.randomInt(0, cities.length - 1);
 
-    this.airportIndex++;
+  let destinationIndex;
+  do {
+    destinationIndex = this.randomInt(0, cities.length - 1);
+  } while (destinationIndex === originIndex);
 
-    return { origin, destination };
-  }
+  return {
+    origin: cities[originIndex],
+    destination: cities[destinationIndex],
+  };
+}
 
   private futureDate(minHours: number, maxHours: number) {
     const hours = this.randomInt(minHours, maxHours);

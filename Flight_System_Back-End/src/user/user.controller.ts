@@ -153,9 +153,6 @@ export class UserController {
     @Req() request:any,
     @Res({ passthrough: true }) response: Response
   ) {
-    console.log("i'm here");
-    console.log(request.cookies);
-
     return await this.userService.refreshAccessToken(request, response);
   }
   //============================================================================

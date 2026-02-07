@@ -12,7 +12,11 @@ export class TicketService {
   ) {}
   //============================================================================
   //This one for Create Tickets automatic
-  async generateTicketsForFlight(flightId: string, aircraftType: string, lang: 'en' | 'ar' = 'en') {
+  async generateTicketsForFlight(
+  flightId: string,
+  aircraftType: string,
+  lang: 'en' | 'ar' = 'en',
+) {
   try {
     const { v4: uuidv4 } = await import('uuid');
 
@@ -24,7 +28,7 @@ export class TicketService {
         seatCount = 300;
         basePrice = 500;
         break;
-      case 'airbus a320':
+      case 'airbus 320':
         seatCount = 180;
         basePrice = 250;
         break;
@@ -37,7 +41,7 @@ export class TicketService {
         basePrice = 200;
     }
 
-    const tickets :Partial<Ticket>[]=[];
+    const tickets: Partial<Ticket>[] = [];
     const seatLayout = ['A', 'B', 'C', 'D', 'E', 'F'];
     let row = 1;
 
@@ -45,12 +49,17 @@ export class TicketService {
       const seatLetter = seatLayout[i % seatLayout.length];
       if (i % seatLayout.length === 0 && i !== 0) row++;
 
-      const seatSideEn = ['A', 'B', 'C'].includes(seatLetter) ? 'left' : 'right';
+      const seatSideEn = ['A', 'B', 'C'].includes(seatLetter)
+        ? 'left'
+        : 'right';
       const seatSideAr = seatSideEn === 'left' ? 'يسار' : 'يمين';
 
       let seatPositionEn: 'window' | 'aisle' | 'middle';
-      if (seatLetter === 'A' || seatLetter === 'F') seatPositionEn = 'window';
-      else if (seatLetter === 'C' || seatLetter === 'D') seatPositionEn = 'aisle';
+
+      if (seatLetter === 'A' || seatLetter === 'F')
+        seatPositionEn = 'window';
+      else if (seatLetter === 'C' || seatLetter === 'D')
+        seatPositionEn = 'aisle';
       else seatPositionEn = 'middle';
 
       const seatPositionAr =
@@ -61,6 +70,7 @@ export class TicketService {
           : 'وسط';
 
       let seatClassEn: 'business' | 'premium' | 'economy';
+
       if (row <= 5) seatClassEn = 'business';
       else if (row <= 10) seatClassEn = 'premium';
       else seatClassEn = 'economy';
@@ -80,8 +90,7 @@ export class TicketService {
           : basePrice;
 
       const seatNumber = `${row}${seatLetter}`;
-
-       const status = 'available';
+      const status = 'available';
       const bookingReference = `${flightId}-${seatNumber}-${uuidv4().slice(0, 6)}`;
 
       tickets.push({
@@ -94,7 +103,7 @@ export class TicketService {
         seatPosition: { en: seatPositionEn, ar: seatPositionAr },
         price,
         status,
-        bookingReference, 
+        bookingReference,
       });
     }
 
@@ -103,23 +112,15 @@ export class TicketService {
     return {
       flightId,
       totalSeats: createdTickets.length,
-      seats: createdTickets.map((t) => ({
-        _id: t._id,
-        seatNumber: t.seatNumber,
-        seatClass: t.seatClass,
-        seatSide: t.seatSide,
-        seatPosition: t.seatPosition,
-        status: t.status,
-      })),
     };
   } catch (error) {
-    console.error(' Failed to generate tickets', error);
+    console.error('Failed to generate tickets:', error);
     throw new BadRequestException({
       message:
         lang === 'ar' ? 'فشل إنشاء التذاكر' : 'Failed to generate tickets',
     });
   }
-  }
+}
   //============================================================================
   //This one for Get All Tickets 
   async getTicketsByFlight(flightId: string ,lang: 'en' | 'ar' = 'en'): Promise<any> {

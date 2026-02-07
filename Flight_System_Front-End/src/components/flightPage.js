@@ -427,14 +427,14 @@ const [totalPages, setTotalPages] = useState(1);
               <div className="flight-details">
                 <div>
                   <strong>{t.flights_departure}:</strong>{" "}
-                  <h7>{new Date(flight.departureTime).toLocaleString(lang)}</h7>
+                  <h6>{new Date(flight.departureTime).toLocaleString(lang)}</h6>
                 </div>
                 <div>
                   <strong>{t.flights_arrival}:</strong>{" "}
-                  <h7>{new Date(flight.arrivalTime).toLocaleString(lang)}</h7>
+                  <h6>{new Date(flight.arrivalTime).toLocaleString(lang)}</h6>
                 </div>
                 <div>
-                  <strong>{t.flights_gate}:</strong> <h7>{flight.gate}</h7>
+                  <strong>{t.flights_gate}:</strong> <h6>{flight.gate}</h6>
                 </div>
               </div>
 
@@ -671,7 +671,7 @@ const [totalPages, setTotalPages] = useState(1);
                 setNewFlight({ ...newFlight, aircraftType: e.target.value })}>
                   <option></option>
                   <option value="boeing 777">Boeing 777</option>
-                  <option value="airbus a320">Airbus a320</option>
+                  <option value="airbus 320">Airbus 320</option>
                   <option value="boeing 737">Boeing 737</option>
             </select>
           </div>
