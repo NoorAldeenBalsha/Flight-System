@@ -11,9 +11,9 @@ import AuthProvider from "./context/auth/authProvider";
 import "./styles/theme.css"
 import ThemeProvider from "./context/theme/themeContext";
 import "./styles/theme.css"
-
+import ScrollToTop from "./components/ScrollToTop"
 import App from "./App";
-import ScrollToTop from "./components/ScrollToTop.js";
+
 
 window.process=process;
 
