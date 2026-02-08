@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./mobile.css";
-import Auth from "./components/auth/auth";
+import Auth from "./components/auth/Auth.js";
 import Fail from "./components/fail";
 import ResetPassword from "./components/auth/resetPassword";
 import NotFound from "./components/404";
