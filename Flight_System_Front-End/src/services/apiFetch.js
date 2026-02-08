@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://flight-system-3nfs.onrender.com/api';
 
 export async function apiFetch(endpoint, options = {}) {
   const token = localStorage.getItem('accessToken');
