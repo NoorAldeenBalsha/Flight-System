@@ -7,6 +7,7 @@ npm-debug.log
 # build folders
 dist/
 build/
+!/public/unity/Build/
 
 # system files
 Thumbs.db
