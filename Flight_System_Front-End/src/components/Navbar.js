@@ -127,6 +127,13 @@ export default function Navbar1() {
           </Link>
         </div>
 
+        {/* Kinan */}
+        <div className="navLogout">
+          <Link to="/unity" style={{ color: "white", textDecoration: "none" }}>
+            <span className="bg_grey">Kinan</span>
+          </Link>
+        </div>
+
         {/* Logged in buttons */}
         {isAuthenticated && (
           <>

@@ -21,6 +21,7 @@ import PaymentSuccess from "./components/paymentSuccess";
 import AdminDashboard from "./components/dashboard/adminDashboard";
 import AdminRoute from "./adminRoute";
 import Forget from "./components/auth/forget";
+import Unity from "./components/unity";
 
 export default function App() {
   const [display, setDisplay] = useState(0);
@@ -60,6 +61,7 @@ export default function App() {
           <Navbar display={display} changeDisplay={changeDisplay} />
           <Routes>
             <Route exact path="/" element={<Home />} />
+            <Route exact path="/unity" element={<Unity />} />
             <Route exact path="/forget" element={<Forget />} />
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/registration-success" element={<RegistrationSuccess />}/>
