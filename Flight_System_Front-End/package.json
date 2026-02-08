@@ -8,9 +8,8 @@
     "@craco/craco": "^7.1.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@material-ui/core": "4.11.0",
-    "@material-ui/icons": "4.9.1",
-    "@mui/material": "^7.3.5",
+    "@mui/icons-material": "^7.3.7",
+    "@mui/material": "^7.3.7",
     "@react-oauth/google": "^0.12.2",
     "@reduxjs/toolkit": "^1.9.7",
     "ajv": "^8.12.0",
@@ -46,7 +45,7 @@
     "world-countries": "^5.1.0"
   },
   "resolutions": {
-    "es-toolkit":"0.0.0"
+    "es-toolkit": "0.0.0"
   },
   "devDependencies": {
     "typescript": "3.8.3"

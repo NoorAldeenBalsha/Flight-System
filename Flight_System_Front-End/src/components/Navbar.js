@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom"; 
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import  AuthContext  from "../context/auth/authContext";
 import { useLanguage } from "../context/LanguageContext";
 import "../css/navBar.css";
