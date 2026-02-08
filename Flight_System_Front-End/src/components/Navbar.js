@@ -18,7 +18,7 @@ import ThemeSwitcher from "./themeSwitcher";
 import API from "../services/api";
 
 
-export default function Navbarnew() {
+export default function Navbar1() {
   const { lang, setLang, t } = useLanguage();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const langRef = useRef();

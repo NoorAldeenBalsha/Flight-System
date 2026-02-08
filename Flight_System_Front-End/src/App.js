@@ -21,7 +21,7 @@ import AdminDashboard from "./components/dashboard/adminDashboard";
 import AdminRoute from "./adminRoute";
 import Forget from "./components/auth/forget";
 import Unity from "./components/unity";
-import Navbar from "./components/NavBar";
+import Navbar from "./components/Navbar.js"
 
 function App() {
   const [display, setDisplay] = useState(0);
