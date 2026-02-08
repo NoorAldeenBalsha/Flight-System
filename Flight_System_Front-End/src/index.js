@@ -12,7 +12,7 @@ import "./styles/theme.css"
 import ThemeProvider from "./context/theme/themeContext";
 import "./styles/theme.css"
 import App from "./App";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTop1 from "./components/ScrollToTop.js";
 
 
 window.process=process;
@@ -30,7 +30,7 @@ root.render(
               <BrowserRouter future={{ v7_relativeSplatPath:true,v7_startTransition:true}}>
                 <GoogleOAuthProvider clientId="136188509800-5cs4tpi1pol2jfgna16g0rj7cb759abq.apps.googleusercontent.com">
                   <AuthProvider>
-                    <ScrollToTop/>
+                    <ScrollToTop1/>
                     <App/>
                   </AuthProvider>
                 </GoogleOAuthProvider>
