@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./mobile.css";
-import Auth from "./components/auth/Auth.js";
+import Auth from "./components/Auth/Auth.js";
 import Fail from "./components/Fail.js";
-import ResetPassword from "./components/auth/ResetPassword.js";
+import ResetPassword from "./components/Auth/ResetPassword.js";
 import NotFound from "./components/404";
 import Contact from "./components/Contact.js";
 import { useLanguage } from "./context/LanguageContext"; 
 import { Routes, Route ,useLocation} from "react-router-dom";
-import VerifyEmail from "./components/auth/VerifyEmail.js";
-import RegistrationSuccess from "./components/auth/RegistrationSuccess.js";
+import VerifyEmail from "./components/Auth/VerifyEmail.js";
+import RegistrationSuccess from "./components/Auth/RegistrationSuccess.js";
 import Profile from "./components/Profile.js";
 import AuthProvider from "./context/auth/authProvider";
 import AboutUs from "./components/AboutUs.js";
@@ -19,7 +19,7 @@ import SeatSelectionPage from "./components/SeatSelection.js";
 import PaymentSuccess from "./components/PaymentSuccess.js";
 import AdminDashboard from "./components/dashboard/AdminDashboard.js";
 import AdminRoute from "./adminRoute";
-import Forget from "./components/auth/Forget.js";
+import Forget from "./components/Auth/Forget.js";
 import Unity from "./components/Unity.js";
 import Navbar from "./components/Navbar.js"
 
