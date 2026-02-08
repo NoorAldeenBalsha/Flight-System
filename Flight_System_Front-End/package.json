@@ -48,7 +48,8 @@
     "es-toolkit": "0.0.0"
   },
   "devDependencies": {
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "@craco/craco":"^7.1.0"
   },
   "scripts": {
     "start": "craco start",
