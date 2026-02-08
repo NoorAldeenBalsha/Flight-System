@@ -23,7 +23,7 @@ import AdminRoute from "./adminRoute";
 import Forget from "./components/auth/forget";
 import Unity from "./components/unity";
 
-export default function App() {
+function App() {
   const [display, setDisplay] = useState(0);
   const { lang } = useLanguage();
   const location = useLocation();
@@ -83,3 +83,4 @@ export default function App() {
     </>
   );
 }
+export default App;
