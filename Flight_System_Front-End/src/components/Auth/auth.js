@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import LoadingContext from "../../context/loading/loadingContext";
 import { useLanguage } from "../../context/LanguageContext";
-import Toast from "../toastAnimated";
+import Toast from "../ToastAnimated";
 import ReCAPTCHA from "react-google-recaptcha";
 import jwtDecode from "jwt-decode";
 import 'react-phone-input-2/lib/style.css';

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLanguage } from "../../context/LanguageContext"; 
 import { useNavigate } from "react-router-dom";
-import Toast from "../toastAnimated";
+import Toast from "../ToastAnimated";
 import "../../css/resetPassword.css";
 import resetPasswordImage from "../../images/resetPasswordImage.jpg"
 import API from "../../services/api";

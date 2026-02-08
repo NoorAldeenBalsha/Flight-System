@@ -4,7 +4,7 @@ import '../css/paymentSuccess.css'
 import LoadingGif from '../images/Rocket.gif'
 import icon from '../images/check.png'
 import { useNavigate } from "react-router-dom";
-import Toast from "./toastAnimated";
+import Toast from "./ToastAnimated";
 import { useLanguage } from "../context/LanguageContext";
 import API from "../services/api";
 

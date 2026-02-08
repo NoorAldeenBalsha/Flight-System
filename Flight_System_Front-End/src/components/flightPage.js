@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../context/LanguageContext.js";
 import "../css/flightpage.css";
-import Toast from "./toastAnimated";
+import Toast from "./ToastAnimated.js";
 import { useNavigate ,useSearchParams} from "react-router-dom";
-import API from "../services/api";
+import API from "../services/api.js";
 import { apiFetch } from "../services/apiFetch.js";
 
 const FlightsPage = () => {
