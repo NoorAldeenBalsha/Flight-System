@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLanguage } from "../../context/LanguageContext"; 
-import Toast from "../toastAnimated";
+import Toast from "../ToastAnimated";
 import LockIcon from "@mui/icons-material/Lock";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import ReCAPTCHA from "react-google-recaptcha";

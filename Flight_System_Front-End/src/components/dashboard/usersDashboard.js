@@ -30,7 +30,7 @@ import "../../css/userDashboard.css"
 import LoadingGif from "../../images/Rocket.gif";
 import icon from '../../images/close.png'
 import { useLanguage } from "../../context/LanguageContext";
-import Toast from "../toastAnimated";
+import Toast from "../ToastAnimated";
 import API from "../../services/api";
 
 const UsersPage = () => {

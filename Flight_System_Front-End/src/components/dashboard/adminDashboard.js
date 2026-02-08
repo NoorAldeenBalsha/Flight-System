@@ -1,9 +1,9 @@
 import React, { useEffect, useState ,useRef} from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Overview from "./overview";
-import UsersPage from "./usersDashboard.js";
-import FlightsPage from "./flightDashboard.js";
-import TicketsPage from "./ticketDashboard.js";
+import Overview from "./Overview.js";
+import UsersPage from "./UsersDashboard.js";
+import FlightsPage from "./FlightDashboard.js";
+import TicketsPage from "./TicketDashboard.js";
 import "../../css/adminDashboard.css";
 import { useLanguage } from "../../context/LanguageContext.js";
 import LoadingGif from "../../images/Rocket.gif";

@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "./mobile.css";
 import Auth from "./components/auth/Auth.js";
-import Fail from "./components/fail";
-import ResetPassword from "./components/auth/resetPassword";
+import Fail from "./components/Fail.js";
+import ResetPassword from "./components/auth/ResetPassword.js";
 import NotFound from "./components/404";
-import Contact from "./components/contact";
+import Contact from "./components/Contact.js";
 import { useLanguage } from "./context/LanguageContext"; 
 import { Routes, Route ,useLocation} from "react-router-dom";
-import VerifyEmail from "./components/auth/verifyEmail";
-import RegistrationSuccess from "./components/auth/registrationSuccess";
-import Profile from "./components/profile";
+import VerifyEmail from "./components/auth/VerifyEmail.js";
+import RegistrationSuccess from "./components/auth/RegistrationSuccess.js";
+import Profile from "./components/Profile.js";
 import AuthProvider from "./context/auth/authProvider";
-import AboutUs from "./components/aboutUs";
-import Footer from "./components/footer";
-import Home from "./components/home";
-import FlightsPage from "./components/flightPage";
-import SeatSelectionPage from "./components/seatSelection";
-import PaymentSuccess from "./components/paymentSuccess";
-import AdminDashboard from "./components/dashboard/adminDashboard";
+import AboutUs from "./components/AboutUs.js";
+import Footer from "./components/Footer.js";
+import Home from "./components/Home.js";
+import FlightsPage from "./components/FlightPage.js";
+import SeatSelectionPage from "./components/SeatSelection.js";
+import PaymentSuccess from "./components/PaymentSuccess.js";
+import AdminDashboard from "./components/dashboard/AdminDashboard.js";
 import AdminRoute from "./adminRoute";
-import Forget from "./components/auth/forget";
-import Unity from "./components/unity";
+import Forget from "./components/auth/Forget.js";
+import Unity from "./components/Unity.js";
 import Navbar from "./components/Navbar.js"
 
 function App() {

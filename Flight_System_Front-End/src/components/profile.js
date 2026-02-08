@@ -6,7 +6,7 @@ import "../css/profile.css";
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from "react-phone-input-2";
 import loadingGif from "../images/Rocket.gif"
-import Toast from "./toastAnimated";
+import Toast from "./ToastAnimated";
 import API from "../services/api";
 
 const Profile = () => {

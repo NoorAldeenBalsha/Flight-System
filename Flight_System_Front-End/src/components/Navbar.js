@@ -14,7 +14,7 @@ import ZH from "../images/zh.png"
 import RU from "../images/ru.png"
 import TR from "../images/tr.png"
 import JP from "../images/jp.png"
-import ThemeSwitcher from "./themeSwitcher";
+import ThemeSwitcher from "./ThemeSwitcher";
 import API from "../services/api";
 
 

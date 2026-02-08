@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import "../css/seatSelection.css";
 import { useLocation } from "react-router-dom";
-import Toast from "./toastAnimated";
+import Toast from "./ToastAnimated";
 import API from "../services/api";
 
 const SeatSelection = () => {
