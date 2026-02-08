@@ -12,7 +12,7 @@ import "./styles/theme.css"
 import ThemeProvider from "./context/theme/themeContext";
 import "./styles/theme.css"
 import ScrollToTop from "./components/scrollToTop";
-import App from"./app.js";
+import App from "./App";
 
 window.process=process;
 
