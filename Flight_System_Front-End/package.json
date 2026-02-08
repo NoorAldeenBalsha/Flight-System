@@ -38,7 +38,7 @@
     "react-scripts": "^5.0.1",
     "react-templates": "0.6.3",
     "react-transition-group": "4.4.1",
-    "recharts": "^3.3.0",
+    "recharts": "^3.7.0",
     "stream-browserify": "^3.0.0",
     "tsparticles": "^3.9.1",
     "util": "^0.12.5",
