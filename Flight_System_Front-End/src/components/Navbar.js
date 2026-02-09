@@ -130,7 +130,7 @@ export default function Navbar1() {
         {/* Kinan */}
         <div className="navLogout">
           <Link to="/unity" style={{ color: "white", textDecoration: "none" }}>
-            <span className="bg_grey">Kinan</span>
+            <span className="bg_grey">{t.flight_tracking}</span>
           </Link>
         </div>
 

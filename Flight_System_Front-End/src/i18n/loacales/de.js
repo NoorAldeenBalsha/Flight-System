@@ -94,6 +94,7 @@ const de={
   jp: "Japanisch",
   ru: "Russisch",
   tr: "Türkisch",
+  flight_tracking:"Flugverfolgung",
 
   /* Profile page */
   bio: "Biografie",

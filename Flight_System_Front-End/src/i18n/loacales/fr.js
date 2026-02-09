@@ -99,6 +99,7 @@ const fr = {
   jp :  'japonais' ,
   ru :  'russe' ,
   tr :  'turc' ,
+  flight_tracking:"Suivi des Vols",
   /*==========================================================================================================*/
   /*This one for Profile page */
   bio: "Bio",

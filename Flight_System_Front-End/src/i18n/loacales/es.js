@@ -99,6 +99,7 @@ fr: "francés",
 jp: "japonés",
 ru: "ruso",
 tr: "turco",
+flight_tracking:"Seguimiento de Vuelos",
 
 /*==========================================================================================================*/
 /*This one for Profile page */

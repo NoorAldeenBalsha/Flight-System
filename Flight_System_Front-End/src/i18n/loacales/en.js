@@ -94,6 +94,7 @@ const en= {
     jp: "Japanese",
     ru: "Russian",
     tr: "Turkish",
+    flight_tracking:"Flight Tracking",
     /*==========================================================================================================*/
     /*This one for Profile page */
     bio:"Bio",

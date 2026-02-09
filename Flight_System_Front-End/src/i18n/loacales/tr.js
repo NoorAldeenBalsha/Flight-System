@@ -100,6 +100,7 @@ ar: 'Arapça',
       jp: 'Japonca',
        ru: 'Rusça',
         tr: 'Türkçe',
+        flight_tracking:"Uçuş Takibi",
 
 /*==========================================================================================================*/
 /*This one for Profile page */

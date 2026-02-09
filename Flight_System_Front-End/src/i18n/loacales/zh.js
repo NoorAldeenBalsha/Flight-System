@@ -86,6 +86,7 @@ const zh = {
   flights: "航班",
   data_analysis: "数据分析",
   ar:"阿拉伯语",en:"英语",de:"德语",zh:"中文",es:"西班牙语",fr:"法语",jp:"日语",ru:"俄语",tr:"土耳其语",
+  flight_tracking:"航班追踪",
 
   /* Profile page */
   bio: "个人简介",
