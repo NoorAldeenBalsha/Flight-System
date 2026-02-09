@@ -46,7 +46,7 @@ const UsersPage = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user/analytices/user", { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get("https://flight-system-3nfs.onrender.com/api/user/analytices/user", { headers: { Authorization: `Bearer ${token}` } });
         setAnalytics(res.data);
       } catch (err) {
         console.error("Error fetching analytics:", err);

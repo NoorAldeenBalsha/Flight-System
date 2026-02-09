@@ -49,7 +49,7 @@ const FlightAnalytics = () => {
     useEffect(() => {
     const fetchFlightStats = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/flights/analytics/flights", { headers: { Authorization: `Bearer ${token}` } });
+        const res = await fetch("https://flight-system-3nfs.onrender.com/api/flights/analytics/flights", { headers: { Authorization: `Bearer ${token}` } });
         if (!res.ok) throw new Error("Failed to fetch data ...");
         const data = await res.json();
         setStats(data);

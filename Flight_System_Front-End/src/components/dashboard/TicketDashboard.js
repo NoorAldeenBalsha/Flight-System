@@ -39,7 +39,7 @@ const TicketStats = () => {
     useEffect(() => {  
       const fetchTicketStats = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/tickets/analytics/tickets" ,{ headers: { Authorization: `Bearer ${token}` } }); 
+        const res = await fetch("https://flight-system-3nfs.onrender.com/api/tickets/analytics/tickets" ,{ headers: { Authorization: `Bearer ${token}` } }); 
         if (!res.ok) throw new Error("Failed to fetch data ...");
         const data = await res.json();
         setStats(data);
