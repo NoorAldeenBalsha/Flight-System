@@ -64,7 +64,7 @@ const UsersPage = () => {
     const fetchUsers = async () => {
       try {
         const res =  await axios.get(
-            "http://localhost:5000/api/user",
+            "https://flight-system-3nfs.onrender.com/api/user",
             { headers: { Authorization: `Bearer ${token}` } })
         setUsersList(res.data.data || []);
       } catch (err) {
@@ -80,7 +80,7 @@ const UsersPage = () => {
   // Handle user delete
   const handleDeleteUser = async (userId) => {
   try {
-     await axios.delete(`http://localhost:5000/api/user/delete/${userId}`, {
+     await axios.delete(`https://flight-system-3nfs.onrender.com/api/user/delete/${userId}`, {
        headers: {Authorization: `Bearer ${token}`,},
     });
     setToast({ show: true, message:t.dash_User_deleted_successfully , type: "success" });
