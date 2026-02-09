@@ -48,7 +48,7 @@ async function bootstrap() {
   });
   //========================================================================================
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: 'https://flight-system-1.onrender.com/',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
