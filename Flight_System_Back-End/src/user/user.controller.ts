@@ -37,7 +37,6 @@ export class UserController {
     @Req() req: any,
   ) {
     const lang = req.lang || 'en';
-    console.log(createUserDto);
     return this.userService.Register(createUserDto, lang);
   }
   //============================================================================
