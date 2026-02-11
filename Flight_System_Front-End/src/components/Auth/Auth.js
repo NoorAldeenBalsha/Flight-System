@@ -89,7 +89,7 @@ try {
 
 
     setTimeout(() => {
-      window.location.href = "http://localhost:3000/registration-success"; 
+      window.location.href = "https://flight-system-1.onrender.com/registration-success"; 
     }, 3000);
 
   } catch (err) {
