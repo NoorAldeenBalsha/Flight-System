@@ -40,12 +40,14 @@ export class UserService {
   public async Register(registerUserDto: RegisterUserDto, lang: 'en' | 'ar' = 'en') {
     lang = ['en', 'ar'].includes(lang) ? lang : 'en';
     const { fullName, recaptchaToken } = registerUserDto;
-    console.log(recaptchaToken);
     const errors: { field: string; message: string }[] = [];
     // Check reCAPTCHA 
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
     const { data } = await axios.post(verifyUrl);
+    console.log("secretKey: "+secretKey);
+    console.log("verifyUrl: "+verifyUrl);
+    console.log("data: "+data);
     if (!data.success) {
       throw new BadRequestException({
         message: lang === 'ar'
