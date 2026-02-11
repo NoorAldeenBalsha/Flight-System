@@ -110,7 +110,7 @@ export class AuthProvider{
 
     const link = await this.generateLinke(
       newUser._id,
-      newUser.verificationToken,
+      newUser.verificationToken!,
     );
 
     await this.mailService.sendVerifyEmailTemplate(email, link);
