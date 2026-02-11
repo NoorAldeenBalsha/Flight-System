@@ -44,10 +44,18 @@ export class UserService {
     // Check reCAPTCHA 
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
-    const { data } = await axios.post(verifyUrl);
-    console.log("secretKey: "+secretKey);
-    console.log("verifyUrl: "+verifyUrl);
-    console.log("data: "+data);
+     const{ data} = await axios.post(
+  "https://www.google.com/recaptcha/api/siteverify",
+  null,
+  {
+    params: {
+      secret: process.env.RECAPTCHA_SECRET_KEY,
+      response: recaptchaToken,
+    },
+  }
+);
+
+console.log("RECAPTCHA RESULT:", JSON.stringify(data,null,2));
     if (!data.success) {
       throw new BadRequestException({
         message: lang === 'ar'
