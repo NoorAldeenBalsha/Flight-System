@@ -327,7 +327,7 @@ try {
                 />
               </div>
                <ReCAPTCHA
-                sitekey="6Lf4fMIrAAAAAODY0eqDV4PIp_nCcVh8lamiNGU4"
+                sitekey="6Leu6WcsAAAAAFpkQplPyA25cK0toZM3LRNDVKcJ"
                 onChange={(token) => setCaptchaToken(token)}
               />
               <input type="submit" className="btn" value={t.sign_up} />
