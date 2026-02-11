@@ -54,9 +54,7 @@ export class UserService {
     },
   }
 );
-
-console.log("RECAPTCHA RESULT:", JSON.stringify(data,null,2));
-    if (!data.success) {
+    if (!data.data.success) {
       throw new BadRequestException({
         message: lang === 'ar'
           ? 'فشل التحقق من أنك لست روبوتاً'
