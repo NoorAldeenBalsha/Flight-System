@@ -20,7 +20,10 @@ export class MailService {
 });}
   // إرسال بريد التحقق من البريد الإلكتروني
   async sendVerifyEmailTemplate(toEmail: string, verificationLink: string, lang: 'ar' | 'en' = 'en') {
-    const fullLink = verificationLink; // رابط التحقق من المتغيرات الخارجية
+    const fullLink = verificationLink.replace(
+      'http://localhost:5000',
+      'https://lmsprojrctbackenddev-production-6b49.up.railway.app'
+    );
 
     const subject = lang === 'ar' ? 'تأكيد البريد الإلكتروني' : 'Email Verification';
     const text = lang === 'ar'
