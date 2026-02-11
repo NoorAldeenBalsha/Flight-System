@@ -40,6 +40,7 @@ export class UserService {
   public async Register(registerUserDto: RegisterUserDto, lang: 'en' | 'ar' = 'en') {
     lang = ['en', 'ar'].includes(lang) ? lang : 'en';
     const { fullName, recaptchaToken } = registerUserDto;
+    console.log(recaptchaToken);
     const errors: { field: string; message: string }[] = [];
     // Check reCAPTCHA 
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
