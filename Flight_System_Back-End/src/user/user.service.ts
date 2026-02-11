@@ -54,7 +54,7 @@ export class UserService {
     },
   }
 );
-    if (!data.data.success) {
+    if (!data.success) {
       throw new BadRequestException({
         message: lang === 'ar'
           ? 'فشل التحقق من أنك لست روبوتاً'
